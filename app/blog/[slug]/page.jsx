@@ -11,6 +11,57 @@ import Share from "@/components/Share";
 import SocialButton from "@/components/SocialButton";
 import Follow from "@/components/Follow";
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    return {
+      title: "Entry",
+      description: "Latest stories and insights",
+    };
+  }
+
+  const imageUrl = blog.bannerImage?.startsWith("http")
+    ? blog.bannerImage
+    : `https://entry-azure.vercel.app${blog.bannerImage}`;
+
+  const url = `https://entry-azure.vercel.app/blog/${blog.slug}`;
+
+  return {
+    title: blog.title,
+    description: blog.content.slice(0, 160),
+    alternates: {
+      canonical: url,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.content.slice(0, 160),
+      url,
+      siteName: "Entry",
+      type: "article",
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: blog.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.title,
+      description: blog.content.slice(0, 160),
+      images: [imageUrl],
+    },
+  };
+}
+
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);

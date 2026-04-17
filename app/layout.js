@@ -28,6 +28,18 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: "Entry",
   description: "A place to share your thoughts and ideas",
+  metadataBase: new URL("https://entry-azure.vercel.app"),
+  applicationName: "Entry",
+  appleWebApp: {
+    title: "Entry",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }) {

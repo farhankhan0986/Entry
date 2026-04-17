@@ -19,7 +19,7 @@ export default async function Home() {
             <span>Journal Edition 2026</span>
           </div>
 
-          <h1 className="text-7xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
+          <h1 className="text-6xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
             Entry<span className="text-[var(--accent)]">.</span>
           </h1>
 

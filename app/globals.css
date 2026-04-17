@@ -15,7 +15,7 @@
   --color-accent: var(--accent);
   --color-muted: var(--muted);
 }
-:root {
+.light {
   /* Main Background & Text */
   --background: #FFF8EC;       /* Soft Cream */
   --foreground: #2d2a2a;       /* Deep Grey for readability */
@@ -34,7 +34,7 @@
   --muted: #7c746e;
 }
 
-.dark {
+:root {
   /* Main Background & Text */
   --background: #454040;       /* Dark Grey */
   --foreground: #FFF8EC;       /* Cream Text on Dark */
