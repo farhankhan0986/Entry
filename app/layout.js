@@ -32,6 +32,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${saira.variable} ${arvo.variable} ${playfair.variable}`} data-scroll-behavior="smooth" style={{ scrollBehavior: 'smooth' }} suppressHydrationWarning>
+      <meta name="apple-mobile-web-app-title" content="Entry" />
       <body
         className={`min-h-screen bg-background text-foreground transition-colors duration-300 flex flex-col antialiased`}
         suppressHydrationWarning
