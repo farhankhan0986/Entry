@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --font-saira: var(--font-saira);
+  --font-arvo: var(--font-arvo);
+  --font-playfair: var(--font-playfair);
 
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+}
+:root {
+  /* Main Background & Text */
+  --background: #FFF8EC;       /* Soft Cream */
+  --foreground: #2d2a2a;       /* Deep Grey for readability */
+
+  /* Surface / Card / Borders */
+  --card: #ffffff;             /* Slightly brighter than background */
+  --border: #e8e2d6;           /* Subtle contrast for Cream */
+  --input: #fdfaf3;
+
+  /* Primary Branding (Buttons) */
+  --primary: #1e1e1e;          /* Bold Black for high contrast on Cream */
+  --primary-foreground: #FFF8EC;
+  --accent: #d97706;           /* Amber/Orange for "New Entry" emphasis */
+
+  /* Semantic Colors */
+  --muted: #7c746e;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  /* Main Background & Text */
+  --background: #454040;       /* Dark Grey */
+  --foreground: #FFF8EC;       /* Cream Text on Dark */
+
+  /* Surface / Card / Borders */
+  --card: #3b3636;             /* Slightly darker/lighter depth */
+  --border: #565151;
+  --input: #4d4848;
+
+  /* Primary Branding (Buttons) */
+  --primary: #FFF8EC;          /* Cream buttons for high contrast on Dark */
+  --primary-foreground: #454040;
+  --accent: #fcd34d;           /* Lighter Amber for Dark mode */
+
+  --muted: #b5ada5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer components {
+  /* The "Logic" for Buttons */
+  .btn-primary {
+    @apply px-5 py-2.5 rounded-full font-semibold transition-all 
+           bg-[var(--primary)] text-[var(--primary-foreground)] 
+           hover:opacity-90 active:scale-95;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* The "Logic" for Cards */
+  .entry-card {
+    @apply p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)]
+           shadow-sm hover:shadow-md transition-shadow;
+  }
 }
