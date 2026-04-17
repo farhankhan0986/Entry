@@ -12,6 +12,8 @@ import {
 import { toast } from "sonner";
 import Subscribe from "@/components/Subscribe";
 import CommentsSection from "@/components/CommentsSection";
+import Share from "@/components/Share";
+import SocialButton from "@/components/SocialButton";
 
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
@@ -41,24 +43,6 @@ export default async function BlogDetailsPage({ params }) {
       return { text, id }; // Level is always 2, so we don't need it
     });
 
-  const handleShare = async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: post.title,
-          text: post.excerpt,
-          url,
-        });
-      } catch (err) {
-        // User cancelled or error
-      }
-    } else {
-      await navigator.clipboard.writeText(url);
-      toast.success("Link copied to clipboard!");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-[var(--background)] font-playfair text-[var(--foreground)]">
       {/* 1. Breadcrumbs */}
@@ -76,19 +60,9 @@ export default async function BlogDetailsPage({ params }) {
           {/* 2. Left Sticky Social Share (Desktop) */}
           <aside className="hidden xl:flex flex-col gap-4 sticky top-32 h-fit shrink-0">
             <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)] [writing-mode:vertical-lr] rotate-180 mb-4">Share Story</p>
-            <div className="flex flex-col gap-3">
-              <button className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#1877F2] hover:text-white transition-all shadow-sm"><FaFacebookF size={14} /></button>
-              <button className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#E1306C] hover:text-white transition-all shadow-sm"><FaInstagram size={14} /></button>
-              <button className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-black hover:text-white transition-all shadow-sm"><FaXTwitter size={14} /></button>
-              <button className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#25D366] hover:text-white transition-all shadow-sm"><FaWhatsapp size={16} /></button>
-              <button className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#E60023] hover:text-white transition-all shadow-sm"><FaPinterestP size={14} /></button>
-              <div className="w-6 border-b border-border my-2"></div>
-              <button
-                className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10  hover:bg-primary hover:text-primary-foreground transition-all shadow-sm"
-              >
-                <Link2 className="w-4 h-4" />
-              </button>
-            </div>
+            <SocialButton />
+            <div className="w-10 border-b border-border my-2"></div>
+            <Share post={blog} variant="icon" />
           </aside>
 
           {/* 3. Main Content Column */}
@@ -112,9 +86,7 @@ export default async function BlogDetailsPage({ params }) {
                 </div>
                 <div className="flex items-center gap-2"><Calendar size={16} /> {date}</div>
                 <div className="flex items-center gap-2"><Clock size={16} /> 8 min read</div>
-                <button className="xl:hidden flex items-center gap-2 ml-auto text-[var(--accent)] font-bold uppercase text-xs tracking-widest border border-[var(--border)] px-4 py-2 rounded-full">
-                  <Share2 size={14} /> Share
-                </button>
+                <Share post={blog} variant="inline" />
               </div>
             </header>
 
