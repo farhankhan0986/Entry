@@ -80,24 +80,24 @@ export default function Navbar() {
 
       {/* Mobile Menu - Full Screen Overlay Style */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-20 bg-[var(--background)] border border-[var(--border)] h-[calc(100vh-65vh)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="md:hidden fixed inset-0 top-20 bg-[var(--background)] border border-[var(--border)] h-[calc(100vh-70vh)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300">
           <div className="flex flex-col space-y-8 text-center">
             <Link
               href="/journal"
               onClick={() => setIsMenuOpen(false)}
-              className="text-4xl font-bold text-[var(--foreground)]"
+              className="text-2xl font-bold text-[var(--foreground)]"
             >
               Journal
             </Link>
             <Link
               href="/write"
               onClick={() => setIsMenuOpen(false)}
-              className="text-4xl font-bold text-[var(--accent)]"
+              className="text-2xl font-bold text-[var(--accent)]"
             >
               New Entry
             </Link>
           
-            <div className="pt-12 flex justify-center">
+            <div className="pt-8 flex justify-center">
               <button
                 onClick={() => {
                   setTheme(theme === "dark" ? "light" : "dark");

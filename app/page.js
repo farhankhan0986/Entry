@@ -1,8 +1,8 @@
 import { getAllBlogs } from "@/lib/actions/blogActions";
 import Blogs from '@/components/Blogs'
-import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
+import Button from "@/components/Button";
 
 export default async function Home() {
   const blogs = await getAllBlogs();
@@ -102,10 +102,7 @@ export default async function Home() {
                 <span className="font-bold text-[var(--foreground)]">2.3k</span>
                 <span className="text-[var(--muted)] ml-1 uppercase tracking-tighter text-xs font-bold">Reflections</span>
               </div>
-
-              <button className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-[var(--foreground)] group/btn">
-                Visit Studio <ArrowRight size={16} className="group-hover/btn:translate-x-2 transition-transform" />
-              </button>
+              <Button href="/journal" />
             </div>
           </div>
         </div>
