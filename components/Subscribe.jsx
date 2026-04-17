@@ -16,7 +16,7 @@ export default function Subscribe() {
                 Weekly stories on design, tech, and travel directly to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                <input type="email" placeholder="Enter your email" className="flex-1 bg-(--input) border border-(--border) rounded-full px-6 h-14 outline-none focus:ring-2 focus:ring-(--accent)/20 transition-all" />
+                <input type="email" placeholder="Enter your email" className="flex-1 bg-(--input) border border-(--border) rounded-2xl px-6 h-14 py-3 outline-none focus:ring-2 focus:ring-(--accent)/20 transition-all" />
                 <button onClick={handleSubscribe} className="btn-primary h-14 px-10 cursor-pointer rounded-full whitespace-nowrap" >Subscribe</button>
             </div>
         </section>
