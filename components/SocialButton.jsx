@@ -3,7 +3,7 @@ import React from 'react'
 import Share from './Share'
 import {
     FaWhatsapp, FaPinterestP, FaXTwitter,
-    FaFacebookF, FaLinkedinIn, FaInstagram
+    FaFacebookF, FaTelegram, FaInstagram
 } from "react-icons/fa6";
 
 export default function SocialButton() {
@@ -35,7 +35,11 @@ export default function SocialButton() {
                     window.open(`https://pinterest.com/pin/create/button/?url=${window.location.href}`, "_blank");
                 }}
                 className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#E60023] hover:text-white transition-all shadow-sm"><FaPinterestP size={14} /></button>
-            {/* <Share post={blog} variant="icon" /> */}
+            <button
+                onClick={() => {
+                    window.open(`https://t.me/share/url?url=${window.location.href}`, "_blank");
+                }}
+                className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#0088CC] hover:text-white transition-all shadow-sm"><FaTelegram size={16} /></button>
         </div>
     )
 }

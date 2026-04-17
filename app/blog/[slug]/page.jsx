@@ -5,15 +5,11 @@ import Link from "next/link";
 import {
   Calendar, Clock, Share2, ChevronRight, Mail, Link2
 } from "lucide-react";
-import {
-  FaWhatsapp, FaPinterestP, FaXTwitter,
-  FaFacebookF, FaLinkedinIn, FaInstagram
-} from "react-icons/fa6";
-import { toast } from "sonner";
 import Subscribe from "@/components/Subscribe";
 import CommentsSection from "@/components/CommentsSection";
 import Share from "@/components/Share";
 import SocialButton from "@/components/SocialButton";
+import Follow from "@/components/Follow";
 
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
@@ -26,10 +22,11 @@ export default async function BlogDetailsPage({ params }) {
     getComments(blog.id || blog.slug),
   ]);
 
-  const date = new Date(blog.createdAt).toLocaleDateString("en-US", {
+  const date = new Date(blog.createdAt).toLocaleDateString("en-IN", {
     month: "long",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 
   const contentLines = blog.content.split("\n");
@@ -114,6 +111,18 @@ export default async function BlogDetailsPage({ params }) {
                       );
                     }
 
+                    if (line.includes("**")) {
+                      const parts = line.split("**");
+
+                      return (
+                        <p key={index} className="text-[var(--foreground)]/90 whitespace-pre-wrap">
+                          {parts.map((part, i) =>
+                            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+                          )}
+                        </p>
+                      );
+                    }
+
                     const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
                     if (imgMatch) {
                       const [, alt, src] = imgMatch;
@@ -160,7 +169,7 @@ export default async function BlogDetailsPage({ params }) {
                       <p className="text-[var(--muted)] italic">Contributor & Curator</p>
                     </div>
                   </div>
-                  <button className="btn-primary px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs">Follow Author</button>
+                  <Follow authorName={blog.authorName} />
                 </div>
               </footer>
             </div>

@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function BlogCard({ blog }) {
   const { title, content, authorName, createdAt, bannerImage, slug, category } = blog;
@@ -12,6 +14,10 @@ export default function BlogCard({ blog }) {
     year: "numeric",
   });
   const excerpt = content.replace(/[#*]/g, "");
+
+  const handleFollow = () => {
+    toast.success(`You've followed ${authorName}`);
+  };
 
   return (
     <div className="font-playfair h-full">
@@ -90,7 +96,9 @@ export default function BlogCard({ blog }) {
                   <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold mt-1">{mockedDate}</p>
                 </div>
               </div>
-              <button className="text-[9px] uppercase tracking-widest font-bold text-[var(--accent)] border-b border-transparent hover:border-[var(--accent)] transition-all pb-0.5">
+              <button 
+              onClick={handleFollow}
+              className="text-[9px] uppercase tracking-widest font-bold text-[var(--accent)] border-b border-transparent hover:border-[var(--accent)] transition-all pb-0.5">
                 Follow +
               </button>
             </div>

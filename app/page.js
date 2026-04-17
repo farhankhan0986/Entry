@@ -2,6 +2,7 @@ import { getAllBlogs } from "@/lib/actions/blogActions";
 import Blogs from '@/components/Blogs'
 import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
+import Follow from "@/components/Follow";
 
 export default async function Home() {
   const blogs = await getAllBlogs();
@@ -80,9 +81,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <button className="text-[10px] uppercase tracking-widest font-bold text-[var(--accent)] border-b-2 border-[var(--accent)] pb-1 hover:opacity-70 transition-all">
-                Follow +
-              </button>
+              <Follow />
             </div>
 
             {/* Content Body */}
