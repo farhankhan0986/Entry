@@ -11,56 +11,73 @@ import Share from "@/components/Share";
 import SocialButton from "@/components/SocialButton";
 import Follow from "@/components/Follow";
 
+// Strip markdown characters for clean meta descriptions
+function stripMarkdown(text = "") {
+  return text
+    .replace(/#{1,6}\s+/g, "")   // headings
+    .replace(/\*\*/g, "")         // bold
+    .replace(/\*/g, "")           // italic
+    .replace(/`/g, "")            // code
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // links
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "")  // images
+    .replace(/\n+/g, " ")         // newlines → space
+    .replace(/\s{2,}/g, " ")      // collapse spaces
+    .trim();
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
 
   if (!blog) {
     return {
-      title: "Entry",
-      description: "Latest stories and insights",
+      title: "Not Found",
+      description: "This entry does not exist.",
     };
   }
 
+  const cleanDescription = stripMarkdown(blog.content).slice(0, 160);
   const imageUrl = blog.bannerImage?.startsWith("http")
     ? blog.bannerImage
     : `https://entry-azure.vercel.app${blog.bannerImage}`;
-
   const url = `https://entry-azure.vercel.app/blog/${blog.slug}`;
+  const publishedTime = new Date(blog.createdAt).toISOString();
 
   return {
     title: blog.title,
-    description: blog.content.slice(0, 160),
-    alternates: {
-      canonical: url,
-    },
-    robots: {
-      index: true,
-      follow: true,
-    },
+    description: cleanDescription,
+    alternates: { canonical: url },
+    robots: { index: true, follow: true },
     openGraph: {
-      title: blog.title,
-      description: blog.content.slice(0, 160),
+      type: "article",
       url,
       siteName: "Entry",
-      type: "article",
+      title: blog.title,
+      description: cleanDescription,
+      publishedTime,
+      authors: [blog.authorName],
+      section: blog.category,
       images: [
         {
           url: imageUrl,
           width: 1200,
           height: 630,
           alt: blog.title,
+          type: "image/jpeg",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
+      site: "@entryjournal",
       title: blog.title,
-      description: blog.content.slice(0, 160),
+      description: cleanDescription,
       images: [imageUrl],
     },
   };
 }
+
+
 
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
@@ -93,6 +110,42 @@ export default async function BlogDetailsPage({ params }) {
 
   return (
     <div className="min-h-screen bg-[var(--background)] font-playfair text-[var(--foreground)]">
+      {/* JSON-LD: Article + Breadcrumb structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: blog.title,
+              description: stripMarkdown(blog.content).slice(0, 160),
+              image: blog.bannerImage,
+              datePublished: new Date(blog.createdAt).toISOString(),
+              author: { "@type": "Person", name: blog.authorName },
+              publisher: {
+                "@type": "Organization",
+                name: "Entry",
+                url: "https://entry-azure.vercel.app",
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `https://entry-azure.vercel.app/blog/${blog.slug}`,
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://entry-azure.vercel.app" },
+                { "@type": "ListItem", position: 2, name: "Journal", item: "https://entry-azure.vercel.app/journal" },
+                { "@type": "ListItem", position: 3, name: blog.title, item: `https://entry-azure.vercel.app/blog/${blog.slug}` },
+              ],
+            },
+          ]),
+        }}
+      />
+
       {/* 1. Breadcrumbs */}
       <nav className="container mx-auto px-4 pt-12 max-w-7xl flex items-center gap-2 text-sm text-[var(--muted)]">
         <Link href="/" className="hover:text-[var(--accent)] transition-colors">Home</Link>
