@@ -202,10 +202,7 @@ export default async function BlogDetailsPage({ params }) {
             {blog.poll && (
               <GenericPoll
                 question={blog.poll.question}
-                option1={blog.poll.option1}
-                option2={blog.poll.option2}
-                vote1={blog.poll.option1.vote1}
-                vote2={blog.poll.option2.vote2}
+                options={blog.poll.options}
               />
             )}
             {/* Article Body */}
