@@ -23,6 +23,7 @@
 [![Framer Motion](https://img.shields.io/badge/Framer-Motion-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
+[![Entry](https://img.shields.io/badge/Live-06B6D4?style=for-the-badge&logo=live&logoColor=white)](https://entry-azure.vercel.app/)
 </div>
 
 ---
