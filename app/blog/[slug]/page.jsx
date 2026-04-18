@@ -204,13 +204,14 @@ export default async function BlogDetailsPage({ params }) {
                 question={blog.poll.question}
                 option1={blog.poll.option1}
                 option2={blog.poll.option2}
+                
                 vote1={blog.poll.option1.vote1}
                 vote2={blog.poll.option2.vote2}
               />
             )}
             {/* Article Body */}
             <div className="max-w-3xl">
-              <div className="text-lg md:text-xl leading-relaxed space-y-8">
+              <div className="text-lg md:text-xl leading-7 md:leading-8 space-y-4">
                 {(() => {
                   let firstParaSeen = false;
                   return contentLines.map((line, index) => {
