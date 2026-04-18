@@ -111,16 +111,16 @@ export default function PrivacyPage() {
 
           {/* Contact Footer */}
           <footer className="pt-20 border-t border-[var(--border)]">
-            <div className="bg-[var(--card)] border border-[var(--border)] rounded-[40px] p-10 text-center">
+            <div className="bg-[var(--card)]/10 border border-[var(--border)] rounded-[40px] p-10 text-center">
               <h3 className="text-3xl font-bold mb-4">Have Questions?</h3>
               <p className="text-[var(--muted)] italic mb-8 max-w-md mx-auto">
                 If you have concerns about your data or wish to export your entries, our team is here to assist.
               </p>
               <a 
-                href="mailto:privacy@entry.com" 
+                href="mailto:farhankhan080304@gmail.com" 
                 className="text-[var(--accent)] font-bold tracking-[0.2em] uppercase text-sm border-b border-[var(--accent)] pb-1 hover:opacity-70 transition-all"
               >
-                privacy@entry.com
+                farhankhan080304@gmail.com
               </a>
             </div>
           </footer>

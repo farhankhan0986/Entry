@@ -22,7 +22,7 @@ export default function Follow({ authorName }) {
           onClick={handleFollow}
           className="text-[10px] uppercase tracking-widest font-bold text-[var(--accent)] border-b-2 border-[var(--accent)] pb-1 hover:opacity-70 transition-all"
         >
-          Follow +
+          Follow
         </button>
       )}
     </>

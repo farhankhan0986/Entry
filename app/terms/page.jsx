@@ -100,12 +100,12 @@ export default function TermsPage() {
 
           {/* Final Call to Action */}
           <footer className="pt-20 border-t border-[var(--border)]">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-[var(--card)] border border-[var(--border)] rounded-[40px] p-10 shadow-sm">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-[var(--card)]/10 border border-[var(--border)] rounded-[40px] p-10 shadow-sm">
               <div className="text-left">
                 <h3 className="text-2xl font-bold mb-2">Ready to contribute?</h3>
                 <p className="text-[var(--muted)] italic">Your first entry is waiting.</p>
               </div>
-              <Link href="/write" className="btn-primary px-10 py-4 rounded-full flex items-center gap-2 whitespace-nowrap">
+              <Link href="/write" className="bg-[var(--foreground)] text-[var(--background)] font-bold active:scale-95 transition-all px-10 py-4 rounded-full flex items-center gap-2 whitespace-nowrap">
                 New Entry <ArrowRight size={18} />
               </Link>
             </div>

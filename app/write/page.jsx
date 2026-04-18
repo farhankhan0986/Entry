@@ -3,6 +3,7 @@
 import { createBlog } from "@/lib/actions/blogActions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import FormattedTextarea from "@/components/FormattedTextarea";
 
 export default function WritePage() {
   const router = useRouter();
@@ -112,20 +113,14 @@ export default function WritePage() {
               <label className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--muted)] ml-1">
                 The Narrative
               </label>
-              <textarea
-                name="content"
-                required
-                rows={12}
-                placeholder="Begin your journey here..."
-                className="w-full bg-[var(--input)] border border-[var(--border)] rounded-2xl px-6 py-6 text-[var(--foreground)] text-lg leading-relaxed focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-all resize-none"
-              />
+              <FormattedTextarea />
             </div>
 
             {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-5 text-xl tracking-widest uppercase hover:bg-[var(--accent)] hover:text-white transition-colors"
+              className="btn-primary w-full py-5 text-xl tracking-widest uppercase hover:bg-[var(--accent)] hover:text-white duration-300 transition-all cursor-pointer"
             >
               {loading ? "Publishing..." : "Publish Entry"}
             </button>

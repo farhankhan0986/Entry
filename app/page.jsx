@@ -3,6 +3,7 @@ import Blogs from '@/components/Blogs'
 import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
 import Button from "@/components/Button";
+import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
 
 export default async function Home() {
   const blogs = await getAllBlogs();
@@ -61,7 +62,7 @@ export default async function Home() {
 
             {/* User Info Header */}
             <div className="flex items-center justify-between mb-10">
-              <div className="flex items-center gap-5">
+              <div className="flex flex-wrap items-center gap-5">
                 <div className="relative">
                   <img
                     src="https://res.cloudinary.com/diiegizut/image/upload/v1776364804/farhan-modified_vylh7f.jpg"
@@ -78,6 +79,17 @@ export default async function Home() {
                   <p className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mt-2">
                     Curator • Builder
                   </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <a href="https://www.linkedin.com/in/farhan-abid-38967a259/" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaLinkedin size={20} />
+                  </a>
+                  <a href="https://github.com/farhankhan0986" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaGithub size={20} />
+                  </a>
+                  <a href="https://x.com/FarhanK70642847" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaTwitter size={20} />
+                  </a>
                 </div>
               </div>
 

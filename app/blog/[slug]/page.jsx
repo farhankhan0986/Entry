@@ -204,7 +204,6 @@ export default async function BlogDetailsPage({ params }) {
                 question={blog.poll.question}
                 option1={blog.poll.option1}
                 option2={blog.poll.option2}
-                
                 vote1={blog.poll.option1.vote1}
                 vote2={blog.poll.option2.vote2}
               />
@@ -221,7 +220,7 @@ export default async function BlogDetailsPage({ params }) {
                       const text = line.replace(/^###?\s+/, "");
                       const id = text.toLowerCase().replace(/[^\w-]/g, "-");
                       return level === 2 ? (
-                        <h2 key={index} id={id} className="text-3xl text-amber-300 font-bold mt-12 mb-4 pt-4">{text}</h2>
+                        <h2 key={index} id={id} className="text-3xl text-[var(--accent)] font-bold mt-12 mb-4 pt-4">{text}</h2>
                       ) : (
                         <h3 key={index} id={id} className="text-2xl font-bold mt-8 mb-2 text-[var(--foreground)]">{text}</h3>
                       );
