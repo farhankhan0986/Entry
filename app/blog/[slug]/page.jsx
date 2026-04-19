@@ -333,10 +333,10 @@ export default async function BlogDetailsPage({ params }) {
               </div>
 
               {/* Footer Links */}
-              <div className="pt-8 border-t border-[var(--border)] flex gap-4 text-xs text-[var(--muted)] uppercase tracking-widest font-bold">
+              {/* <div className="pt-8 border-t border-[var(--border)] flex gap-4 text-xs text-[var(--muted)] uppercase tracking-widest font-bold">
                 <Link href="/privacy" className="hover:text-[var(--accent)]">Privacy</Link>
                 <Link href="/terms" className="hover:text-[var(--accent)]">Terms</Link>
-              </div>
+              </div> */}
             </div>
           </aside>
         </div>

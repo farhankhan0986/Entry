@@ -35,20 +35,34 @@ const headerVariants = {
   }),
 };
 
-export default function BlogsGrid({ blogs, hot, journal }) {
+export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [], }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
 
-  const tags = useMemo(() => {
-    // Use a fallback empty array if blogs is undefined
-    const allCategories = (blogs || []).map(b => b.category?.trim()).filter(Boolean);
-    return ["All", ...new Set(allCategories)];
-  }, [blogs]);
+  const sourceBlogs = useMemo(() => {
+  if (hot && hotSlugs.length > 0) {
+    return (blogs || []).filter((blog) =>
+      hotSlugs.includes(blog.slug)
+    );
+  }
+
+  return blogs || [];
+}, [blogs, hot, hotSlugs]);
+
+ const tags = useMemo(() => {
+  const allCategories = sourceBlogs
+    .map((b) => b.category?.trim())
+    .filter(Boolean);
+
+  return ["All", ...new Set(allCategories)];
+}, [sourceBlogs]);
 
   const filteredBlogs = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
 
-    return (blogs || []).filter((blog) => {
+    return sourceBlogs.filter((blog) => {
+      if (countries && blog.category !== "country") return false;
+
       const matchesSearch =
         !query ||
         blog.title?.toLowerCase().includes(query) ||
@@ -56,13 +70,22 @@ export default function BlogsGrid({ blogs, hot, journal }) {
         blog.category?.toLowerCase().includes(query) ||
         blog.authorName?.toLowerCase().includes(query);
 
-      const matchesTag =
-        selectedTag === "All" ||
-        blog.category?.trim() === selectedTag;
+      let matchesTag = false;
+      if (countries) {
+        matchesTag = selectedTag === "All" || blog.title?.split(":")[0].trim() === selectedTag;
+      } else {
+        matchesTag = selectedTag === "All" || blog.category?.trim() === selectedTag;
+      }
 
       return matchesSearch && matchesTag;
     });
-  }, [blogs, searchQuery, selectedTag]);
+  }, [sourceBlogs, searchQuery, selectedTag, countries]);
+
+  const filteredCountryBlogs = useMemo(() => {
+    return (blogs || []).filter(
+      (blog) => blog.category === "country"
+    );
+  }, [blogs]);
 
   return (
     <div className="w-full mx-auto mt-10 py-10">
@@ -76,7 +99,7 @@ export default function BlogsGrid({ blogs, hot, journal }) {
           viewport={{ once: true, margin: "-60px" }}
           custom={0}
         >
-          {hot ? "Hot Entries" : "The Journal"}
+          {hot ? "Hot Entries" : countries ? "Countries" : "The Journal"}
         </motion.h2>
 
         <motion.p
@@ -87,7 +110,7 @@ export default function BlogsGrid({ blogs, hot, journal }) {
           viewport={{ once: true, margin: "-60px" }}
           custom={1}
         >
-          {hot ? "These entries are currently making waves in our community." : "Explore the latest thoughts, stories, and entries from our community of creators."}
+          {hot ? "These entries are currently making waves in our community." : countries ? "Explore the world through the eyes of our community. Discover stories, ideas, and reflections from every corner of the globe." : "Explore the latest thoughts, stories, and entries from our community of creators."}
         </motion.p>
 
         {hot && (<motion.div
@@ -127,6 +150,61 @@ export default function BlogsGrid({ blogs, hot, journal }) {
                     key={tag}
                     onClick={() => setSelectedTag(tag)}
                     className={`py-1.5 px-4 rounded-lg cursor-pointer text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedTag === tag
+                      ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                      : "bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
+                      }`}
+                  >
+                    {tag}
+                  </button>
+                ))}
+
+                {/* Dropdown for the rest */}
+                {tags.length > 4 && (
+                  <select
+                    value={tags.slice(4).includes(selectedTag) ? selectedTag : ""}
+                    onChange={(e) => setSelectedTag(e.target.value)}
+                    className={`py-1.5 px-3 rounded-lg cursor-pointer text-[10px] font-bold uppercase tracking-widest outline-none border transition-all ${tags.slice(4).includes(selectedTag)
+                      ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                      : "bg-[var(--card)] text-[var(--muted)] border-[var(--border)] hover:text-[var(--foreground)]"
+                      }`}
+                  >
+                    <option value="" disabled className="bg-[var(--card)]">More +</option>
+                    {tags.slice(4).map(tag => (
+                      <option key={tag} value={tag} className="bg-[var(--card)] text-[var(--foreground)]">
+                        {tag}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            </>
+          </div>
+        </div>
+      )}
+
+      {countries && (
+        <div className="w-[80%] lg:w-[60%] mx-auto mb-10 flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Search by country..."
+            className="w-full p-2 border border-[var(--border)] rounded-xl outline-none p-4 font-arvo bg-transparent text-[var(--foreground)]"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="flex flex-wrap items-center gap-3 justify-center mb-6">
+            <>
+              {/* <div className="flex flex-wrap items-center gap-2 font-playfair">
+                The Heading Style Label
+                <h1 className="text-[var(--background)] bg-[var(--foreground)] px-3 py-1.5 rounded-lg text-sm font-bold uppercase tracking-widest">
+                  Categories:
+                </h1>
+
+                First 4 Tag Buttons
+                {tags.slice(0, 4).map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => setSelectedTag(tag)}
+                    className={`py-1.5 px-4 rounded-lg cursor-pointer text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedTag === tag
                         ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
                         : "bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
                       }`}
@@ -135,7 +213,7 @@ export default function BlogsGrid({ blogs, hot, journal }) {
                   </button>
                 ))}
 
-                {/* Dropdown for the rest */}
+                Dropdown for the rest
                 {tags.length > 4 && (
                   <select
                     value={tags.slice(4).includes(selectedTag) ? selectedTag : ""}
@@ -153,13 +231,43 @@ export default function BlogsGrid({ blogs, hot, journal }) {
                     ))}
                   </select>
                 )}
-              </div>
+              </div> */}
             </>
           </div>
         </div>
       )}
 
       {/* Grid */}
+
+      {countries && (
+        <div className="flex flex-wrap items-center gap-3 justify-center mb-6">
+          <button
+            onClick={() => setSelectedTag("All")}
+            className={`py-1.5 px-4 rounded-lg cursor-pointer text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedTag === "All"
+              ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+              : "bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
+              }`}
+          >
+            All
+          </button>
+          {filteredCountryBlogs.map(blog => {
+            const countryName = blog.title ? blog.title.split(":")[0].trim() : "Unknown";
+            return (
+              <button
+                key={blog.id ?? blog.slug}
+                onClick={() => setSelectedTag(countryName)}
+                className={`py-1.5 px-4 rounded-lg cursor-pointer text-[10px] font-bold uppercase tracking-widest transition-all border ${selectedTag === countryName
+                  ? "bg-[var(--foreground)] text-[var(--background)] border-[var(--foreground)]"
+                  : "bg-[var(--card)] text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)]"
+                  }`}
+              >
+                {countryName}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {filteredBlogs.length > 0 ? (
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2"
