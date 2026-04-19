@@ -36,10 +36,6 @@ const blogSchema = new mongoose.Schema(
       type: String, // URL of the image
       default: '',
     },
-    stats: {
-      likes: { type: Number, default: 0 },
-      views: { type: Number, default: 0 },
-    },
   },
   {
     // Automatically creates 'createdAt' and 'updatedAt'

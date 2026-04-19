@@ -3,6 +3,7 @@ import Blogs from '@/components/Blogs'
 import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
 import Button from "@/components/Button";
+import Link from "next/link";
 import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
 
 export default async function Home() {
@@ -129,8 +130,12 @@ export default async function Home() {
       </div>
 
       {/* 2. BLOGS FEED */}
-      <section id="blogs" className="pb-20">
+      <section id="blogs" className="pb-6">
         <Blogs limit={6} hot={true} />
+      <div className="pt-6 border-t border-[var(--border)] flex items-center justify-center gap-4 text-xs text-[var(--muted)] uppercase tracking-widest font-bold">
+        <Link href="/privacy" className="hover:text-[var(--accent)]">Privacy</Link>
+        <Link href="/terms" className="hover:text-[var(--accent)]">Terms</Link>
+      </div>
       </section>
     </div>
   );

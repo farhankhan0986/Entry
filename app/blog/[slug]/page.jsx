@@ -11,6 +11,7 @@ import Share from "@/components/Share";
 import SocialButton from "@/components/SocialButton";
 import Follow from "@/components/Follow";
 import GenericPoll from "@/components/GenericPoll";
+import BlogInteractions from "@/components/BlogInteractions";
 
 // Strip markdown characters for clean meta descriptions
 function stripMarkdown(text = "") {
@@ -190,6 +191,7 @@ export default async function BlogDetailsPage({ params }) {
                 <div className="flex items-center gap-2"><Clock size={16} /> 8 min read</div>
                 <Share post={blog} variant="inline" />
               </div>
+              <BlogInteractions slug={blog.slug} />
             </header>
 
             {blog.bannerImage && (

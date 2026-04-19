@@ -75,7 +75,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${saira.variable} ${arvo.variable} ${playfair.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${saira.variable} ${arvo.variable} ${playfair.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={`min-h-screen bg-background text-foreground transition-colors duration-300 flex flex-col antialiased`}
         suppressHydrationWarning
