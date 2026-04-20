@@ -39,9 +39,13 @@ export async function generateMetadata({ params }) {
   }
 
   const cleanDescription = stripMarkdown(blog.content).slice(0, 160);
-  const imageUrl = blog.bannerImage?.startsWith("http")
-    ? blog.bannerImage
-    : `https://entry-azure.vercel.app${blog.bannerImage}`;
+  const fallbackOg = "https://entry-azure.vercel.app/og-default.jpg";
+  const rawImage = blog.bannerImage?.trim();
+  const imageUrl = rawImage
+    ? rawImage.startsWith("http")
+      ? rawImage
+      : `https://entry-azure.vercel.app${rawImage}`
+    : fallbackOg;
   const url = `https://entry-azure.vercel.app/blog/${blog.slug}`;
   const publishedTime = new Date(blog.createdAt).toISOString();
 
@@ -65,7 +69,6 @@ export async function generateMetadata({ params }) {
           width: 1200,
           height: 630,
           alt: blog.title,
-          type: "image/jpeg",
         },
       ],
     },
