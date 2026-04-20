@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { SunMedium, Moon, PenLine, Menu, X } from "lucide-react";
+import { SunMedium, Moon, Flame, Droplets, Leaf, Palette, PenLine, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -47,14 +47,24 @@ export default function Navbar() {
               Archives
             </Link> */}
 
-            {/* Theme Toggle - Minimalist */}
+            {/* Theme Toggle - Cycles all themes */}
             <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              onClick={() => {
+                const themes = ["light", "dark", "red", "blue", "green", "purple"];
+                const currentIndex = themes.indexOf(theme);
+                const nextIndex = (currentIndex + 1) % themes.length;
+                setTheme(themes[nextIndex]);
+              }}
               className="p-2 text-[var(--foreground)] hover:text-[var(--accent)] transition-all"
               aria-label="Toggle Theme"
             >
               {mounted ? (
-                theme === "dark" ? <SunMedium size={20} /> : <Moon size={20} />
+                theme === "light" ? <SunMedium size={20} /> :
+                theme === "dark" ? <Moon size={20} /> :
+                theme === "red" ? <Flame size={20} /> :
+                theme === "blue" ? <Droplets size={20} /> :
+                theme === "green" ? <Leaf size={20} /> :
+                <Palette size={20} />
               ) : <div className="w-5 h-5" />}
             </button>
 
@@ -100,13 +110,21 @@ export default function Navbar() {
             <div className="pt-8 flex justify-center">
               <button
                 onClick={() => {
-                  setTheme(theme === "dark" ? "light" : "dark");
+                  const themes = ["light", "dark", "red", "blue", "green", "purple"];
+                  const currentIndex = themes.indexOf(theme);
+                  const nextIndex = (currentIndex + 1) % themes.length;
+                  setTheme(themes[nextIndex]);
                   setIsMenuOpen(false);
                 }}
                 className="flex items-center gap-3 text-lg font-bold text-[var(--muted)]"
               >
-                {theme === "dark" ? <SunMedium /> : <Moon />}
-                Switch to {theme === "dark" ? "Light" : "Dark"}
+                {theme === "light" ? <SunMedium /> :
+                 theme === "dark" ? <Moon /> :
+                 theme === "red" ? <Flame /> :
+                 theme === "blue" ? <Droplets /> :
+                 theme === "green" ? <Leaf /> :
+                 <Palette />}
+                Switch Theme
               </button>
             </div>
           </div>

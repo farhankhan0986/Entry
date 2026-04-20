@@ -389,7 +389,7 @@ export default function DiscoveryTool() {
     // ── Revealing loader ────────────────────────────────────────────────────────
     if (revealing) {
         return (
-            <div className="relative overflow-hidden bg-[var(--card)] border border-[var(--border)] rounded-[40px] p-16 text-center shadow-sm min-h-[400px] flex flex-col items-center justify-center">
+            <div className="relative overflow-hidden bg-[var(--card)]/10 border border-[var(--border)] rounded-[40px] p-16 text-center shadow-sm min-h-[400px] flex flex-col items-center justify-center">
                 {confetti.map((p) => (
                     <ConfettiParticle key={p.id} {...p} />
                 ))}
@@ -550,7 +550,7 @@ export default function DiscoveryTool() {
     // ── Question view ───────────────────────────────────────────────────────────
     const q = questions[step];
     return (
-        <div ref={containerRef} className="bg-[var(--card)] border border-[var(--border)] rounded-[40px] p-8 md:p-12 shadow-sm">
+        <div ref={containerRef} className="bg-[var(--card)]/10 border border-[var(--border)] rounded-[40px] p-8 md:p-12 shadow-sm">
             <ProgressBar current={step} total={total} />
 
             <div className="mb-10 text-center">

@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Footer() {
   const [email, setEmail] = useState("");
   return (
-    <footer className="bg-[var(--card)] border-t border-[var(--border)] pt-20 pb-10 font-playfair">
+    <footer className="bg-[var(--card)]/10 border-t border-[var(--border)] pt-20 pb-10 font-playfair">
       <div className="container mx-auto px-6">
         
         {/* Main Footer Grid */}
@@ -88,7 +88,7 @@ export default function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address" 
-                className="bg-[var(--input)] border border-[var(--border)] rounded-lg px-4 py-2 text-sm w-full focus:ring-1 focus:ring-[var(--accent)] outline-none"
+                className="bg-[var(--input)]/10 border border-[var(--border)] rounded-lg px-4 py-2 text-sm w-full focus:ring-1 focus:ring-[var(--accent)] outline-none"
               />
               <button onClick={() => toast.success("Subscribed!") && setEmail("")}
               className="bg-[var(--foreground)] text-[var(--background)] hover:text-[var(--foreground)] cursor-pointer px-4 py-2 rounded-lg hover:bg-[var(--accent)] active:scale-95 transition-all">

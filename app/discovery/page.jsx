@@ -110,7 +110,7 @@ export default function DiscoveryPage() {
                     <aside className="space-y-5">
 
                         {/* Social types */}
-                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]">
+                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]/10">
                             <p className="text-[10px] uppercase tracking-[0.25em] font-bold text-[var(--muted)] mb-4">Social Types</p>
                             <div className="space-y-4">
                                 {socialTypes.map((s) => {
@@ -131,7 +131,7 @@ export default function DiscoveryPage() {
                         </div>
 
                         {/* What you'll discover */}
-                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]">
+                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]/10">
                             <p className="text-[10px] uppercase tracking-[0.25em] font-bold text-[var(--muted)] mb-4">What You'll Discover</p>
                             <ul className="space-y-3">
                                 {[
@@ -154,7 +154,7 @@ export default function DiscoveryPage() {
                         </div>
 
                         {/* Quote */}
-                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]">
+                        <div className="border border-[var(--border)] rounded-3xl p-6 bg-[var(--card)]/10">
                             <Brain size={20} className="text-[var(--accent)] mb-3" />
                             <p className="text-sm italic text-[var(--muted)] leading-relaxed">
                                 "Know yourself and you will win all battles. This engine is your mirror — not your judge."

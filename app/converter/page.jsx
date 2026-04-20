@@ -59,7 +59,7 @@ export default function ConverterPage() {
                         {features.map(({ icon: Icon, label, desc }) => (
                             <div
                                 key={label}
-                                className="rounded-2xl border border-[var(--border)] p-4 bg-[var(--card)] hover:border-[var(--accent)]/50 transition-all"
+                                className="rounded-2xl border border-[var(--border)] p-4 bg-[var(--card)]/10 hover:border-[var(--accent)]/50 transition-all"
                             >
                                 <Icon size={16} className="text-[var(--accent)] mb-2" />
                                 <p className="text-sm font-bold mb-0.5">{label}</p>
@@ -72,7 +72,7 @@ export default function ConverterPage() {
                 {/* ── Tool ─────────────────────────────────────────────────────────── */}
                 <main className="container mx-auto px-6 pb-24">
                     <div className="max-w-4xl mx-auto">
-                        <div className="bg-[var(--card)] border border-[var(--border)] rounded-[40px] p-8 md:p-12 shadow-sm">
+                        <div className="bg-[var(--card)]/10 border border-[var(--border)] rounded-[40px] p-8 md:p-12 shadow-sm">
                             <div className="flex items-center gap-3 mb-8">
                                 <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center">
                                     <Type size={18} className="text-[var(--accent)]" />

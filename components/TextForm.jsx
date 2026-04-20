@@ -32,7 +32,7 @@ const readTime = (t) => {
 function ActionBtn({ icon: Icon, label, onClick, disabled, variant = "default", danger = false }) {
   const base = "flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed";
   const styles = {
-    default: "border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
+    default: "border border-[var(--border)] bg-[var(--card)]/10 text-[var(--foreground)] hover:border-[var(--accent)] hover:text-[var(--accent)]",
     primary: "bg-[var(--foreground)] text-[var(--background)] hover:bg-[var(--accent)]",
     danger: "border border-red-500/30 text-red-400 hover:bg-red-500/10",
   };
@@ -277,7 +277,7 @@ export function TextForm() {
 
       {/* ── Find & Replace panel ─────────────────────────────────────────────── */}
       {findOpen && (
-        <div className="border border-[var(--accent)]/30 rounded-2xl p-5 bg-[var(--card)] space-y-3">
+        <div className="border border-[var(--accent)]/30 rounded-2xl p-5 bg-[var(--card)]/10 space-y-3">
           <p className="text-[10px] uppercase tracking-[0.25em] font-bold text-[var(--accent)]">Find & Replace</p>
           <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
             <div>
@@ -318,7 +318,7 @@ export function TextForm() {
       {groups.map((g) => {
         const GIcon = g.icon;
         return (
-          <div key={g.label} className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]">
+          <div key={g.label} className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]/10">
             <div className="flex items-center gap-2 mb-3">
               <GIcon size={14} className="text-[var(--accent)]" />
               <p className="text-[10px] uppercase tracking-[0.25em] font-bold text-[var(--muted)]">{g.label}</p>
@@ -333,7 +333,7 @@ export function TextForm() {
       })}
 
       {/* ── Live Stats Dashboard ──────────────────────────────────────────────── */}
-      <div className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]">
+      <div className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]/10">
         <div className="flex items-center gap-2 mb-4">
           <FileText size={14} className="text-[var(--accent)]" />
           <p className="text-[10px] uppercase tracking-[0.25em] font-bold text-[var(--muted)]">Live Statistics</p>
@@ -346,7 +346,7 @@ export function TextForm() {
       </div>
 
       {/* ── Formatted Preview ─────────────────────────────────────────────────── */}
-      <div className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]">
+      <div className="border border-[var(--border)] rounded-2xl p-5 bg-[var(--card)]/10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <BookOpen size={14} className="text-[var(--accent)]" />

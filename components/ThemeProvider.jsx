@@ -6,8 +6,9 @@ export function ThemeProvider({ children }) {
   return (
     <NextThemesProvider 
       attribute="class" 
-      defaultTheme="dark" 
+      defaultTheme="red" 
       enableSystem={false}
+      themes={["light", "dark", "red", "blue", "green", "purple"]}
     >
       {children}
     </NextThemesProvider>

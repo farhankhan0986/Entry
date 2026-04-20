@@ -15,20 +15,27 @@
   --color-accent: var(--accent);
   --color-muted: var(--muted);
 }
+
 :root {
   /* Main Background & Text */
-  --background: #FFF8EC;       /* Soft Cream */
-  --foreground: #2d2a2a;       /* Deep Grey for readability */
+  --background: #FFF8EC;
+  /* Soft Cream */
+  --foreground: #2d2a2a;
+  /* Deep Grey for readability */
 
   /* Surface / Card / Borders */
-  --card: #ffffff;             /* Slightly brighter than background */
-  --border: #e8e2d6;           /* Subtle contrast for Cream */
+  --card: #ffffff;
+  /* Slightly brighter than background */
+  --border: #e8e2d6;
+  /* Subtle contrast for Cream */
   --input: #fdfaf3;
 
   /* Primary Branding (Buttons) */
-  --primary: #1e1e1e;          /* Bold Black for high contrast on Cream */
+  --primary: #1e1e1e;
+  /* Bold Black for high contrast on Cream */
   --primary-foreground: #FFF8EC;
-  --accent: #d97706;           /* Amber/Orange for "New Entry" emphasis */
+  --accent: #d97706;
+  /* Amber/Orange for "New Entry" emphasis */
 
   /* Semantic Colors */
   --muted: #7c746e;
@@ -36,20 +43,128 @@
 
 .dark {
   /* Main Background & Text */
-  --background: #454040;       /* Dark Grey */
-  --foreground: #FFF8EC;       /* Cream Text on Dark */
+  --background: #454040;
+  /* Dark Grey */
+  --foreground: #FFF8EC;
+  /* Cream Text on Dark */
 
   /* Surface / Card / Borders */
-  --card: #3b3636;             /* Slightly darker/lighter depth */
+  --card: #3b3636;
+  /* Slightly darker/lighter depth */
   --border: #565151;
   --input: #4d4848;
 
   /* Primary Branding (Buttons) */
-  --primary: #FFF8EC;          /* Cream buttons for high contrast on Dark */
+  --primary: #FFF8EC;
+  /* Cream buttons for high contrast on Dark */
   --primary-foreground: #454040;
-  --accent: #fcd34d;           /* Lighter Amber for Dark mode */
+  --accent: #fcd34d;
+  /* Lighter Amber for Dark mode */
 
   --muted: #b5ada5;
+}
+
+.red {
+  /* Main Background & Text */
+  --background: #121212;
+  /* Deep Dark Background */
+  --foreground: #FAF9F6;
+  /* Off-White Text */
+
+  /* Surface / Card / Borders */
+  --card: #1e1e1e;
+  --border: #333333;
+  --input: #2a2a2a;
+
+  /* Primary Branding (Buttons) */
+  --primary: #DC143C;
+  /* Crimson Red */
+  --primary-foreground: #FFFFFF;
+  --accent: #DC143C;
+  /* Crimson Red */
+
+  --muted: #a3a3a3;
+}
+
+.blue {
+  /* Main Background & Text */
+  --background: #0a1220;
+  /* Deep Ocean Midnight */
+  --foreground: #f8fafc;
+  /* Clean Ice White */
+
+  /* Surface / Cards / Borders */
+  --card: #111c2e;
+  /* Dark Blue Surface */
+  --border: #22324a;
+  --input: #111c2e;
+
+  /* Primary Branding */
+  --primary: #3b82f6;
+  /* Vibrant Royal Blue */
+  --primary-foreground: #ffffff;
+
+  /* Accent / Hover */
+  --accent: #60a5fa;
+  /* Bright Sky Blue */
+
+  /* Muted Text */
+  --muted: #94a3b8;
+  /* Cool Slate Grey */
+}
+
+.green {
+  /* Main Background & Text */
+  --background: #08130d;
+  /* Deep Emerald Night */
+  --foreground: #f0fdf4;
+  /* Fresh Mint White */
+
+  /* Surface / Cards / Borders */
+  --card: #102018;
+  /* Dark Forest Surface */
+  --border: #1f3a2d;
+  --input: #102018;
+
+  /* Primary Branding */
+  --primary: #22c55e;
+  /* Vibrant Emerald Green */
+  --primary-foreground: #ffffff;
+
+  /* Accent / Hover */
+  --accent: #4ade80;
+  /* Bright Fresh Green */
+
+  /* Muted Text */
+  --muted: #86a89a;
+  /* Soft Sage Grey */
+}
+
+.purple {
+  /* Main Background & Text */
+  --background: #f1e8f5;
+  /* Elegant Off White */
+  --foreground: #1e293b;
+  /* Rich Slate Text */
+
+  /* Surface / Cards / Borders */
+  --card: #fffdf8;
+  /* Warm Soft White */
+  --border: #e7dfd1;
+  --input: #fffdf8;
+
+  /* Primary Branding */
+  --primary: #7c3aed;
+  /* Royal Violet */
+  --primary-foreground: #ffffff;
+
+  /* Accent / Hover */
+  --accent: #a855f7;
+  /* Bright Lavender */
+
+  /* Muted Text */
+  --muted: #7b7280;
+  /* Soft Elegant Grey */
 }
 
 html {
@@ -61,16 +176,14 @@ html {
 
 
 @layer components {
+
   /* The "Logic" for Buttons */
   .btn-primary {
-    @apply px-5 py-2.5 rounded-full font-semibold transition-all 
-           bg-[var(--primary)] text-[var(--primary-foreground)] 
-           hover:opacity-90 active:scale-95;
+    @apply px-5 py-2.5 rounded-full font-semibold transition-all bg-[var(--primary)] text-[var(--primary-foreground)] hover:opacity-90 active:scale-95;
   }
 
   /* The "Logic" for Cards */
   .entry-card {
-    @apply p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)]
-           shadow-sm hover:shadow-md transition-shadow;
+    @apply p-6 rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm hover:shadow-md transition-shadow;
   }
 }
