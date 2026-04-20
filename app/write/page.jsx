@@ -82,7 +82,7 @@ export default function WritePage() {
                   <option value="Technology">Technology</option>
                   <option value="Travel">Travel</option>
                   <option value="Country">Country</option>
-                  <option value="Biography">Biography</option>
+                  <option value="Biographies">Biographies</option>
                   <option value="Entertainment">Entertainment</option>
                   <option value="Food">Food</option>
                   <option value="Lifestyle">Lifestyle</option>

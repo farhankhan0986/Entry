@@ -22,5 +22,5 @@ export const metadata = {
 
 export default async function Biographies() {
   const blogs = await getAllBlogs();
-  return <BlogsGrid blogs={blogs} categoryPage="Biography" hot={false} journal={false} />;
+  return <BlogsGrid blogs={blogs} categoryPage="Biographies" hot={false} journal={false} />;
 }
