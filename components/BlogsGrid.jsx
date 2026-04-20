@@ -61,7 +61,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
     const query = searchQuery.toLowerCase().trim();
 
     return sourceBlogs.filter((blog) => {
-      if (categoryPage && blog.category !== categoryPage) return false;
+      if (categoryPage && blog.category?.toLowerCase() !== categoryPage.toLowerCase()) return false;
 
       const matchesSearch =
         !query ||
@@ -87,6 +87,26 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
     );
   }, [blogs]);
 
+  const getDescription = () => {
+    if (hot) return "These entries are currently making waves in our community.";
+    if (!categoryPage) return "Explore the latest thoughts, stories, and entries from our community of creators.";
+    
+    switch (categoryPage.toLowerCase()) {
+      case 'biographies': return "Explore the lives of influential people that changed the world.";
+      case 'facts': return "Discover surprising, viral, and mind-blowing facts that educate and entertain.";
+      case 'countries':
+      case 'country': return "Explore the world through the eyes of our community. Discover stories from every corner of the globe.";
+      case 'sports': return "Explore the greatest moments, figures, and legends in the history of sports.";
+      case 'technology': return "Explore the future of technology, innovation, and how it shapes our daily lives.";
+      case 'entertainment': return "Dive into the history and impact of global entertainment, cinema, and pop culture.";
+      case 'finance': return "Explore modern wealth building, investment strategies, markets, and the future of finance.";
+      case 'health': return "Discover insights on optimizing health, wellness, fitness, and high performance.";
+      case 'food': return "Discover culinary traditions, recipes, and the rich history of food across borders.";
+      case 'lifestyle': return "Reflections on modern living. Explore stories and ideas to upgrade your daily routine.";
+      default: return `Explore insightful stories, reflections, and entries about ${categoryPage.toLowerCase()}.`;
+    }
+  };
+
   return (
     <div className="w-full mx-auto mt-10 py-10">
       {/* Header Section */}
@@ -110,7 +130,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
           viewport={{ once: true, margin: "-60px" }}
           custom={1}
         >
-          {hot ? "These entries are currently making waves in our community." : categoryPage ? "Explore the world through the eyes of our community. Discover stories, ideas, and reflections from every corner of the globe." : "Explore the latest thoughts, stories, and entries from our community of creators."}
+          {getDescription()}
         </motion.p>
 
         {hot && (<motion.div

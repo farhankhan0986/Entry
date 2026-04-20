@@ -5,7 +5,7 @@ export default async function Blogs({ limit, hot }) {
   const allBlogs = await getAllBlogs();
   
   const hotSlugs = [
-    "foods-that-improve-skin-naturally",
+    "mahatma-gandhi-biography-india-freedom-story",
     "messi-vs-ronaldo-the-2026-definitive-comparison",
     "tech-salary-leak-report-2026-real-developer-pm-designer-pay",
     "iran",
