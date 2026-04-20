@@ -1,4 +1,4 @@
-"use client"    
+"use client";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 mb-16">
           
           {/* Column 1: Brand */}
           <div className="space-y-4">
@@ -28,7 +28,7 @@ export default function Footer() {
             <ul className="space-y-1">
               {['Journal', 'Write'].map((item) => (
                 <li key={item}>
-                  <Link href={`/${item.toLowerCase() === 'journal' ? '' : item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     {item}
                   </Link>
                 </li>
@@ -54,7 +54,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Pages</h4>
             <ul className="space-y-1">
-              {['Countries'].map((item) => (
+              {['Countries', 'Biographies'].map((item) => (
                 <li key={item}>
                   <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     {item}
@@ -64,7 +64,21 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 5: Newsletter */}
+          {/* Column 5: Tools */}
+          <div className="space-y-4">
+            <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Tools</h4>
+            <ul className="space-y-1">
+              {['Discovery', 'Converter'].map((item) => (
+                <li key={item}>
+                  <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 6: Newsletter */}
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Newsletter</h4>
             <p className="text-xs text-[var(--muted)]">Weekly curated stories delivered to your inbox.</p>

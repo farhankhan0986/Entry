@@ -35,7 +35,7 @@ const headerVariants = {
   }),
 };
 
-export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [], }) {
+export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs = [], }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTag, setSelectedTag] = useState("All");
 
@@ -61,7 +61,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
     const query = searchQuery.toLowerCase().trim();
 
     return sourceBlogs.filter((blog) => {
-      if (countries && blog.category !== "country") return false;
+      if (categoryPage && blog.category !== categoryPage) return false;
 
       const matchesSearch =
         !query ||
@@ -71,7 +71,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
         blog.authorName?.toLowerCase().includes(query);
 
       let matchesTag = false;
-      if (countries) {
+      if (categoryPage) {
         matchesTag = selectedTag === "All" || blog.title?.split(":")[0].trim() === selectedTag;
       } else {
         matchesTag = selectedTag === "All" || blog.category?.trim() === selectedTag;
@@ -79,7 +79,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
 
       return matchesSearch && matchesTag;
     });
-  }, [sourceBlogs, searchQuery, selectedTag, countries]);
+  }, [sourceBlogs, searchQuery, selectedTag, categoryPage]);
 
   const filteredCountryBlogs = useMemo(() => {
     return (blogs || []).filter(
@@ -99,7 +99,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
           viewport={{ once: true, margin: "-60px" }}
           custom={0}
         >
-          {hot ? "Hot Entries" : countries ? "Countries" : "The Journal"}
+          {hot ? "Hot Entries" : categoryPage ? categoryPage.charAt(0).toUpperCase() + categoryPage.slice(1) : "The Journal"}
         </motion.h2>
 
         <motion.p
@@ -110,7 +110,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
           viewport={{ once: true, margin: "-60px" }}
           custom={1}
         >
-          {hot ? "These entries are currently making waves in our community." : countries ? "Explore the world through the eyes of our community. Discover stories, ideas, and reflections from every corner of the globe." : "Explore the latest thoughts, stories, and entries from our community of creators."}
+          {hot ? "These entries are currently making waves in our community." : categoryPage ? "Explore the world through the eyes of our community. Discover stories, ideas, and reflections from every corner of the globe." : "Explore the latest thoughts, stories, and entries from our community of creators."}
         </motion.p>
 
         {hot && (<motion.div
@@ -182,7 +182,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
         </div>
       )}
 
-      {countries && (
+      {categoryPage && (
         <div className="w-[80%] lg:w-[60%] mx-auto mb-10 flex flex-col gap-4">
           <input
             type="text"
@@ -239,7 +239,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
 
       {/* Grid */}
 
-      {countries && (
+      {/* {countries && (
         <div className="flex flex-wrap items-center gap-3 justify-center mb-6">
           <button
             onClick={() => setSelectedTag("All")}
@@ -266,7 +266,7 @@ export default function BlogsGrid({ blogs, hot, journal, countries, hotSlugs = [
             );
           })}
         </div>
-      )}
+      )} */}
 
       {filteredBlogs.length > 0 ? (
         <motion.div
