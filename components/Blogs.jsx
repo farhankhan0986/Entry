@@ -10,7 +10,7 @@ export default async function Blogs({ limit, hot }) {
     "tech-salary-leak-report-2026-real-developer-pm-designer-pay",
     "iran",
     "bollywood-top-10-male-actors",
-    "7-habits-that-instantly-make-you-more-attractive",
+    "signs-that-you-are-an-attractive-person",
   ];
 
   let displayBlogs = hot
