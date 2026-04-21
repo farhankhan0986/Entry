@@ -94,7 +94,6 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
     switch (categoryPage.toLowerCase()) {
       case 'biographies': return "Explore the lives of influential people that changed the world.";
       case 'facts': return "Discover surprising, viral, and mind-blowing facts that educate and entertain.";
-      case 'countries':
       case 'country': return "Explore the world through the eyes of our community. Discover stories from every corner of the globe.";
       case 'sports': return "Explore the greatest moments, figures, and legends in the history of sports.";
       case 'technology': return "Explore the future of technology, innovation, and how it shapes our daily lives.";
@@ -103,6 +102,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
       case 'health': return "Discover insights on optimizing health, wellness, fitness, and high performance.";
       case 'food': return "Discover culinary traditions, recipes, and the rich history of food across borders.";
       case 'lifestyle': return "Reflections on modern living. Explore stories and ideas to upgrade your daily routine.";
+      case 'psychology': return "Explore the human mind and behavior and unlock your potential.";
       default: return `Explore insightful stories, reflections, and entries about ${categoryPage.toLowerCase()}.`;
     }
   };
