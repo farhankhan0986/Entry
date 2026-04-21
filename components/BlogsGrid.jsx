@@ -97,6 +97,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
       case 'country': return "Explore the world through the eyes of our community. Discover stories from every corner of the globe.";
       case 'sports': return "Explore the greatest moments, figures, and legends in the history of sports.";
       case 'technology': return "Explore the future of technology, innovation, and how it shapes our daily lives.";
+      case 'mysteries': return "Explore mysterious incidents, unsolved disappearances, unexplained events, strange cases, and shocking mysteries from around the world.";
       case 'entertainment': return "Dive into the history and impact of global entertainment, cinema, and pop culture.";
       case 'finance': return "Explore modern wealth building, investment strategies, markets, and the future of finance.";
       case 'health': return "Discover insights on optimizing health, wellness, fitness, and high performance.";
@@ -206,7 +207,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
         <div className="w-[80%] lg:w-[60%] mx-auto mb-10 flex flex-col gap-4">
           <input
             type="text"
-            placeholder="Search by country..."
+            placeholder="Search your interest..."
             className="w-full p-2 border border-[var(--border)] rounded-xl outline-none p-4 font-arvo bg-transparent text-[var(--foreground)]"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

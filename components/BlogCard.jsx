@@ -7,7 +7,8 @@ export default function BlogCard({ blog }) {
 
   // Deterministic "random" so SSR and client always match
   const mockedFollowers = ((title.length * 37 + authorName.charCodeAt(0) * 13) % 500) + 1;
-  const readTime = ((title.length * 7 + authorName.charCodeAt(0) * 3) % 10) + 3;
+  const wordCount = content.trim().split(/\s+/).length;
+  const readTime = Math.max(1, Math.ceil(wordCount / 200));
   const mockedDate = new Date(createdAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",

@@ -104,6 +104,10 @@ export default async function BlogDetailsPage({ params }) {
 
   const contentLines = blog.content.split("\n");
 
+  // Calculate real read time based on word count at 200 wpm
+  const wordCount = blog.content.trim().split(/\s+/).length;
+  const readTime = Math.max(1, Math.ceil(wordCount / 200));
+
   // Generate Table of Contents from markdown-style headers in content
   const toc = contentLines
     .filter(line => line.startsWith("## ")) // Only catch main headings
@@ -191,7 +195,7 @@ export default async function BlogDetailsPage({ params }) {
                   <span className="font-bold text-[var(--foreground)]">{blog.authorName}</span>
                 </div>
                 <div className="flex items-center gap-2"><Calendar size={16} /> {date}</div>
-                <div className="flex items-center gap-2"><Clock size={16} /> 8 min read</div>
+                <div className="flex items-center gap-2"><Clock size={16} /> {readTime} min read</div>
                 <Share post={blog} variant="inline" />
               </div>
               <BlogInteractions slug={blog.slug} />

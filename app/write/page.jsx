@@ -91,6 +91,7 @@ export default function WritePage() {
                   <option value="Health">Health</option>
                   <option value="Finance">Finance</option>
                   <option value="Education">Education</option>
+                  <option value="Mysteries">Mysteries</option>
                   <option value="Sports">Sports</option>
                   <option value="Politics">Politics</option>
                   <option value="Psychology">Psychology</option>
