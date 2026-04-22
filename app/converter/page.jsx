@@ -59,9 +59,9 @@ export default function ConverterPage() {
                         {features.map(({ icon: Icon, label, desc }) => (
                             <div
                                 key={label}
-                                className="rounded-2xl border border-[var(--border)] p-4 bg-[var(--card)]/10 hover:border-[var(--accent)]/50 transition-all"
+                                className="rounded-2xl border border-[var(--border)] p-4 bg-[var(--card)]/10 hover:border-[var(--accent)]/50 hover:shadow-md transition-all duration-300 group"
                             >
-                                <Icon size={16} className="text-[var(--accent)] mb-2" />
+                                <Icon size={16} className="text-[var(--accent)] mb-2 group-hover:scale-110 transition-transform duration-300" />
                                 <p className="text-sm font-bold mb-0.5">{label}</p>
                                 <p className="text-[11px] text-[var(--muted)] leading-snug">{desc}</p>
                             </div>

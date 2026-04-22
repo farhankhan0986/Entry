@@ -67,25 +67,21 @@ export default function BlogInteractions({ slug }) {
       </div>
 
       {/* Likes */}
-      <button 
-        onClick={handleLike} 
+      <button
+        onClick={handleLike}
         disabled={isLiking || loading}
         className={`flex items-center gap-2 group transition-all duration-300 ${isLiking ? "opacity-50" : ""}`}
         aria-label={stats.hasLiked ? "Unlike post" : "Like post"}
       >
-        <Heart 
-          size={18} 
+        <Heart
+          size={18}
           className={`transition-colors duration-300 ${
-            stats.hasLiked 
-              ? "fill-red-500 text-red-500 cursor-pointer" 
+            stats.hasLiked
+              ? "fill-red-500 text-red-500 cursor-pointer"
               : "text-[var(--muted)] group-hover:text-[var(--accent)] cursor-pointer"
-          }`} 
+          }`}
         />
-        <span className={`text-sm font-semibold transition-colors duration-300 ${
-            stats.hasLiked 
-              ? "text-[var(--muted)]" 
-              : "text-[var(--muted)] "
-          }`}>
+        <span className="text-sm font-semibold text-[var(--muted)]">
           {loading ? "..." : stats.likes} {stats.likes === 1 ? "Like" : "Likes"}
         </span>
       </button>

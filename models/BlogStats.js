@@ -23,6 +23,7 @@ const blogStatsSchema = new mongoose.Schema(
   }
 );
 
-const BlogStats = mongoose.models.BlogStats || mongoose.model("BlogStats", blogStatsSchema);
+const BlogStats =
+  mongoose.models.BlogStats || mongoose.model("BlogStats", blogStatsSchema);
 
 export default BlogStats;

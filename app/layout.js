@@ -6,6 +6,7 @@ import { Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import Footer from "@/components/Footer";
 
 const saira = Saira_Stencil_One({
@@ -84,6 +85,7 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider>
           <Navbar />
+          <SpeedInsights />
           <Analytics />
           <Toaster position="top-right" richColors toastOptions={{
             classNames: {

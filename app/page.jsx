@@ -4,7 +4,7 @@ import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
+import { FaLinkedin,FaFacebook, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
 
 export default async function Home() {
   const blogs = await getAllBlogs();
@@ -66,8 +66,8 @@ export default async function Home() {
               <div className="flex flex-wrap items-center gap-5">
                 <div className="relative">
                   <img
-                    src="https://res.cloudinary.com/diiegizut/image/upload/v1776364804/farhan-modified_vylh7f.jpg"
-                    alt="Farhan Abid"
+                    src="entry.png"
+                    alt="Entry"
                     className="w-16 h-16 rounded-full object-cover border-2 border-[var(--accent)] shadow-md"
                   />
                   <div className="absolute -bottom-1 -right-1 bg-[var(--accent)] w-5 h-5 rounded-full border-2 border-[var(--card)]" />
@@ -75,20 +75,20 @@ export default async function Home() {
 
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-[var(--foreground)] leading-none">
-                    Farhan Abid
+                    Entry
                   </h3>
                   <p className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mt-2">
-                    Curator • Builder
+                    GLOBAL STORIES
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <a href="https://www.linkedin.com/in/farhan-abid-38967a259/" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
-                    <FaLinkedin size={20} />
+                  <a href="https://www.instagram.com/entry_blogs/" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaInstagram size={20} />
                   </a>
-                  <a href="https://github.com/farhankhan0986" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
-                    <FaGithub size={20} />
+                  <a href="https://www.facebook.com/entry.blogs" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaFacebook size={20} />
                   </a>
-                  <a href="https://x.com/FarhanK70642847" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  <a href="https://x.com/Entry_Blogs" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     <FaTwitter size={20} />
                   </a>
                 </div>

@@ -1,163 +1,284 @@
 import Link from "next/link";
-import { FaLinkedin, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
-import { Coffee, Code, BookOpen, Globe, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  Feather,
+  Globe,
+  Users,
+  Sparkles,
+  ArrowRight,
+  Star,
+  Layers,
+  Mic,
+  Zap,
+} from "lucide-react";
+
+export const metadata = {
+  title: "About Entry — Where Every Story Finds Its Home",
+  description:
+    "Entry is a modern editorial platform where authentic voices publish meaningful stories. Discover what Entry is, what we believe, and how to join our growing community of writers and readers.",
+};
+
+const pillars = [
+  {
+    icon: Feather,
+    title: "Authentic Writing",
+    desc: "Every piece published on Entry carries a human voice. No fluff, no filler — just genuine thought.",
+  },
+  {
+    icon: Globe,
+    title: "Global Stories",
+    desc: "Voices from every corner of the world. Countries, cultures, and perspectives that expand your view.",
+  },
+  {
+    icon: Zap,
+    title: "Diverse Topics",
+    desc: "From AI and technology to mysteries, psychology, biographies, and personal growth — Entry covers it all.",
+  },
+  {
+    icon: Users,
+    title: "Community First",
+    desc: "Entry is built for readers and writers alike. Engage, explore, and share the stories that move you.",
+  },
+  {
+    icon: Layers,
+    title: "Rich Categories",
+    desc: "Curated sections like Facts, Mysteries, Countries, Biographies, and Psychology — each a world of its own.",
+  },
+  {
+    icon: Mic,
+    title: "Open Platform",
+    desc: "Have a story to tell? Entry's write feature invites you to publish and share your own perspective.",
+  },
+];
+
+const categories = [
+  { name: "Facts", href: "/facts", color: "var(--accent)" },
+  { name: "Mysteries", href: "/mysteries", color: "var(--accent)" },
+  { name: "Countries", href: "/countries", color: "var(--accent)" },
+  { name: "Biographies", href: "/biographies", color: "var(--accent)" },
+  { name: "Psychology", href: "/psychology", color: "var(--accent)" },
+  { name: "Journal", href: "/journal", color: "var(--accent)" },
+];
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] font-playfair text-[var(--foreground)]">
-      <header className="container mx-auto px-6 pt-10 pb-10">
-         <header className="container mx-auto px-6 pt-24 pb-16">
-        <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.85] mb-8">
-          The Curator<span className="text-[var(--accent)]">.</span>
+
+      {/* HERO */}
+      <header className="container mx-auto px-6 pt-28 pb-20">
+        <div className="flex items-center gap-2 text-[var(--accent)] font-bold tracking-[0.3em] uppercase text-xs mb-6">
+          <Star size={13} fill="currentColor" />
+          <span>Our Story</span>
+        </div>
+
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[0.88] mb-8 max-w-4xl">
+          What is{" "}
+          <span className="text-[var(--accent)]">Entry</span>
+          <span className="text-[var(--accent)]">?</span>
         </h1>
 
         <p className="text-xl md:text-2xl text-[var(--muted)] leading-relaxed italic opacity-80 max-w-3xl">
-          "Building at the intersection of AI, software, design, and the human
-          narrative."
+          "Where thoughts find words, emotions meet understanding, and every
+          story feels a little less alone."
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-10 flex flex-wrap gap-4">
           <Link
-            href="https://dev-vault-alpha.vercel.app/" target="_blank"
-            className="flex items-center gap-2 text-sm font-semibold hover:text-[var(--accent)] transition-colors"
+            href="/journal"
+            className="btn-primary flex items-center gap-2 px-8 py-3"
           >
-            <Globe size={18} /> Portfolio
+            Browse Journal <ArrowRight size={16} />
           </Link>
-
           <Link
-            href="https://github.com/farhankhan0986" target="_blank"
-            className="flex items-center gap-2 text-sm font-semibold hover:text-[var(--accent)] transition-colors"
+            href="/write"
+            className="flex items-center gap-2 px-8 py-3 rounded-full border border-[var(--border)] text-sm font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
           >
-            <FaGithub size={18} /> GitHub
-          </Link>
-
-          <Link
-            href="https://www.linkedin.com/in/farhan-abid-38967a259/" target="_blank"
-            className="flex items-center gap-2 text-sm font-semibold hover:text-[var(--accent)] transition-colors"
-          >
-            <FaLinkedin size={18} /> LinkedIn
+            Start Writing <Feather size={16} />
           </Link>
         </div>
       </header>
 
-      </header>
+      {/* DIVIDER */}
+      <div className="container mx-auto px-6">
+        <div className="h-[1px] w-full bg-gradient-to-r from-[var(--border)] via-[var(--accent)]/30 to-transparent" />
+      </div>
 
-      <main className="container mx-auto px-6 py-12 grid lg:grid-cols-2 mb-10 gap-16 items-start">
-        {/* Bio Section */}
-        <section className="space-y-8 lg:mt-24">
-          <h2 className="text-4xl font-bold">Farhan Abid</h2>
-          <div className="text-lg leading-relaxed text-[var(--muted)] space-y-6">
-            <p>
-              I am a final-year AI & Data Science student based in Lucknow. When I'm not debugging the MERN stack or training models, I'm documenting the process of building the future.
-            </p>
-            <p>
-              <span className="text-[var(--foreground)] font-bold">Entry</span> was born out of a desire to bridge the gap between technical complexity and emotional depth. Whether it's a post about AI Agents or a reflection on personal growth, this is where my thoughts find a permanent home.
-            </p>
-              <p>
-                I believe the future belongs to creators who can think deeply,
-                build quickly, and communicate clearly.
-              </p>
+      {/* MISSION SECTION */}
+      <section className="container mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <BookOpen size={22} className="text-[var(--accent)]" />
+            <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-[var(--muted)]">
+              Our Mission
+            </h2>
           </div>
-          
-          {/* <div className="flex gap-4 pt-6">
-            <Link href="https://farhanabid.vercel.app" className="text-xs uppercase tracking-[0.2em] font-bold border-b border-[var(--foreground)] pb-1 hover:text-[var(--accent)] transition-colors">Portfolio</Link>
-            <Link href="https://github.com/farhankhan0986" className="text-xs uppercase tracking-[0.2em] font-bold border-b border-[var(--foreground)] pb-1 hover:text-[var(--accent)] transition-colors">GitHub</Link>
-            <Link href="https://linkedin.com/in/your-username" className="text-xs uppercase tracking-[0.2em] font-bold border-b border-[var(--foreground)] pb-1 hover:text-[var(--accent)] transition-colors">LinkedIn</Link>
-          </div> */}
-        </section>
-
-        {/* Tech Stack / Values */}
-        <div className="bg-[var(--card)] p-10 rounded-[32px] border border-[var(--border)] shadow-sm space-y-8">
-          <h3 className="text-xl font-bold uppercase tracking-widest flex items-center gap-3">
-            <Code className="text-[var(--accent)]" /> The Workshop
-          </h3>
-          <p className="text-[var(--muted)] italic">
-           This platform is built with Next.js, Tailwind CSS, MongoDB, and a
-            minimalist design philosophy. It also acts as a sandbox for testing
-            AI workflows, automation systems, content engines, and scalable web
-            products.
+          <p className="text-4xl md:text-5xl font-bold leading-tight">
+            A sanctuary for{" "}
+            <span className="text-[var(--accent)] italic">authentic</span> voices
+            and creative minds.
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-5 bg-[var(--background)] rounded-2xl border border-[var(--border)]">
-              <span className="block text-2xl font-bold">MERN</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--muted)]">
-                Backend + Full Stack
-              </span>
-            </div>
-
-            <div className="p-5 bg-[var(--background)] rounded-2xl border border-[var(--border)]">
-              <span className="block text-2xl font-bold">Next.js</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--muted)]">
-                Frontend Engine
-              </span>
-            </div>
-
-            <div className="p-5 bg-[var(--background)] rounded-2xl border border-[var(--border)]">
-              <span className="block text-2xl font-bold">AI</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--muted)]">
-                Automation + Agents
-              </span>
-            </div>
-
-            <div className="p-5 bg-[var(--background)] rounded-2xl border border-[var(--border)]">
-              <span className="block text-2xl font-bold">Design</span>
-              <span className="text-[10px] uppercase font-bold text-[var(--muted)]">
-                Clean Interfaces
-              </span>
-            </div>
-          </div>
-          <div className="pt-4 border-t border-[var(--border)]">
-            <p className="text-sm text-[var(--muted)] leading-relaxed">
-              Long-term goal: Build impactful products, create a respected
-              personal brand, and design systems that help people think better
-              and live better.
+          <div className="space-y-4 text-lg text-[var(--muted)] leading-relaxed">
+            <p>
+              <strong className="text-[var(--foreground)]">Entry</strong> was
+              born from a simple belief: that meaningful writing deserves a
+              meaningful home. In a world flooded with noise, we set out to
+              build a place where depth wins over speed, and substance wins over
+              spectacle.
+            </p>
+            <p>
+              We publish stories across a wide spectrum — from the science of
+              the human mind to forgotten corners of world history, from
+              fascinating facts to the greatest unsolved mysteries on Earth.
+              Entry is where curiosity lives.
+            </p>
+            <p>
+              Every article is an entry point into something bigger. A new
+              idea, a new country, a new understanding of yourself and the world
+              around you.
             </p>
           </div>
         </div>
-      </main>
-      <article className="container mx-auto px-6 mb-16 max-w-5xl">
-        <div className="flex flex-col items-center justify-center border-[var(--border)] pt-10 space-y-6">
-            <h3 className="text-5xl font-bold flex items-center gap-3">
-              <BookOpen className="text-[var(--accent)]" />
-              What is Entry?
-            </h3>
 
-            <p className="text-lg text-[var(--muted)] leading-relaxed">
-              <span className="font-semibold text-[var(--foreground)]">
-                Entry
-              </span>{" "}
-              is my digital journal and publishing space. It is where code meets
-              reflection, and where technical lessons sit beside life lessons.
-            </p>
+        {/* Stats Card */}
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-[36px] p-10 space-y-8 shadow-sm">
+          <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-[var(--muted)]">
+            Entry at a Glance
+          </h3>
 
-            <p className="text-lg text-[var(--muted)] leading-relaxed">
-              Some posts explore AI, development careers, startups, systems, and
-              productivity. Others explore identity, ambition, mindset, and the
-              realities of building a meaningful life in the modern world.
-            </p>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { stat: "6+", label: "Curated Categories" },
+              { stat: "∞", label: "Stories to Discover" },
+              { stat: "2026", label: "Year Founded" },
+              { stat: "Open", label: "Platform for All" },
+            ].map(({ stat, label }) => (
+              <div
+                key={label}
+                className="p-6 bg-[var(--background)] rounded-2xl border border-[var(--border)]"
+              >
+                <span className="block text-3xl font-bold text-[var(--accent)]">
+                  {stat}
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)] mt-1 block">
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
 
-            <p className="text-lg text-[var(--muted)] leading-relaxed">
-              Every article is an entry point into how I think, build, and grow.
+          <div className="pt-4 border-t border-[var(--border)]">
+            <p className="text-sm text-[var(--muted)] leading-relaxed italic">
+              "We believe the best stories are the ones that make you think a
+              little differently — about the world, and about yourself."
             </p>
-            <div className="grid sm:grid-cols-2 gap-4">
-            <div className="p-6 rounded-3xl border border-[var(--border)] bg-[var(--card)]">
-              <Coffee className="mb-3 text-[var(--accent)]" />
-              <h4 className="font-bold mb-2">Consistency</h4>
-              <p className="text-sm text-[var(--muted)]">
-                Small progress daily compounds into exceptional results.
+          </div>
+        </div>
+      </section>
+
+      {/* DIVIDER */}
+      <div className="container mx-auto px-6">
+        <div className="h-[1px] w-full bg-gradient-to-r from-[var(--border)] via-[var(--accent)]/30 to-transparent" />
+      </div>
+
+      {/* PILLARS / WHAT WE STAND FOR */}
+      <section className="container mx-auto px-6 py-20">
+        <div className="text-center mb-14">
+          <div className="flex items-center justify-center gap-2 text-[var(--accent)] font-bold tracking-[0.3em] uppercase text-xs mb-4">
+            <Sparkles size={14} fill="currentColor" />
+            <span>What We Stand For</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold">
+            Built on six principles.
+          </h2>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pillars.map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="p-7 rounded-3xl border border-[var(--border)] bg-[var(--card)] hover:border-[var(--accent)]/50 hover:shadow-md transition-all duration-300 group"
+            >
+              <Icon
+                size={24}
+                className="mb-4 text-[var(--accent)] group-hover:scale-110 transition-transform duration-300"
+              />
+              <h3 className="font-bold text-lg mb-2">{title}</h3>
+              <p className="text-sm text-[var(--muted)] leading-relaxed">
+                {desc}
               </p>
             </div>
+          ))}
+        </div>
+      </section>
 
-            <div className="p-6 rounded-3xl border border-[var(--border)] bg-[var(--card)]">
-              <Sparkles className="mb-3 text-[var(--accent)]" />
-              <h4 className="font-bold mb-2">Creativity</h4>
-              <p className="text-sm text-[var(--muted)]">
-                Great products are built with logic and imagination together.
-              </p>
+      {/* DIVIDER */}
+      <div className="container mx-auto px-6">
+        <div className="h-[1px] w-full bg-gradient-to-r from-[var(--border)] via-[var(--accent)]/30 to-transparent" />
+      </div>
+
+      {/* CATEGORIES */}
+      <section className="container mx-auto px-6 py-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div>
+            <div className="flex items-center gap-2 text-[var(--accent)] font-bold tracking-[0.3em] uppercase text-xs mb-4">
+              <Globe size={13} />
+              <span>Explore</span>
             </div>
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+              Every category is a{" "}
+              <span className="italic text-[var(--accent)]">universe</span>.
+            </h2>
           </div>
-          </div>
-      </article>
+          <p className="text-[var(--muted)] italic max-w-sm leading-relaxed text-lg">
+            Six curated spaces covering everything from ancient history to
+            modern psychology — all in one place.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-3">
+          {categories.map(({ name, href }) => (
+            <Link
+              key={name}
+              href={href}
+              className="px-6 py-3 rounded-full border border-[var(--border)] text-sm font-semibold uppercase tracking-widest hover:border-[var(--accent)] hover:text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-all duration-300"
+            >
+              {name}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* DIVIDER */}
+      <div className="container mx-auto px-6">
+        <div className="h-[1px] w-full bg-gradient-to-r from-[var(--border)] via-[var(--accent)]/30 to-transparent" />
+      </div>
+
+      {/* CTA SECTION */}
+      <section className="container mx-auto px-6 py-24 flex flex-col items-center text-center space-y-6">
+        <div className="flex items-center gap-2 text-[var(--accent)] font-bold tracking-[0.3em] uppercase text-xs">
+          <Feather size={13} />
+          <span>Your Entry Awaits</span>
+        </div>
+        <h2 className="text-5xl md:text-6xl font-bold leading-tight max-w-3xl">
+          Every great story starts with a single line.
+        </h2>
+        <p className="text-lg text-[var(--muted)] max-w-xl leading-relaxed italic opacity-80">
+          Whether you are here to read, explore, or write — Entry is your
+          space. Join a growing community of curious minds and authentic voices.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+          <Link href="/journal" className="btn-primary flex items-center gap-2 px-10 py-4">
+            Start Reading <ArrowRight size={16} />
+          </Link>
+          <Link
+            href="/write"
+            className="flex items-center gap-2 px-10 py-4 rounded-full border border-[var(--border)] text-sm font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+          >
+            Start Writing <Feather size={16} />
+          </Link>
+        </div>
+      </section>
+
     </div>
   );
 }
