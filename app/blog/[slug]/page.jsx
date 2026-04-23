@@ -12,6 +12,7 @@ import SocialButton from "@/components/SocialButton";
 import Follow from "@/components/Follow";
 import GenericPoll from "@/components/GenericPoll";
 import BlogInteractions from "@/components/BlogInteractions";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
 
 // Strip markdown characters for clean meta descriptions
 function stripMarkdown(text = "") {
@@ -119,6 +120,7 @@ export default async function BlogDetailsPage({ params }) {
 
   return (
     <div className="min-h-screen bg-[var(--background)] font-playfair text-[var(--foreground)]">
+      <ReadingProgressBar />
       {/* JSON-LD: Article + Breadcrumb structured data */}
       <script
         type="application/ld+json"

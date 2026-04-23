@@ -2,20 +2,20 @@ import { getAllBlogs } from '@/lib/actions/blogActions';
 import BlogsGrid from "@/components/BlogsGrid";
 
 export const metadata = {
-  title: "Biographies",
-  description: "Explore the lives of influential people that changed the world.",
+  title: "Biographies | Life Stories of Legends | Entry",
+  description: "Read in-depth biographies of the world's most influential people — scientists, leaders, innovators, and visionaries who changed history. Discover their stories on Entry.",
   alternates: { canonical: "https://entry-azure.vercel.app/biographies" },
   openGraph: {
-    title: "Biographies | Entry",
-    description: "Explore the lives of influential people that changed the world.",
+    title: "Biographies | Life Stories of Legends | Entry",
+    description: "Read in-depth biographies of the world's most influential people — scientists, leaders, innovators, and visionaries who changed history. Discover their stories on Entry.",
     url: "https://entry-azure.vercel.app/biographies",
     siteName: "Entry",
     images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Biographies | Entry",
-    description: "Explore the lives of influential people that changed the world.",
+    title: "Biographies | Life Stories of Legends | Entry",
+    description: "Read in-depth biographies of the world's most influential people — scientists, leaders, innovators, and visionaries who changed history. Discover their stories on Entry.",
     images: ["https://entry-azure.vercel.app/og-default.jpg"],
   },
 };

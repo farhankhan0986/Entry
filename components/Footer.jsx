@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { toast } from "sonner";
 import { useState } from "react";
+import { FaTelegram } from "react-icons/fa6";
+import { Download } from "lucide-react";
 
 const isValidEmail = (val) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
@@ -20,7 +22,14 @@ export default function Footer() {
       return;
     }
     setEmailError("");
-    toast.success("You're subscribed! Welcome to Entry.");
+    // Trigger PDF download
+    const link = document.createElement("a");
+    link.href = "/2026_Tech_Career_Roadmap.pdf";
+    link.download = "2026_Tech_Career_Roadmap.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("You're subscribed! Your PDF is downloading 🎉");
     setEmail("");
   };
 
@@ -45,13 +54,19 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Platform</h4>
             <ul className="space-y-1">
-              {['Journal', 'Write'].map((item) => (
+              {['Journal', 'Write', 'Dashboard'].map((item) => (
                 <li key={item}>
+                  
                   <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     {item}
                   </Link>
                 </li>
               ))}
+                <li>
+                <Link href="/login" className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  Sign In
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -73,7 +88,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Pages</h4>
             <ul className="space-y-1">
-              {['Facts', 'Mysteries', 'Countries', 'Biographies', 'Psychology'].map((item) => (
+              {['Facts', 'Mysteries', 'Countries', 'Biographies', 'Psychology', 'Technology'].map((item) => (
                 <li key={item}>
                   <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     {item}
@@ -94,13 +109,37 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/salary-check" className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  Salary Check
+                </Link>
+              </li>
+              <li>
+                <Link href="/daily-entry" className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  Daily Entry
+                </Link>
+              </li>
+              <li>
+                <Link href="/focus-timer" className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  Focus Timer
+                </Link>
+              </li>
+              <li>
+                <Link href="/prompt-optimizer" className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                  Prompt Optimizer
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Column 6: Newsletter */}
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Newsletter</h4>
-            <p className="text-xs text-[var(--muted)]">Weekly curated stories delivered to your inbox.</p>
+            <div className="flex items-center gap-1.5 text-[var(--accent)] text-[10px] font-bold uppercase tracking-widest mb-1">
+              <Download size={11} />
+              Free PDF with Subscription
+            </div>
+            <p className="text-xs text-[var(--muted)]">Get the <span className="font-bold text-[var(--foreground)]">2026 Tech Career Roadmap</span> PDF — free when you subscribe.</p>
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <input
@@ -128,11 +167,20 @@ export default function Footer() {
               <button
                 id="newsletter-subscribe-btn"
                 onClick={handleSubscribe}
-                className="bg-[var(--foreground)] text-[var(--background)] hover:text-[var(--foreground)] cursor-pointer px-4 py-2 rounded-lg hover:bg-[var(--accent)] active:scale-95 transition-all"
+                className="bg-[var(--foreground)] text-[var(--background)] hover:text-[var(--foreground)] cursor-pointer px-4 py-2 rounded-lg hover:bg-[var(--accent)] active:scale-95 transition-all flex items-center justify-center gap-1.5 text-sm"
               >
-                Subscribe
+                <Download size={13} /> Get Free PDF
               </button>
             </div>
+            <a
+              href="https://t.me/TheEntryJournal"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs text-[var(--muted)] hover:text-[#229ED9] transition-colors font-bold"
+            >
+              <FaTelegram size={14} style={{ color: "#229ED9" }} />
+              Join our Telegram for daily updates
+            </a>
           </div>
         </div>
 

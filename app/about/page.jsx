@@ -14,8 +14,22 @@ import {
 
 export const metadata = {
   title: "About Entry — Where Every Story Finds Its Home",
-  description:
-    "Entry is a modern editorial platform where authentic voices publish meaningful stories. Discover what Entry is, what we believe, and how to join our growing community of writers and readers.",
+  description: "Entry is a modern editorial platform where authentic voices publish meaningful stories. Discover what Entry is, what we believe, and how to join our growing community of writers and readers.",
+  alternates: { canonical: "https://entry-azure.vercel.app/about" },
+  openGraph: {
+    type: "website",
+    url: "https://entry-azure.vercel.app/about",
+    siteName: "Entry",
+    title: "About Entry — Where Every Story Finds Its Home",
+    description: "Entry is a modern editorial platform where authentic voices publish meaningful stories. Discover what Entry is, what we believe, and how to join our growing community of writers and readers.",
+    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Entry — Where Every Story Finds Its Home",
+    description: "Entry is a modern editorial platform where authentic voices publish meaningful stories. Discover what Entry is, what we believe, and how to join our growing community of writers and readers.",
+    images: ["https://entry-azure.vercel.app/og-default.jpg"],
+  },
 };
 
 const pillars = [
@@ -57,6 +71,10 @@ const categories = [
   { name: "Countries", href: "/countries", color: "var(--accent)" },
   { name: "Biographies", href: "/biographies", color: "var(--accent)" },
   { name: "Psychology", href: "/psychology", color: "var(--accent)" },
+  { name: "Technology", href: "/technology", color: "var(--accent)" },
+  { name: "Science", href: "/science", color: "var(--accent)" },
+  { name: "Culture", href: "/culture", color: "var(--accent)" },
+  { name: "Philosophy", href: "/philosophy", color: "var(--accent)" },
   { name: "Journal", href: "/journal", color: "var(--accent)" },
 ];
 

@@ -1,4 +1,25 @@
 import { getAllBlogs } from "@/lib/actions/blogActions";
+
+export const metadata = {
+  title: "Entry — The Journal | Stories, Ideas & Reflections",
+  description: "Entry is a modern editorial platform publishing authentic stories on tech, psychology, world history, biographies, mysteries, and more. Start reading today.",
+  alternates: { canonical: "https://entry-azure.vercel.app" },
+  openGraph: {
+    type: "website",
+    url: "https://entry-azure.vercel.app",
+    siteName: "Entry",
+    title: "Entry — The Journal | Stories, Ideas & Reflections",
+    description: "Entry is a modern editorial platform publishing authentic stories on tech, psychology, world history, biographies, mysteries, and more. Start reading today.",
+    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630, alt: "Entry — The Journal" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@entryjournal",
+    title: "Entry — The Journal | Stories, Ideas & Reflections",
+    description: "Entry is a modern editorial platform publishing authentic stories on tech, psychology, world history, biographies, mysteries, and more. Start reading today.",
+    images: ["https://entry-azure.vercel.app/og-default.jpg"],
+  },
+};
 import Blogs from '@/components/Blogs'
 import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
