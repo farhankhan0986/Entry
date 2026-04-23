@@ -97,7 +97,7 @@ export default function RootLayout({ children }) {
               },
             }} />
 
-            <main className="flex-grow container">
+            <main className="flex-grow container mx-auto">
               {children}
             </main>
             <Footer />

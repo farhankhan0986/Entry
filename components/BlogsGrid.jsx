@@ -65,10 +65,10 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
 
       const matchesSearch =
         !query ||
-        blog.title?.toLowerCase().includes(query) ||
-        blog.content?.toLowerCase().includes(query) ||
-        blog.category?.toLowerCase().includes(query) ||
-        blog.authorName?.toLowerCase().includes(query);
+        blog.title?.toLowerCase().includes(query) 
+        // blog.content?.toLowerCase().includes(query) ||
+        // blog.category?.toLowerCase().includes(query) ||
+        // blog.authorName?.toLowerCase().includes(query);
 
       let matchesTag = false;
       if (categoryPage) {
