@@ -7,8 +7,8 @@ export default async function Blogs({ limit, hot }) {
   const hotSlugs = [
     "top-5-emerging-countries-for-digital-nomads-in-2026-beyond-bali-dubai",
     "science-of-first-impressions-how-to-be-the-most-interesting-person-in-the-room",
-    "how-to-build-a-10k-month-personal-brand-while-working-a-9-5",
-    "why-quiet-people-often-have-the-strongest-minds",
+    "who-was-jack-the-ripper-the-mystery-still-unsolved",
+    "what-really-happened-to-amelia-earhart-the-mystery-that-still-haunts-history",
     "messi-vs-ronaldo-who-truly-had-better-prime",
     "michael-jackson-biography-king-of-pop-legacy",
   ];

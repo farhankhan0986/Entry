@@ -2,7 +2,11 @@
 
 import { useState, useTransition, useOptimistic } from "react";
 import { addComment } from "@/lib/actions/blogActions";
-import { MessageSquare, Send, User, Loader2 } from "lucide-react";
+import { MessageSquare, Send, Loader2, LogIn } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 // ─── Single Comment Card ──────────────────────────────────────────────────────
 
@@ -16,9 +20,21 @@ function CommentCard({ comment }) {
 
   return (
     <div className="flex gap-4 group/comment">
-      {/* Avatar */}
-      <div className="w-10 h-10 rounded-full shrink-0 flex items-center justify-center font-bold text-sm bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm">
-        {initials}
+      {/* Avatar — real photo if available */}
+      <div className="shrink-0">
+        {comment.authorImage ? (
+          <Image
+            src={comment.authorImage}
+            alt={comment.authorName || "User"}
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm">
+            {initials}
+          </div>
+        )}
       </div>
 
       {/* Body */}
@@ -40,18 +56,18 @@ function CommentCard({ comment }) {
 // ─── Main Section ─────────────────────────────────────────────────────────────
 
 export default function CommentsSection({ blogId, initialComments }) {
+  const { data: session, status } = useSession();
+  const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Optimistic state: prepend new comment instantly
   const [optimisticComments, addOptimistic] = useOptimistic(
     initialComments,
     (current, newComment) => [newComment, ...current]
   );
 
   async function handleSubmit(formData) {
-    const authorName = formData.get("authorName") || "Anonymous";
     const body = formData.get("body");
     if (!body?.trim()) {
       setError("Please write something before posting.");
@@ -61,10 +77,10 @@ export default function CommentsSection({ blogId, initialComments }) {
     setError("");
     setSuccess(false);
 
-    // Optimistically add the comment to the UI
     addOptimistic({
       _id: `temp-${Date.now()}`,
-      authorName,
+      authorName: session?.user?.name || "Anonymous",
+      authorImage: session?.user?.image || null,
       body,
       createdAt: new Date().toISOString(),
     });
@@ -74,7 +90,7 @@ export default function CommentsSection({ blogId, initialComments }) {
         await addComment(blogId, formData);
         setSuccess(true);
       } catch (err) {
-        setError("Something went wrong. Please try again.");
+        setError(err.message || "Something went wrong. Please try again.");
       }
     });
   }
@@ -92,65 +108,78 @@ export default function CommentsSection({ blogId, initialComments }) {
         )}
       </h3>
 
-      {/* ── Compose Form ── */}
-      <form
-        action={handleSubmit}
-        className="mb-12 p-6 md:p-8 bg-[var(--card)]/10 border border-[var(--border)] rounded-3xl space-y-5 shadow-sm"
-      >
-        <p className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--accent)]">
-          Leave a Reflection
-        </p>
-
-        {/* Name */}
-        <div className="flex items-center gap-3 border border-[var(--border)] rounded-2xl px-4 h-12 bg-[var(--input)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30 transition-all">
-          <User className="w-4 h-4 text-[var(--muted)] shrink-0" />
-          <input
-            name="authorName"
-            type="text"
-            placeholder="Your name (optional)"
-            className="flex-1 bg-transparent outline-none text-[var(--foreground)] placeholder:text-[var(--muted)]"
-          />
-        </div>
-
-        {/* Body */}
-        <textarea
-          name="body"
-          required
-          rows={4}
-          placeholder="Share your thoughts on this piece..."
-          className="w-full bg-[var(--input)] border border-[var(--border)] rounded-2xl px-5 py-4 text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none focus:ring-2 focus:ring-[var(--accent)]/30 resize-none transition-all leading-relaxed"
-        />
-
-        {/* Feedback messages */}
-        {error && (
-          <p className="text-sm text-red-500 font-medium">{error}</p>
-        )}
-        {success && (
-          <p className="text-sm text-emerald-500 font-medium">
-            Your reflection has been posted!
-          </p>
-        )}
-
-        {/* Submit */}
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isPending}
-            className="inline-flex cursor-pointer items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] font-bold text-sm uppercase tracking-widest hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 disabled:opacity-60 disabled:pointer-events-none"
-          >
-            {isPending ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Posting...
-              </>
+      {/* ── Compose: Auth gate ── */}
+      {status === "loading" ? (
+        <div className="mb-12 p-6 border border-[var(--border)] rounded-3xl animate-pulse bg-[var(--card)]/10 h-24" />
+      ) : session?.user ? (
+        /* Signed-in compose form */
+        <form
+          action={handleSubmit}
+          className="mb-12 p-6 md:p-8 bg-[var(--card)]/10 border border-[var(--border)] rounded-3xl space-y-5 shadow-sm"
+        >
+          {/* Author info */}
+          <div className="flex items-center gap-3">
+            {session.user.image ? (
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width={36}
+                height={36}
+                className="rounded-full"
+              />
             ) : (
-              <>
-                Post Reflection
-              </>
+              <div className="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center font-bold text-white text-sm">
+                {session.user.name?.[0]?.toUpperCase()}
+              </div>
             )}
-          </button>
+            <div>
+              <p className="text-xs font-bold text-[var(--foreground)]">{session.user.name}</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] font-bold">Leave a Reflection</p>
+            </div>
+          </div>
+
+          {/* Body */}
+          <textarea
+            name="body"
+            required
+            rows={4}
+            placeholder="Share your thoughts on this piece..."
+            className="w-full bg-[var(--input)] border border-[var(--border)] rounded-2xl px-5 py-4 text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none focus:ring-2 focus:ring-[var(--accent)]/30 resize-none transition-all leading-relaxed"
+          />
+
+          {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
+          {success && <p className="text-sm text-emerald-500 font-medium">Your reflection has been posted!</p>}
+
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              disabled={isPending}
+              className="inline-flex cursor-pointer items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] font-bold text-sm uppercase tracking-widest hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 disabled:opacity-60 disabled:pointer-events-none"
+            >
+              {isPending ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Posting...</>
+              ) : (
+                <>Post Reflection</>
+              )}
+            </button>
+          </div>
+        </form>
+      ) : (
+        /* Not signed in — sign-in prompt */
+        <div className="mb-12 p-8 bg-[var(--card)]/10 border border-[var(--border)] rounded-3xl text-center">
+          <MessageSquare size={28} className="mx-auto text-[var(--accent)] mb-3" />
+          <h4 className="font-bold text-lg text-[var(--foreground)] mb-1">Join the conversation</h4>
+          <p className="text-[var(--muted)] text-sm mb-5">
+            Sign in to share your reflection on this piece.
+          </p>
+          <Link
+            href={`/login?callbackUrl=${encodeURIComponent(pathname + "#comments")}`}
+            className="inline-flex items-center gap-2 bg-[var(--foreground)] text-[var(--background)] px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-[var(--accent)] transition-colors"
+          >
+            <LogIn size={14} /> Sign In to Comment
+          </Link>
         </div>
-      </form>
+      )}
 
       {/* ── Comments List ── */}
       {optimisticComments.length === 0 ? (

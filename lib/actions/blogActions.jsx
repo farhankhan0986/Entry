@@ -3,12 +3,13 @@ import Blog from "@/models/Blog";
 import { dbConnect } from "../db";
 import { revalidatePath } from "next/cache";
 import { staticBlogs } from "../staticData";
+import { auth } from "@/auth";
 
 export async function getAllBlogs() {
     await dbConnect();
 
-    // 1. Fetch from MongoDB (no DB-level sort; we'll sort everything together)
-    const dbBlogsRaw = await Blog.find().lean();
+    // 1. Fetch from MongoDB
+    const dbBlogsRaw = await Blog.find({ status: "published" }).lean();
     const dbBlogs = dbBlogsRaw.map(blog => ({
         ...blog,
         id: blog._id.toString(),
@@ -30,8 +31,7 @@ export async function getBlogBySlug(slug) {
 
   // 2. Check Database
   await dbConnect();
-  // IMPORTANT: Make sure your MongoDB field is actually named 'slug'
-  const dbMatch = await Blog.findOne({ slug: slug }).lean(); 
+  const dbMatch = await Blog.findOne({ slug: slug }).lean();
   
   if (dbMatch) {
     return { 
@@ -46,7 +46,6 @@ export async function getBlogBySlug(slug) {
 
 export async function getRelatedPosts(category, currentId) {
   try {
-    // 1. Fetch DB posts in the same category
     await dbConnect();
     const dbRelated = await Blog.find({ category }).lean();
     const dbPosts = dbRelated.map(post => ({
@@ -55,11 +54,9 @@ export async function getRelatedPosts(category, currentId) {
       _id: post._id.toString(),
     }));
 
-    // 2. Merge with static blogs of the same category
     const staticRelated = staticBlogs.filter(post => post.category === category);
     const all = [...staticRelated, ...dbPosts];
 
-    // 3. Exclude the current post and return up to 3
     const filtered = all.filter(
       post => post.id !== currentId && post._id !== currentId && post.slug !== currentId
     );
@@ -74,12 +71,18 @@ export async function getRelatedPosts(category, currentId) {
 export async function createBlog(formData) {
     await dbConnect();
 
-    // Extracting fields manually from FormData
+    // Get authenticated user
+    const session = await auth();
+
     const title = formData.get("title");
     const content = formData.get("content");
     const category = formData.get("category");
-    const authorName = formData.get("authorName") || "Anonymous";
     const bannerImage = formData.get("bannerImage");
+
+    // Use session name if available, else form field, else Anonymous
+    const authorName = session?.user?.name
+        || formData.get("authorName")
+        || "Anonymous";
 
     // Generate the Slug
     const slug = title
@@ -87,23 +90,26 @@ export async function createBlog(formData) {
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-');
 
-    // Create the entry
     await Blog.create({
         title,
         slug,
         content,
         category,
         authorName,
-        bannerImage
+        authorId: session?.user?.id || null,
+        authorEmail: session?.user?.email || null,
+        authorImage: session?.user?.image || null,
+        bannerImage,
+        status: "published",
     });
 
     revalidatePath('/');
+    revalidatePath('/dashboard');
 }
 
 export async function getBlogs() {
     await dbConnect();
 
-    // Fetch and convert to plain JS objects for the frontend
     const blogs = await Blog.find().sort({ createdAt: -1 }).lean();
 
     return blogs.map(blog => ({
@@ -125,6 +131,22 @@ export async function getBlogById(id) {
     };
 }
 
+// ─── Get blogs by author (for dashboard) ─────────────────────────────────────
+
+export async function getBlogsByAuthor(authorId) {
+    await dbConnect();
+    const blogs = await Blog.find({ authorId })
+        .sort({ createdAt: -1 })
+        .lean();
+
+    return blogs.map(blog => ({
+        ...blog,
+        _id: blog._id.toString(),
+        id: blog._id.toString(),
+        createdAt: blog.createdAt.toISOString(),
+    }));
+}
+
 // ─── Comment Actions ──────────────────────────────────────────────────────────
 
 import Comment from "@/models/Comment";
@@ -143,11 +165,19 @@ export async function getComments(blogId) {
 
 export async function addComment(blogId, formData) {
   await dbConnect();
-  const authorName = (formData.get("authorName") || "Anonymous").trim();
+
+  // Require auth for comments
+  const session = await auth();
+  if (!session?.user) throw new Error("You must be signed in to comment.");
+
+  const authorName = session.user.name || "Anonymous";
+  const authorId = session.user.id || null;
+  const authorImage = session.user.image || null;
+  const authorEmail = session.user.email || null;
   const body = (formData.get("body") || "").trim();
 
   if (!body) throw new Error("Comment body is required.");
 
-  await Comment.create({ blogId, authorName, body });
+  await Comment.create({ blogId, authorName, authorId, authorImage, authorEmail, body });
   revalidatePath(`/blog`);
-}
+}

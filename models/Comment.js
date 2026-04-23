@@ -12,6 +12,19 @@ const commentSchema = new mongoose.Schema(
       default: "Anonymous",
       trim: true,
     },
+    // OAuth user fields
+    authorId: {
+      type: String,
+      default: null,
+    },
+    authorImage: {
+      type: String,
+      default: null,
+    },
+    authorEmail: {
+      type: String,
+      default: null,
+    },
     body: {
       type: String,
       required: [true, "Comment cannot be empty"],

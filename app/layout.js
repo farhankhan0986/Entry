@@ -4,6 +4,7 @@ import { Saira_Stencil_One } from "next/font/google";
 import { Arvo } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Providers from "@/components/Providers";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -83,23 +84,25 @@ export default function RootLayout({ children }) {
         className={`min-h-screen bg-background text-foreground transition-colors duration-300 flex flex-col antialiased`}
         suppressHydrationWarning
       >
-        <ThemeProvider>
-          <Navbar />
-          <SpeedInsights />
-          <Analytics />
-          <Toaster position="top-right" richColors toastOptions={{
-            classNames: {
-              toast: "font-arvo",
-              title: "font-arvo",
-              description: "font-arvo",
-            },
-          }} />
+        <Providers>
+          <ThemeProvider>
+            <Navbar />
+            <SpeedInsights />
+            <Analytics />
+            <Toaster position="top-right" richColors toastOptions={{
+              classNames: {
+                toast: "font-arvo",
+                title: "font-arvo",
+                description: "font-arvo",
+              },
+            }} />
 
-          <main className="flex-grow container">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
+            <main className="flex-grow container">
+              {children}
+            </main>
+            <Footer />
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

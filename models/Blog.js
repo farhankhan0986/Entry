@@ -4,7 +4,7 @@ const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'Please provide a title'],
+      required: [true, "Please provide a title"],
       trim: true,
     },
     slug: {
@@ -14,35 +14,46 @@ const blogSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      required: [true, 'Content cannot be empty'],
+      required: [true, "Content cannot be empty"],
     },
     category: {
       type: String,
-      required: [true, 'Please select a category'],
-      default: 'General',
+      required: [true, "Please select a category"],
+      default: "General",
     },
-    // For Guests: They provide a name, but authorId remains null
+    // For Guests: They provide a name
     authorName: {
       type: String,
-      default: 'Anonymous',
+      default: "Anonymous",
     },
-    // For OAuth Users: This will link to the User collection later
+    // For OAuth Users: links to the NextAuth User collection
     authorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      type: String,
+      default: null,
+    },
+    authorEmail: {
+      type: String,
+      default: null,
+    },
+    authorImage: {
+      type: String,
       default: null,
     },
     bannerImage: {
-      type: String, // URL of the image
-      default: '',
+      type: String,
+      default: "",
+    },
+    status: {
+      type: String,
+      enum: ["published", "draft"],
+      default: "published",
     },
   },
   {
-    // Automatically creates 'createdAt' and 'updatedAt'
     timestamps: true,
   }
 );
 
-const Blog = mongoose.models.Blog || mongoose.model('Blog', blogSchema);
+const Blog = mongoose.models.Blog || mongoose.model("Blog", blogSchema);
 
 export default Blog;
