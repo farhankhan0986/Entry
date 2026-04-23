@@ -6,6 +6,20 @@ import Link from "next/link";
 export const metadata = {
     title: "The Reflection Engine | Entry",
     description: "Discover your personality archetype — Alpha, Beta, or Gamma — and uncover your social type, mind style, and leadership traits.",
+    alternates: { canonical: "https://entry-azure.vercel.app/discovery" },
+    openGraph: {
+        title: "The Reflection Engine | Entry",
+        description: "Discover your personality archetype — Alpha, Beta, or Gamma — and uncover your social type, mind style, and leadership traits.",
+        url: "https://entry-azure.vercel.app/discovery",
+        siteName: "Entry",
+        images: [{ url: "https://entry-azure.vercel.app/discovery.png", width: 1200, height: 630 }],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "The Reflection Engine | Entry",
+        description: "Discover your personality archetype — Alpha, Beta, or Gamma — and uncover your social type, mind style, and leadership traits.",
+        images: ["https://entry-azure.vercel.app/discovery.png"],
+    },
 };
 
 const archetypes = [
