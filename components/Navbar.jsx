@@ -133,53 +133,57 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-20 bg-[var(--background)] border border-[var(--border)] h-[calc(100vh-70vh)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300">
-          <div className="flex flex-col space-y-8 text-center">
-            <Link
-              href="/journal"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-bold text-[var(--foreground)]"
-            >
-              Journal
-            </Link>
-            <Link
-              href="/write"
-              onClick={() => setIsMenuOpen(false)}
-              className="text-2xl font-bold text-[var(--accent)]"
-            >
-              New Entry
-            </Link>
+  <div className="md:hidden fixed top-20 left-0 right-0 bg-[var(--background)] border border-[var(--border)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300">
+    <div className="flex flex-col space-y-8 text-center">
+      <Link
+        href="/journal"
+        onClick={() => setIsMenuOpen(false)}
+        className="text-2xl font-bold text-[var(--foreground)]"
+      >
+        Journal
+      </Link>
 
-            {session?.user ? (
-              <Link
-                href="/dashboard"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
-              >
-                <LayoutDashboard size={20} /> Dashboard
-              </Link>
-            ) : (
-              <Link
-                href="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
-              >
-                <LogIn size={20} /> Sign In
-              </Link>
-            )}
+      <Link
+        href="/write"
+        onClick={() => setIsMenuOpen(false)}
+        className="text-2xl font-bold text-[var(--accent)]"
+      >
+        New Entry
+      </Link>
 
-            <div className="pt-8 flex justify-center">
-              <button
-                onClick={() => { cycleTheme(); setIsMenuOpen(false); }}
-                className="flex items-center gap-3 text-lg font-bold text-[var(--muted)]"
-              >
-                {ThemeIcon && <ThemeIcon />}
-                Switch Theme
-              </button>
-            </div>
-          </div>
-        </div>
+      {session?.user ? (
+        <Link
+          href="/dashboard"
+          onClick={() => setIsMenuOpen(false)}
+          className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
+        >
+          <LayoutDashboard size={20} /> Dashboard
+        </Link>
+      ) : (
+        <Link
+          href="/login"
+          onClick={() => setIsMenuOpen(false)}
+          className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
+        >
+          <LogIn size={20} /> Sign In
+        </Link>
       )}
+
+      <div className="pt-8 flex justify-center">
+        <button
+          onClick={() => {
+            cycleTheme();
+            setIsMenuOpen(false);
+          }}
+          className="flex items-center gap-3 text-lg font-bold text-[var(--muted)]"
+        >
+          {ThemeIcon && <ThemeIcon />}
+          Switch Theme
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </nav>
   );
 }
