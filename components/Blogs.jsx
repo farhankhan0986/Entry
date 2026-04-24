@@ -5,8 +5,8 @@ export default async function Blogs({ limit, hot }) {
   const allBlogs = await getAllBlogs();
   
   const hotSlugs = [
-    "top-5-emerging-countries-for-digital-nomads-in-2026-beyond-bali-dubai",
-    "science-of-first-impressions-how-to-be-the-most-interesting-person-in-the-room",
+    "5-minute-brain-reset-neuroscientists-use-to-end-anxiety",
+    "why-america-still-leads-the-world-legacy-power-promise",
     "who-was-jack-the-ripper-the-mystery-still-unsolved",
     "what-really-happened-to-amelia-earhart-the-mystery-that-still-haunts-history",
     "messi-vs-ronaldo-who-truly-had-better-prime",

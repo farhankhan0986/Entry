@@ -188,11 +188,8 @@ export default function Footer() {
         <div className="pt-8 border-t border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--muted)]">
           <p>© 2026 Entry Journal. All rights reserved.</p>
           <div className="flex gap-8">
-            {/* <a href="https://www.instagram.com/entry_blogs/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--foreground)] transition-colors">Instagram</a>
-            <a href="https://x.com/Entry_Blogs" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--foreground)] transition-colors">Twitter</a>
-            <a href="https://www.facebook.com/entry.blogs" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--foreground)] transition-colors">Facebook</a> */}
             <a href="https://t.me/TheEntryJournal" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Telegram</a>
-            <a href="https://www.reddit.com/user/Secret-Board488/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Reddit</a>
+            <a href="https://pin.it/2b3GTTUQm" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Pinterest</a>
           </div>
         </div>
       </div>

@@ -9,9 +9,9 @@ import Image from "next/image";
 
 const CATEGORIES = [
   "General", "Technology", "Travel", "Business", "Career",
-  "Country", "Biographies", "Entertainment", "Food", "Facts",
+  "Country", "Biographies", "Celebrity", "Entertainment", "Food", "World Affairs", "Facts",
   "Lifestyle", "Health", "Finance", "Education", "Mysteries",
-  "Sports", "Politics", "Psychology", "Fashion",
+  "Sports", "Politics", "Psychology", "Fashion", "Society",
 ];
 
 export default function WriteForm({ session }) {
