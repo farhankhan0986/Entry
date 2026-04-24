@@ -3,7 +3,8 @@ import React from 'react'
 import Share from './Share'
 import {
     FaWhatsapp, FaPinterestP, FaXTwitter,
-    FaFacebookF, FaTelegram, FaInstagram
+    FaFacebookF, FaTelegram, FaInstagram,
+    FaReddit
 } from "react-icons/fa6";
 
 export default function SocialButton() {
@@ -41,6 +42,11 @@ export default function SocialButton() {
                     window.open(`https://t.me/share/url?url=${window.location.href}`, "_blank");
                 }}
                 className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#0088CC] hover:text-white transition-all shadow-sm"><FaTelegram size={16} /></button>
+            <button
+                onClick={() => {
+                    window.open(`https://reddit.com/submit?url=${window.location.href}`, "_blank");
+                }}
+                className="w-10 h-10 cursor-pointer rounded-full flex items-center justify-center border border-[var(--border)] bg-[var(--card)]/10 hover:bg-[#FF4500] hover:text-white transition-all shadow-sm"><FaReddit size={16} /></button>
         </div>
     )
 }
