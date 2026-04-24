@@ -171,7 +171,7 @@ export default async function BlogDetailsPage({ params }) {
 
           {/* 2. Left Sticky Social Share (Desktop) */}
           <aside className="hidden xl:flex flex-col gap-4 sticky top-32 h-fit shrink-0">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)] [writing-mode:vertical-lr] rotate-180 mb-4">Share Story</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--muted)] [writing-mode:vertical-lr] rotate-180 mb-2">Share Story</p>
             <SocialButton />
             <div className="w-10 border-b border-border my-2"></div>
             <Share post={blog} variant="icon" />
@@ -218,53 +218,116 @@ export default async function BlogDetailsPage({ params }) {
             )}
             {/* Article Body */}
             <div className="max-w-3xl">
-              <div className="text-lg md:text-xl leading-7 md:leading-8 space-y-4">
+              <div className="text-lg md:text-xl leading-8 md:leading-9">
                 {(() => {
                   let firstParaSeen = false;
+
+                  const formatInlineText = (text) => {
+                    const parts = text.split(/(\*\*.*?\*\*)/g);
+
+                    return parts.map((part, i) => {
+                      if (part.startsWith("**") && part.endsWith("**")) {
+                        return (
+                          <strong
+                            key={i}
+                            className="font-bold text-[var(--foreground)]"
+                          >
+                            {part.slice(2, -2)}
+                          </strong>
+                        );
+                      }
+                      return part;
+                    });
+                  };
+
                   return contentLines.map((line, index) => {
-                    // Heading parsing for ToC IDs
-                    if (line.startsWith("## ") || line.startsWith("### ")) {
-                      const level = line.startsWith("### ") ? 3 : 2;
-                      const text = line.replace(/^###?\s+/, "");
-                      const id = text.toLowerCase().replace(/[^\w-]/g, "-");
+                    const trimmed = line.trim();
+
+                    // H2 / H3 Headings
+                    if (trimmed.startsWith("## ") || trimmed.startsWith("### ")) {
+                      const level = trimmed.startsWith("### ") ? 3 : 2;
+                      const text = trimmed.replace(/^###?\s+/, "");
+                      const id = text
+                        .toLowerCase()
+                        .replace(/[^\w\s-]/g, "")
+                        .replace(/\s+/g, "-");
+
                       return level === 2 ? (
-                        <h2 key={index} id={id} className="text-3xl text-[var(--accent)] font-bold mt-12 mb-4 pt-4">{text}</h2>
+                        <h2
+  key={index}
+  id={id}
+  className="scroll-mt-28 text-3xl md:text-4xl font-extrabold tracking-tight mt-16 mb-6 pb-4 text-[var(--accent)] relative"
+>
+  {text}
+
+  <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gradient-to-r from-[var(--accent)]/10 via-[var(--accent)] to-[var(--accent)]/10 rounded-full"></span>
+</h2>
                       ) : (
-                        <h3 key={index} id={id} className="text-2xl font-bold mt-8 mb-2 text-[var(--foreground)]">{text}</h3>
+                        <h3
+                          key={index}
+                          id={id}
+                          className="scroll-mt-28 text-2xl md:text-3xl font-bold mt-10 mb-4 text-[var(--foreground)]"
+                        >
+                          {text}
+                        </h3>
                       );
                     }
 
-                    if (line.includes("**")) {
-                      const parts = line.split("**");
-
-                      return (
-                        <p key={index} className="text-[var(--foreground)]/90 whitespace-pre-wrap">
-                          {parts.map((part, i) =>
-                            i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-                          )}
-                        </p>
-                      );
-                    }
-
-                    const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+                    // Image
+                    const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
                     if (imgMatch) {
                       const [, alt, src] = imgMatch;
+
                       return (
-                        <figure key={index} className="my-12 w-[300px] h-[300px] rounded-3xl mx-auto overflow-hidden border border-[var(--border)] shadow-sm bg-[var(--input)]">
-                          <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" />
-                          {alt && <figcaption className="text-center text-sm text-[var(--muted)] py-4 bg-[var(--card)] italic">{alt}</figcaption>}
+                        <figure
+                          key={index}
+                          className="group my-14 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] shadow-xl"
+                        >
+                          <img
+                            src={src}
+                            alt={alt}
+                            loading="lazy"
+                            className="w-full h-auto max-h-[520px] object-cover transition duration-500 group-hover:scale-105"
+                          />
+                          {alt && (
+                            <figcaption className="px-5 py-4 text-sm text-[var(--muted)] italic">
+                              {alt}
+                            </figcaption>
+                          )}
                         </figure>
                       );
                     }
 
-                    if (line.trim() === "") return <div key={index} className="h-4" />;
+                    // Quote block
+                    if (trimmed.startsWith("> ")) {
+                      return (
+                        <blockquote
+                          key={index}
+                          className="my-8 border-l-4 border-[var(--accent)] pl-5 italic text-[var(--foreground)]/80 text-xl"
+                        >
+                          {trimmed.replace("> ", "")}
+                        </blockquote>
+                      );
+                    }
+
+                    // Empty line
+                    if (!trimmed) {
+                      return <div key={index} className="h-6" />;
+                    }
 
                     const isFirst = !firstParaSeen;
                     firstParaSeen = true;
 
                     return (
-                      <p key={index} className={`text-[var(--foreground)]/90 whitespace-pre-wrap${isFirst ? " first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:text-[var(--accent)]" : ""}`}>
-                        {line}
+                      <p
+                        key={index}
+                        className={`text-[var(--foreground)]/90 mb-6 whitespace-pre-wrap tracking-[0.01em]
+          ${isFirst
+                            ? "first-letter:text-6xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:leading-none first-letter:text-[var(--accent)]"
+                            : ""
+                          }`}
+                      >
+                        {formatInlineText(trimmed)}
                       </p>
                     );
                   });

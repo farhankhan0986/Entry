@@ -5,7 +5,7 @@ export default async function Blogs({ limit, hot }) {
   const allBlogs = await getAllBlogs();
   
   const hotSlugs = [
-    "5-minute-brain-reset-neuroscientists-use-to-end-anxiety",
+    "sweden",
     "why-america-still-leads-the-world-legacy-power-promise",
     "who-was-jack-the-ripper-the-mystery-still-unsolved",
     "what-really-happened-to-amelia-earhart-the-mystery-that-still-haunts-history",
