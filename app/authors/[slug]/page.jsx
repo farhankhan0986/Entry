@@ -24,7 +24,6 @@ import {
   getAuthorProfile,
 } from "@/lib/actions/authorActions";
 import AuthorFollowButton from "@/components/AuthorFollowButton";
-import FollowerCount from "@/components/FollowerCount";
 import { getAuthorSlug } from "@/lib/authorUtils";
 
 export const dynamic = "force-dynamic";
@@ -315,7 +314,8 @@ function StaticAuthorPage({ author, blogs }) {
                 },
                 {
                   label: "Followers",
-                  value: <FollowerCount authorId={author.id} baseFollowers={author.baseFollowers} />,
+                  // Static baseline — live count shown by AuthorFollowButton above
+                  value: formatNumber(author.baseFollowers),
                   icon: Users,
                 },
               ]}

@@ -3,7 +3,26 @@ import { useState, useEffect, useCallback } from "react";
 import { Check, UserPlus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-const LS_KEY = "entry_followed_authors";
+// ---------------------------------------------------------------------------
+// Module-level in-memory deduplication cache.
+// When multiple components for the SAME authorId mount simultaneously
+// (e.g. 10 BlogCards on a listing page), only one fetch is fired.
+// All others await the same promise. Entries expire after 30 seconds.
+// ---------------------------------------------------------------------------
+const CACHE_TTL_MS = 30_000;
+const fetchCache = new Map(); // authorId -> { promise, expiresAt }
+
+function fetchAuthorStats(authorId) {
+  const cached = fetchCache.get(authorId);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.promise;
+  }
+  const promise = fetch(
+    `/api/author-stats?authorId=${encodeURIComponent(authorId)}`
+  ).then((r) => r.json());
+  fetchCache.set(authorId, { promise, expiresAt: Date.now() + CACHE_TTL_MS });
+  return promise;
+}
 
 function getLocalSet() {
   if (typeof window === "undefined") return new Set();
@@ -51,9 +70,8 @@ export default function AuthorFollowButton({
     const localSet = getLocalSet();
     setFollowed(localSet.has(authorId));
 
-    // Fetch real state from DB
-    fetch(`/api/author-stats?authorId=${encodeURIComponent(authorId)}`)
-      .then((r) => r.json())
+    // Fetch real state from DB (deduplicated via module-level cache)
+    fetchAuthorStats(authorId)
       .then((data) => {
         setFollowers(data.followers ?? baseFollowers);
         setFollowed(data.hasFollowed ?? localSet.has(authorId));

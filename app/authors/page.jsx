@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { staticAuthors, getBlogsByAuthor } from "@/lib/staticData";
 import { MapPin, FileText, Eye, Users, PenLine } from "lucide-react";
-import FollowerCount from "@/components/FollowerCount";
 
 export const metadata = {
   title: "Authors",
@@ -118,7 +117,7 @@ export default function AuthorsPage() {
                 </span>
                 <span className="flex items-center gap-1.5 text-xs text-[var(--muted)] font-semibold">
                   <Users size={12} />
-                  <FollowerCount authorId={author.id} baseFollowers={author.baseFollowers} /> followers
+                  {formatNumber(author.baseFollowers)} followers
                 </span>
               </div>
 

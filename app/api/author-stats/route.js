@@ -22,10 +22,16 @@ export async function GET(request) {
     await dbConnect();
     const ip = await getIP();
     const doc = await AuthorStats.findOne({ authorId }).lean();
-    if (!doc) return NextResponse.json({ followers: 0, hasFollowed: false });
-    return NextResponse.json({
-      followers: doc.followers,
-      hasFollowed: doc.followerIps.includes(ip),
+    const payload = doc
+      ? { followers: doc.followers, hasFollowed: doc.followerIps.includes(ip) }
+      : { followers: 0, hasFollowed: false };
+
+    return NextResponse.json(payload, {
+      headers: {
+        // CDN caches for 30s; stale data served for up to 60s while revalidating.
+        // POST (follow/unfollow) must NOT be cached — only GET is affected here.
+        "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+      },
     });
   } catch {
     return NextResponse.json({ followers: 0, hasFollowed: false });
