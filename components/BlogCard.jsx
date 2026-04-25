@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthorFollowButton from "./AuthorFollowButton";
 import { getAuthorSlug } from "@/lib/authorUtils";
+import { Check } from "lucide-react";
 
 export default function BlogCard({ blog }) {
   const { title, content, authorName, authorImage, createdAt, bannerImage, slug, category } = blog;
@@ -87,7 +88,7 @@ export default function BlogCard({ blog }) {
 
           {/* Banner Image */}
           {bannerImage && (
-          <Link href={`/blog/${slug}`} className="relative w-full h-72 overflow-hidden block">
+            <Link href={`/blog/${slug}`} className="relative w-full h-72 overflow-hidden block">
               <img
                 src={bannerImage}
                 alt={title}
@@ -121,12 +122,26 @@ export default function BlogCard({ blog }) {
                   <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold mt-1">{mockedDate}</p>
                 </div>
               </div>
-              <AuthorFollowButton
+              {/* <AuthorFollowButton
                 authorId={authorId}
                 authorName={authorName}
                 baseFollowers={mockedFollowers}
                 size="sm"
-              />
+              /> */}
+              <div className="inline-flex items-center gap-2">
+
+  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[var(--accent-foreground)] border border-[var(--accent)]">
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+      <path
+        d="M5 0.5L6.12 2.76L8.63 3.12L6.81 4.88L7.24 7.38L5 6.2L2.76 7.38L3.19 4.88L1.37 3.12L3.88 2.76L5 0.5Z"
+        fill="var(--accent)"
+      />
+    </svg>
+    <span className="text-[11px] font-medium text-[var(--accent)]">
+      Verified
+    </span>
+  </span>
+</div>
             </div>
 
             {/* Title + Excerpt */}
