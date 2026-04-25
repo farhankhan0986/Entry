@@ -10,9 +10,11 @@ import CommentsSection from "@/components/CommentsSection";
 import Share from "@/components/Share";
 import SocialButton from "@/components/SocialButton";
 import Follow from "@/components/Follow";
+import AuthorFollowButton from "@/components/AuthorFollowButton";
 import GenericPoll from "@/components/GenericPoll";
 import BlogInteractions from "@/components/BlogInteractions";
 import ReadingProgressBar from "@/components/ReadingProgressBar";
+import { getAuthorBySlug, getAuthorSlug } from "@/lib/staticData";
 
 // Strip markdown characters for clean meta descriptions
 function stripMarkdown(text = "") {
@@ -109,6 +111,10 @@ export default async function BlogDetailsPage({ params }) {
   const wordCount = blog.content.trim().split(/\s+/).length;
   const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
+  // Resolve static author profile data (for Follow button + profile link)
+  const authorSlug = getAuthorSlug(blog.authorName);
+  const staticAuthor = getAuthorBySlug(authorSlug);
+
   // Generate Table of Contents from markdown-style headers in content
   const toc = contentLines
     .filter(line => line.startsWith("## ")) // Only catch main headings
@@ -191,10 +197,12 @@ export default async function BlogDetailsPage({ params }) {
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 py-6 border-y border-[var(--border)] text-[var(--muted)]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold">
-                    {blog.authorName[0]}
-                  </div>
-                  <span className="font-bold text-[var(--foreground)]">{blog.authorName}</span>
+                  <Link href={`/authors/${authorSlug}`}>
+                    <div className="w-10 h-10 rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] flex items-center justify-center font-bold hover:opacity-80 transition-opacity">
+                      {blog.authorName[0]}
+                    </div>
+                  </Link>
+                  <Link href={`/authors/${authorSlug}`} className="font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors">{blog.authorName}</Link>
                 </div>
                 <div className="flex items-center gap-2"><Calendar size={16} /> {date}</div>
                 <div className="flex items-center gap-2"><Clock size={16} /> {readTime} min read</div>
@@ -347,15 +355,35 @@ export default async function BlogDetailsPage({ params }) {
               <footer className="mt-16 pt-10 border-t border-[var(--border)]">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-[var(--card)]/10 p-8 rounded-3xl border border-[var(--border)]">
                   <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border-4 border-[var(--background)] shadow-lg">
-                      {blog.authorName[0].toUpperCase()}
-                    </div>
+                    <Link href={`/authors/${authorSlug}`}>
+                      {blog.authorImage ? (
+                        <img
+                          src={blog.authorImage}
+                          alt={blog.authorName}
+                          className="w-20 h-20 rounded-full object-cover border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity"
+                        />
+                      ) : (
+                        <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity">
+                          {blog.authorName[0].toUpperCase()}
+                        </div>
+                      )}
+                    </Link>
                     <div>
-                      <h4 className="font-bold text-2xl">{blog.authorName}</h4>
-                      <p className="text-[var(--muted)] italic">Contributor & Curator</p>
+                      <Link href={`/authors/${authorSlug}`} className="hover:text-[var(--accent)] transition-colors">
+                        <h4 className="font-bold text-2xl">{blog.authorName}</h4>
+                      </Link>
+                      <p className="text-[var(--muted)] italic">
+                        {staticAuthor ? staticAuthor.tagline : "Community Writer · Entry Member"}
+                      </p>
                     </div>
                   </div>
-                  <Follow authorName={blog.authorName} />
+                  <AuthorFollowButton
+                    authorId={staticAuthor ? staticAuthor.id : (blog.authorId || `db_${authorSlug}`)}
+                    authorName={blog.authorName}
+                    baseFollowers={staticAuthor ? staticAuthor.baseFollowers : 0}
+                    size="md"
+                    showCount={true}
+                  />
                 </div>
               </footer>
             </div>

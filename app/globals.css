@@ -188,6 +188,23 @@ html {
   animation: shimmer 1.4s ease-in-out infinite;
 }
 
+/* Hide vertical scrollbar but keep scrolling functional */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: none;
+}
+
+/* IE / old Edge */
+* {
+  -ms-overflow-style: none;
+}
 
 @layer components {
 

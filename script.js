@@ -1,0 +1,1 @@
+const fs = require('fs'); const path = 'lib/staticData.js'; let content = fs.readFileSync(path, 'utf8'); content = content.replace(/joinedAt:\s*""(\d{4})-(.+?)"",/g, 'joinedAt: ""2026-"",'); fs.writeFileSync(path, content, 'utf8'); console.log('Done');

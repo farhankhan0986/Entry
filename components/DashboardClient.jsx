@@ -1,16 +1,23 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { deleteBlog } from "@/lib/actions/userActions";
+import { saveMyProfile } from "@/lib/actions/authorActions";
 import { signOut } from "next-auth/react";
+import { toast } from "sonner";
+import { getAuthorSlug } from "@/lib/authorUtils";
 import {
-  PenLine, Trash2, ExternalLink, Calendar, BookOpen,
+  PenLine, Trash2, ExternalLink, Calendar,
   LogOut, LayoutDashboard, User, ChevronRight,
   Sparkles, Clock, Globe, TrendingUp, FileText,
-  ArrowUpRight, MoreHorizontal, Eye, Hash
+  ArrowUpRight, MoreHorizontal, Eye, Hash,
+  AtSign, Link2, Code2, Save,
+  Plus, X, MapPin, CheckCircle2, Palette,
+  PenSquare, BookOpen, TimerReset, CalendarDays
 } from "lucide-react";
+import { FaInstagram, FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -63,12 +70,26 @@ function StatCard({ icon: Icon, label, value, sub, accent }) {
         style={{ background: accent ?? "var(--accent)", opacity: 0.08 }}
       />
       <div className="flex items-start justify-between mb-4">
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ background: `${accent ?? "var(--accent)"}18`, border: `1px solid ${accent ?? "var(--accent)"}30` }}
-        >
-          <Icon size={18} style={{ color: accent ?? "var(--accent)" }} />
-        </div>
+       <div
+  className="relative w-10 h-10 rounded-2xl flex items-center justify-center overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-500"
+  style={{
+    background: `linear-gradient(135deg, ${accent ?? "var(--accent)"}22, ${accent ?? "var(--accent)"}10)`,
+    border: `1px solid ${accent ?? "var(--accent)"}35`,
+  }}
+>
+  <span
+    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+    style={{
+      background: `radial-gradient(circle at top left, ${accent ?? "var(--accent)"}30, transparent 70%)`,
+    }}
+  />
+
+  <Icon
+    size={18}
+    className="relative z-10 transition-all duration-700 ease-out group-hover:rotate-[360deg] group-hover:translate-z-12 group-hover:scale-110"
+    style={{ color: accent ?? "var(--accent)" }}
+  />
+</div>
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--muted)]">{label}</span>
       </div>
       <p className="text-3xl font-bold text-[var(--foreground)] leading-none">{value}</p>
@@ -118,11 +139,10 @@ function BlogCard({ blog, onDelete }) {
           <span className="text-[10px] font-bold uppercase tracking-widest bg-[var(--background)]/70 backdrop-blur-sm px-3 py-1 rounded-full text-[var(--accent)] border border-[var(--accent)]/20">
             {blog.category}
           </span>
-          <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm border ${
-            blog.status === "published"
+          <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full backdrop-blur-sm border ${blog.status === "published"
               ? "bg-emerald-500/10 text-emerald-400 border-emerald-400/20"
               : "bg-amber-500/10 text-amber-400 border-amber-400/20"
-          }`}>
+            }`}>
             {blog.status ?? "published"}
           </span>
         </div>
@@ -213,11 +233,10 @@ function SidebarLink({ icon: Icon, label, active, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-        active
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${active
           ? "bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20"
           : "text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--border)]/20"
-      }`}
+        }`}
     >
       <Icon size={16} />
       {label}
@@ -228,7 +247,7 @@ function SidebarLink({ icon: Icon, label, active, onClick }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function DashboardClient({ data }) {
-  const { user, blogs, totalPosts } = data;
+  const { user, blogs, totalPosts, profile: initialProfile } = data;
   const [activeTab, setActiveTab] = useState("entries");
   const [blogList, setBlogList] = useState(blogs);
 
@@ -297,36 +316,126 @@ export default function DashboardClient({ data }) {
           </div>
 
           {/* ─── Stats Row ──────────────────────────────────────────────────── */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-            <StatCard
-              icon={FileText}
-              label="Total Entries"
-              value={totalPosts}
-              sub={totalPosts === 1 ? "1 story published" : `${totalPosts} stories published`}
-              accent="var(--accent)"
-            />
-            <StatCard
-              icon={Hash}
-              label="Words Written"
-              value={totalWords > 1000 ? `${(totalWords / 1000).toFixed(1)}k` : totalWords}
-              sub="across all entries"
-              accent="#6366f1"
-            />
-            <StatCard
-              icon={TrendingUp}
-              label="Avg. Read Time"
-              value={totalPosts > 0 ? `${Math.round(totalWords / totalPosts / 200)}m` : "—"}
-              sub="per entry"
-              accent="#10b981"
-            />
-            <StatCard
-              icon={Sparkles}
-              label="Member Since"
-              value={joinDate.split(" ")[0]}
-              sub={joinDate.split(" ")[1] ?? ""}
-              accent="#f59e0b"
-            />
+          <div className="mt-10">
+  {/* Desktop / Tablet */}
+  <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <StatCard
+      icon={PenSquare}
+      label="Total Entries"
+      value={totalPosts}
+      sub={
+        totalPosts === 1
+          ? "1 story published"
+          : `${totalPosts} stories published`
+      }
+      accent="#ef4444"
+    />
+
+    <StatCard
+      icon={BookOpen}
+      label="Words Written"
+      value={
+        totalWords > 1000
+          ? `${(totalWords / 1000).toFixed(1)}k`
+          : totalWords
+      }
+      sub="across all entries"
+      accent="#6366f1"
+    />
+
+    <StatCard
+      icon={TimerReset}
+      label="Avg. Read Time"
+      value={
+        totalPosts > 0
+          ? `${Math.round(totalWords / totalPosts / 200)}m`
+          : "—"
+      }
+      sub="per entry"
+      accent="#10b981"
+    />
+
+    <StatCard
+      icon={CalendarDays}
+      label="Member Since"
+      value={joinDate.split(" ")[0]}
+      sub={joinDate.split(" ")[1] ?? ""}
+      accent="#f59e0b"
+    />
+  </div>
+
+  {/* Mobile Professional Scroll Cards */}
+  <div className="sm:hidden overflow-x-auto pb-2">
+    <div className="flex gap-3 min-w-max pr-1">
+      {[
+  {
+    icon: PenSquare,
+    label: "Entries",
+    value: totalPosts,
+    sub: `${totalPosts} stories`,
+    accent: "#8b5cf6",
+  },
+  {
+    icon: BookOpen,
+    label: "Words",
+    value:
+      totalWords > 1000
+        ? `${(totalWords / 1000).toFixed(1)}k`
+        : totalWords,
+    sub: "written",
+    accent: "#3b82f6",
+  },
+  {
+    icon: TimerReset,
+    label: "Avg Read",
+    value:
+      totalPosts > 0
+        ? `${Math.round(totalWords / totalPosts / 200)}m`
+        : "—",
+    sub: "per story",
+    accent: "#10b981",
+  },
+  {
+    icon: CalendarDays,
+    label: "Joined",
+    value: joinDate.split(" ")[0],
+    sub: joinDate.split(" ")[1] ?? "",
+    accent: "#818cf8",
+  },
+].map((item, i) => {
+        const Icon = item.icon;
+
+        return (
+          <div
+            key={i}
+            className="w-[160px] shrink-0 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-4"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center"
+                style={{ background: `${item.accent}20` }}
+              >
+                <Icon size={15} style={{ color: item.accent }} />
+              </div>
+
+              <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-[var(--muted)]">
+                {item.label}
+              </span>
+            </div>
+
+            <p className="text-xl font-extrabold text-[var(--foreground)] leading-none">
+              {item.value}
+            </p>
+
+            <p className="text-[11px] text-[var(--muted)] mt-2">
+              {item.sub}
+            </p>
           </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
         </div>
       </div>
 
@@ -414,11 +523,10 @@ export default function DashboardClient({ data }) {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] border-b-2 transition-all -mb-px ${
-                      activeTab === tab.id
+                    className={`flex items-center gap-2 px-4 py-3 text-sm font-bold uppercase tracking-[0.15em] border-b-2 transition-all -mb-px ${activeTab === tab.id
                         ? "border-[var(--accent)] text-[var(--accent)]"
                         : "border-transparent text-[var(--muted)] hover:text-[var(--foreground)]"
-                    }`}
+                      }`}
                   >
                     <Icon size={13} /> {tab.label}
                   </button>
@@ -488,65 +596,305 @@ export default function DashboardClient({ data }) {
 
             {/* ── Profile Tab ─────────────────────────────────────────── */}
             {activeTab === "profile" && (
-              <div className="max-w-xl space-y-5">
-                <div>
-                  <h2 className="text-xl font-bold text-[var(--foreground)]">Profile</h2>
-                  <p className="text-sm text-[var(--muted)] mt-0.5">Your account information</p>
-                </div>
-
-                {/* Profile card */}
-                <div className="bg-[var(--card)]/15 border border-[var(--border)] rounded-2xl overflow-hidden">
-                  {/* Banner area */}
-                  <div className="h-24 bg-gradient-to-r from-[var(--accent)]/20 via-[var(--accent)]/10 to-transparent relative">
-                    <div className="absolute -bottom-8 left-6">
-                      <div className="p-0.5 rounded-2xl bg-[var(--background)] shadow-lg">
-                        <Avatar user={user} size={56} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-12 px-6 pb-6">
-                    <h3 className="text-xl font-bold text-[var(--foreground)]">{user.name}</h3>
-                    <p className="text-sm text-[var(--muted)]">{user.email}</p>
-                    <div className="flex items-center gap-2 mt-3">
-                      <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 px-3 py-1 rounded-full">
-                        Verified Writer
-                      </span>
-                      <span className="text-[10px] font-bold uppercase tracking-widest bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 px-3 py-1 rounded-full">
-                        Active
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Stats */}
-                <div className="bg-[var(--card)]/15 border border-[var(--border)] rounded-2xl p-6">
-                  <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-[var(--muted)] mb-5">Writing Stats</h4>
-                  <div className="space-y-4">
-                    {[
-                      { label: "Total Entries", value: totalPosts },
-                      { label: "Total Words", value: totalWords.toLocaleString() },
-                      { label: "Member Since", value: joinDate },
-                    ].map(row => (
-                      <div key={row.label} className="flex items-center justify-between py-3 border-b border-[var(--border)]/60 last:border-0">
-                        <span className="text-sm text-[var(--muted)]">{row.label}</span>
-                        <span className="text-sm font-bold text-[var(--foreground)]">{row.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Sign out */}
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="w-full flex items-center justify-center gap-3 border border-red-400/30 text-red-400 hover:bg-red-500/5 hover:border-red-400/50 rounded-2xl py-4 font-bold text-sm uppercase tracking-widest transition-all"
-                >
-                  <LogOut size={15} /> Sign Out
-                </button>
-              </div>
+              <ProfileEditor
+                user={user}
+                initialProfile={initialProfile}
+                totalPosts={totalPosts}
+                blogList={blogList}
+              />
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Profile Editor ───────────────────────────────────────────────────────────
+
+function ProfileEditor({ user, initialProfile, totalPosts, blogList }) {
+  const [isPending, startTransition] = useTransition();
+  const [saved, setSaved] = useState(false);
+  const tagInputRef = useRef(null);
+
+  const authorSlug = getAuthorSlug(user.name);
+
+  const [form, setForm] = useState({
+    tagline: initialProfile?.tagline || "",
+    bio: initialProfile?.bio || "",
+    location: initialProfile?.location || "",
+    website: initialProfile?.website || "",
+    twitter: initialProfile?.twitter || "",
+    linkedin: initialProfile?.linkedin || "",
+    instagram: initialProfile?.instagram || "",
+    github: initialProfile?.github || "",
+    tags: initialProfile?.tags || [],
+    accentColor: initialProfile?.accentColor || "#dc2626", // Default to crimson red
+  });
+
+  const joinDate = user?.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-IN", { month: "long", year: "numeric" })
+    : "Recently";
+
+  function set(field, value) {
+    setForm(f => ({ ...f, [field]: value }));
+    setSaved(false);
+  }
+
+  function addTag(e) {
+    if ((e.key === "Enter" || e.key === ",") && tagInputRef.current) {
+      e.preventDefault();
+      const val = tagInputRef.current.value.trim().replace(/,$/, "");
+      if (val && !form.tags.includes(val) && form.tags.length < 8) {
+        set("tags", [...form.tags, val]);
+        tagInputRef.current.value = "";
+      }
+    }
+  }
+
+  function removeTag(tag) {
+    set("tags", form.tags.filter(t => t !== tag));
+  }
+
+  function handleSave() {
+    startTransition(async () => {
+      const result = await saveMyProfile(form);
+      if (result?.success) {
+        setSaved(true);
+        toast.success("Profile saved! Changes are live on your author page.");
+      } else {
+        toast.error(result?.error || "Failed to save profile");
+      }
+    });
+  }
+
+  const inputClass = "w-full bg-[var(--background)] border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)]/60 focus:outline-none focus:border-[var(--accent)]/60 focus:ring-1 focus:ring-[var(--accent)]/20 transition-all";
+
+  return (
+    <div className="max-w-2xl space-y-6">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-[var(--foreground)]">Author Profile</h2>
+          <p className="text-sm text-[var(--muted)] mt-0.5">This appears on your public author page</p>
+        </div>
+        <Link
+          href={`/authors/${authorSlug}`}
+          target="_blank"
+          className="flex items-center gap-1.5 text-xs font-bold text-[var(--accent)] border border-[var(--accent)]/30 px-3 py-2 rounded-xl hover:bg-[var(--accent)]/10 transition-all"
+        >
+          <Eye size={12} /> View Profile
+        </Link>
+      </div>
+
+      {/* Profile preview card */}
+      <div className="bg-[var(--card)]/15 border border-[var(--border)] rounded-2xl overflow-hidden">
+        <div className="h-20 bg-gradient-to-r from-[var(--accent)]/20 via-[var(--accent)]/10 to-transparent relative">
+          <div className="absolute -bottom-8 left-6">
+            <div className="p-0.5 rounded-2xl bg-[var(--background)] shadow-lg">
+              <Avatar user={user} size={56} />
+            </div>
+          </div>
+        </div>
+        <div className="pt-12 px-6 pb-5">
+          <h3 className="text-xl font-bold text-[var(--foreground)]">{user.name}</h3>
+          <p className="text-sm text-[var(--muted)] mt-0.5">
+            {form.tagline || <span className="italic opacity-50">No tagline yet</span>}
+          </p>
+          <div className="flex items-center gap-2 mt-3 flex-wrap">
+            <span className="text-[10px] font-bold uppercase tracking-widest bg-emerald-400/10 text-emerald-400 border border-emerald-400/20 px-3 py-1 rounded-full">
+              Verified Writer
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-widest bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 px-3 py-1 rounded-full">
+              {totalPosts} {totalPosts === 1 ? "article" : "articles"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Form fields ── */}
+
+      {/* Tagline */}
+      <div className="space-y-2">
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Tagline</label>
+        <input
+          type="text"
+          maxLength={120}
+          placeholder="e.g. Indie Developer · Travel Writer · Coffee Enthusiast"
+          value={form.tagline}
+          onChange={e => set("tagline", e.target.value)}
+          className={inputClass}
+        />
+        <p className="text-[10px] text-[var(--muted)]">Shown below your name. Max 120 chars. ({form.tagline.length}/120)</p>
+      </div>
+
+      {/* Bio */}
+      <div className="space-y-2">
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Bio</label>
+        <textarea
+          rows={4}
+          maxLength={800}
+          placeholder="Tell readers a bit about yourself — your background, what you write about, why it matters."
+          value={form.bio}
+          onChange={e => set("bio", e.target.value)}
+          className={inputClass + " resize-none leading-relaxed"}
+        />
+        <p className="text-[10px] text-[var(--muted)]">Max 800 chars. ({form.bio.length}/800)</p>
+      </div>
+
+      {/* Location + Website */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] flex items-center gap-1.5">
+            <MapPin size={11} /> Location
+          </label>
+          <input
+            type="text"
+            maxLength={80}
+            placeholder="Mumbai, India"
+            value={form.location}
+            onChange={e => set("location", e.target.value)}
+            className={inputClass}
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] flex items-center gap-1.5">
+            <Globe size={11} /> Website
+          </label>
+          <input
+            type="url"
+            maxLength={200}
+            placeholder="https://yoursite.com"
+            value={form.website}
+            onChange={e => set("website", e.target.value)}
+            className={inputClass}
+          />
+        </div>
+      </div>
+
+      {/* Social Handles */}
+      <div className="space-y-3">
+        <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Social Profiles</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[
+            { field: "twitter", icon: FaTwitter, placeholder: "username (without @)", label: "X / Twitter" },
+            { field: "instagram", icon: FaInstagram, placeholder: "username", label: "Instagram" },
+            { field: "linkedin", icon: FaLinkedin, placeholder: "linkedin.com/in/yourname", label: "LinkedIn" },
+            { field: "github", icon: FaGithub, placeholder: "github username", label: "GitHub" },
+          ].map(({ field, icon: Icon, placeholder, label }) => (
+            <div key={field} className="relative">
+              <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--muted)]">
+                <Icon size={13} />
+              </div>
+              <input
+                type="text"
+                maxLength={100}
+                placeholder={placeholder}
+                value={form[field]}
+                onChange={e => set(field, e.target.value)}
+                className={inputClass + " pl-9"}
+                aria-label={label}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Tags */}
+      <div className="space-y-3">
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)]">Expertise Tags</label>
+        <div className="bg-[var(--background)] border border-[var(--border)] rounded-xl p-3 focus-within:border-[var(--accent)]/60 focus-within:ring-1 focus-within:ring-[var(--accent)]/20 transition-all">
+          <div className="flex flex-wrap gap-2 mb-2">
+            {form.tags.map(tag => (
+              <span
+                key={tag}
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold bg-[var(--accent)]/10 text-[var(--accent)] border border-[var(--accent)]/20 px-3 py-1 rounded-full"
+              >
+                {tag}
+                <button
+                  type="button"
+                  onClick={() => removeTag(tag)}
+                  className="hover:text-red-400 transition-colors"
+                >
+                  <X size={10} />
+                </button>
+              </span>
+            ))}
+          </div>
+          <input
+            ref={tagInputRef}
+            type="text"
+            placeholder={form.tags.length < 8 ? "Type a tag and press Enter (max 8)" : "Max 8 tags reached"}
+            disabled={form.tags.length >= 8}
+            onKeyDown={addTag}
+            className="w-full bg-transparent text-sm text-[var(--foreground)] placeholder:text-[var(--muted)]/50 focus:outline-none"
+          />
+        </div>
+        <p className="text-[10px] text-[var(--muted)]">Press Enter or comma to add. These appear as colored tags on your author page.</p>
+      </div>
+
+      {/* Accent Color */}
+      <div className="space-y-3">
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--muted)] flex items-center gap-1.5">
+          <Palette size={11} /> Profile Accent Color
+        </label>
+        <div className="flex items-center gap-4">
+          <input
+            type="color"
+            value={form.accentColor}
+            onChange={e => set("accentColor", e.target.value)}
+            className="w-14 h-14 p-1 rounded-xl cursor-pointer bg-[var(--background)] border border-[var(--border)]"
+          />
+          <div className="flex flex-wrap gap-2">
+            {["#dc2626", "#6366f1", "#0891b2", "#059669", "#d97706", "#7c3aed", "#be123c", "#0f766e"].map(color => (
+              <button
+                key={color}
+                type="button"
+                onClick={() => set("accentColor", color)}
+                className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${form.accentColor === color ? 'border-[var(--foreground)] scale-110 shadow-lg' : 'border-transparent shadow-sm'}`}
+                style={{ backgroundColor: color }}
+                aria-label={`Select color ${color}`}
+              />
+            ))}
+          </div>
+        </div>
+        <p className="text-[10px] text-[var(--muted)]">Choose a color for your profile banner and badges.</p>
+      </div>
+
+      {/* Save Button */}
+      <div className="flex items-center gap-4 pt-2">
+        <button
+          id="save-profile-btn"
+          onClick={handleSave}
+          disabled={isPending}
+          className="flex items-center gap-2 bg-[var(--foreground)] text-[var(--background)] px-7 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-[var(--accent)] hover:text-white transition-all duration-300 shadow-lg disabled:opacity-60"
+        >
+          {isPending ? (
+            <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          ) : saved ? (
+            <CheckCircle2 size={14} />
+          ) : (
+            <Save size={14} />
+          )}
+          {isPending ? "Saving…" : saved ? "Saved!" : "Save Profile"}
+        </button>
+        <Link
+          href={`/authors/${authorSlug}`}
+          target="_blank"
+          className="text-xs font-bold text-[var(--muted)] hover:text-[var(--accent)] transition-colors flex items-center gap-1"
+        >
+          <ExternalLink size={11} /> Preview author page
+        </Link>
+      </div>
+
+      {/* Sign out */}
+      <div className="pt-4 border-t border-[var(--border)]">
+        <button
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="w-full flex items-center justify-center gap-3 border border-red-400/30 text-red-400 hover:bg-red-500/5 hover:border-red-400/50 rounded-2xl py-4 font-bold text-sm uppercase tracking-widest transition-all"
+        >
+          <LogOut size={15} /> Sign Out
+        </button>
       </div>
     </div>
   );

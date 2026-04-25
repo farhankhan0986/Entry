@@ -1,9 +1,12 @@
 "use client";
 import Link from "next/link";
-import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import AuthorFollowButton from "./AuthorFollowButton";
+import { getAuthorSlug } from "@/lib/authorUtils";
 
 export default function BlogCard({ blog }) {
-  const { title, content, authorName, createdAt, bannerImage, slug, category } = blog;
+  const { title, content, authorName, authorImage, createdAt, bannerImage, slug, category } = blog;
+  const router = useRouter();
 
   // Deterministic "random" so SSR and client always match
   const mockedFollowers = ((title.length * 37 + authorName.charCodeAt(0) * 13) % 500) + 1;
@@ -16,9 +19,12 @@ export default function BlogCard({ blog }) {
   });
   const excerpt = content.replace(/[#*]/g, "");
 
-  const handleFollow = () => {
-    toast.success(`You've followed ${authorName}`);
-  };
+  // Resolve author slug for profile link
+  const authorSlug = getAuthorSlug(authorName);
+  const authorHref = `/authors/${authorSlug}`;
+
+  // Unique author id used by AuthorFollowButton (matches staticAuthors convention)
+  const authorId = blog.authorId || `sa_${authorSlug}_fallback`;
 
   return (
     <div className="font-playfair h-full">
@@ -30,10 +36,20 @@ export default function BlogCard({ blog }) {
       >
         {/* Author row */}
         <div className="flex items-center gap-2 mb-2.5">
-          <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold bg-[var(--primary)] text-[var(--primary-foreground)] shrink-0">
-            {authorName[0].toUpperCase()}
-          </div>
-          <span className="text-[12px] font-semibold text-[var(--foreground)]">{authorName}</span>
+          {authorImage ? (
+            <img src={authorImage} alt={authorName} className="w-5 h-5 rounded-full object-cover shrink-0" />
+          ) : (
+            <div className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold bg-[var(--primary)] text-[var(--primary-foreground)] shrink-0">
+              {authorName[0].toUpperCase()}
+            </div>
+          )}
+          {/* Use button+router.push to avoid nested <a> inside the outer card <Link> */}
+          <button
+            className="text-[12px] font-semibold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.push(authorHref); }}
+          >
+            {authorName}
+          </button>
           <span className="text-[var(--muted)] text-[12px]">·</span>
           <span className="text-[11px] text-[var(--muted)]">{mockedDate}</span>
         </div>
@@ -89,19 +105,28 @@ export default function BlogCard({ blog }) {
             {/* Author Row */}
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border border-[var(--border)] shrink-0">
-                  {authorName[0].toUpperCase()}
-                </div>
+                <Link href={authorHref} onClick={e => e.stopPropagation()}>
+                  {authorImage ? (
+                    <img src={authorImage} alt={authorName} className="w-9 h-9 rounded-full object-cover border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity" />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity">
+                      {authorName[0].toUpperCase()}
+                    </div>
+                  )}
+                </Link>
                 <div>
-                  <h3 className="text-sm font-bold text-[var(--foreground)] leading-none">{authorName}</h3>
+                  <Link href={authorHref} onClick={e => e.stopPropagation()}>
+                    <h3 className="text-sm font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors leading-none">{authorName}</h3>
+                  </Link>
                   <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold mt-1">{mockedDate}</p>
                 </div>
               </div>
-              <button 
-              onClick={handleFollow}
-              className="text-[9px] uppercase tracking-widest font-bold text-[var(--accent)] border-b border-transparent hover:border-[var(--accent)] transition-all pb-0.5">
-                Follow +
-              </button>
+              <AuthorFollowButton
+                authorId={authorId}
+                authorName={authorName}
+                baseFollowers={mockedFollowers}
+                size="sm"
+              />
             </div>
 
             {/* Title + Excerpt */}
