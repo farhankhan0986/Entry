@@ -373,7 +373,7 @@ export default function DashboardClient({ data }) {
     label: "Entries",
     value: totalPosts,
     sub: `${totalPosts} stories`,
-    accent: "#8b5cf6",
+    accent: "#ef4444",
   },
   {
     icon: BookOpen,
@@ -400,7 +400,7 @@ export default function DashboardClient({ data }) {
     label: "Joined",
     value: joinDate.split(" ")[0],
     sub: joinDate.split(" ")[1] ?? "",
-    accent: "#818cf8",
+    accent: "#f59e0b",
   },
 ].map((item, i) => {
         const Icon = item.icon;

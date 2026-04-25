@@ -5,7 +5,7 @@ import { getDashboardData } from "@/lib/actions/userActions";
 import DashboardClient from "@/components/DashboardClient";
 
 export const metadata = {
-  title: "Dashboard | Entry",
+  title: "Dashboard",
   description: "Your personal writing dashboard on Entry.",
   robots: { index: false },
 };

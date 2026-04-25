@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
     .join(" ");
 
   return {
-    title: `${displayName} — Author | Entry`,
+    title: `${displayName} — Author`,
     description: `Read all published articles by ${displayName} on Entry.`,
   };
 }
