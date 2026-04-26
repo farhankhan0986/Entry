@@ -12,7 +12,7 @@ export const metadata = {
         description: "Discover your personality archetype — Alpha, Beta, or Gamma — and uncover your social type, mind style, and leadership traits.",
         url: "https://entry-azure.vercel.app/discovery",
         siteName: "Entry",
-        images: [{ url: "https://entry-azure.vercel.app/discovery.png", width: 1200, height: 630 }],
+        images: [{ url: "https://entry-azure.vercel.app/discovery.png", width: 1200, height: 1080 }],
     },
     twitter: {
         card: "summary_large_image",

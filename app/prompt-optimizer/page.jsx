@@ -14,7 +14,7 @@ export const metadata = {
     title: "AI Prompt Optimizer | Refine Your ChatGPT & Claude Prompts | Entry",
     description:
       "Paste any basic prompt and get a professionally refined version for ChatGPT, Claude, or any AI model. Free AI prompt optimizer powered by Groq — no sign-up required.",
-    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
+    images: [{ url: "https://entry-azure.vercel.app/prompt.png", width: 1200, height: 1080 }],
   },
   twitter: {
     card: "summary_large_image",

@@ -8,13 +8,13 @@ export const metadata = {
     siteName: "Entry",
     title: "Text Converter & Formatter Tool | Entry",
     description: "Free online text converter with 20+ transformations: case conversion, Base64 encode/decode, find & replace, slug generator, sort lines, live word count, and more.",
-    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
+    images: [{ url: "https://entry-azure.vercel.app/text.png", width: 1200, height: 1080 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Text Converter & Formatter Tool | Entry",
     description: "Free online text converter with 20+ transformations: case conversion, Base64 encode/decode, find & replace, slug generator, sort lines, live word count, and more.",
-    images: ["https://entry-azure.vercel.app/og-default.jpg"],
+    images: ["https://entry-azure.vercel.app/text.png"],
   },
 };
 

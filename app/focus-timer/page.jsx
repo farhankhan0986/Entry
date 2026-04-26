@@ -11,7 +11,13 @@ export const metadata = {
     description: "A minimalist Pomodoro focus timer to help you enter deep work, minimize distractions, and track your productivity sessions.",
     url: "https://entry-azure.vercel.app/focus-timer",
     siteName: "Entry",
-    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
+    images: [{ url: "https://entry-azure.vercel.app/focus-timer.png", width: 1200, height: 1080 }],
+    twitter: {
+      card: "summary_large_image",
+      title: "Focus Timer | Pomodoro Technique | Entry",
+      description: "A minimalist Pomodoro focus timer to help you enter deep work, minimize distractions, and track your productivity sessions.",
+      images: ["https://entry-azure.vercel.app/focus-timer.png"],
+    },
   },
 };
 

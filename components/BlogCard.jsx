@@ -143,23 +143,23 @@ export default function BlogCard({ blog }) {
   </span>
 </div> */}
               <button
-  id={`follow-author-${authorId}`}
-  className="text-[9px] group uppercase tracking-[0.18em] font-bold flex items-center gap-1.5 border-b pb-0.5 transition-all duration-300 disabled:opacity-60 text-[var(--accent)] border-[var(--accent)]/30 hover:border-[var(--accent)] hover:gap-2"
->
- <span className="inline-flex transition-all duration-300 group-hover:scale-110 group-hover:animate-[spin_1s_linear_infinite]">
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-    <path
-      d="M5 0.5L6.12 2.76L8.63 3.12L6.81 4.88L7.24 7.38L5 6.2L2.76 7.38L3.19 4.88L1.37 3.12L3.88 2.76L5 0.5Z"
-      fill="var(--accent)"
-      className="drop-shadow-[0_0_6px_var(--accent)]"
-    />
-  </svg>
-</span>
+                id={`follow-author-${authorId}`}
+                className="text-[9px] group uppercase tracking-[0.18em] font-bold flex items-center gap-1.5 border-b pb-0.5 transition-all duration-300 disabled:opacity-60 text-[var(--accent)] border-[var(--accent)]/30 hover:border-[var(--accent)] hover:gap-2"
+              >
+                <span className="inline-flex transition-all duration-300 group-hover:scale-110 group-hover:animate-[spin_1s_linear_infinite]">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path
+                      d="M5 0.5L6.12 2.76L8.63 3.12L6.81 4.88L7.24 7.38L5 6.2L2.76 7.38L3.19 4.88L1.37 3.12L3.88 2.76L5 0.5Z"
+                      fill="var(--accent)"
+                      className="drop-shadow-[0_0_6px_var(--accent)]"
+                    />
+                  </svg>
+                </span>
 
-  <span className="group-hover:tracking-[0.22em] transition-all duration-300">
-    Verified
-  </span>
-</button>
+                <span className="group-hover:tracking-[0.22em] transition-all duration-300">
+                  Verified
+                </span>
+              </button>
             </div>
 
             {/* Title + Excerpt */}

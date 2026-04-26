@@ -14,13 +14,13 @@ export const metadata = {
     title: "Tech Salary Comparison Tool | Know Your Market Value | Entry",
     description:
       "Check tech salaries for your role and experience level. Compare Frontend, Backend, ML, DevOps, Data Science pay in India and globally. Free, no sign-up.",
-    images: [{ url: "https://entry-azure.vercel.app/og-default.jpg", width: 1200, height: 630 }],
+    images: [{ url: "https://entry-azure.vercel.app/salary-check.png", width: 1200, height: 1080 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Tech Salary Comparison Tool | Entry",
     description: "Check tech salaries for your role and experience level. Compare pay in India and globally.",
-    images: ["https://entry-azure.vercel.app/og-default.jpg"],
+    images: ["https://entry-azure.vercel.app/salary-check.png"],
   },
 };
 
