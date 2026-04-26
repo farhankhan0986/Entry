@@ -219,11 +219,11 @@ function StaticAuthorPage({ author, blogs }) {
     <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] font-playfair">
       <div className="container mx-auto px-6 pt-10 max-w-6xl">
         <Link
-          href="/authors"
+          href="/journal"
           className="inline-flex items-center gap-2 text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm font-semibold"
         >
           <ArrowLeft size={15} />
-          All Authors
+          Back to Journal
         </Link>
       </div>
 
