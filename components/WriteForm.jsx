@@ -179,22 +179,20 @@ export default function WriteForm({ session }) {
               {/* File upload zone */}
               <label
                 htmlFor="banner-file"
-                className={`group w-full cursor-pointer border-2 border-dashed rounded-2xl px-6 py-8 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-md ${
-                  uploading
+                className={`group w-full cursor-pointer border-2 border-dashed rounded-2xl px-6 py-8 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-md ${uploading
                     ? "border-[var(--accent)] bg-[var(--accent)]/5 cursor-wait"
                     : bannerUrl && fileName
-                    ? "border-[var(--accent)] bg-[var(--accent)]/5"
-                    : "border-[var(--border)] hover:border-[var(--accent)] bg-[var(--input)]"
-                }`}
+                      ? "border-[var(--accent)] bg-[var(--accent)]/5"
+                      : "border-[var(--border)] hover:border-[var(--accent)] bg-[var(--input)]"
+                  }`}
               >
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 ${
-                  bannerUrl && fileName ? "bg-[var(--accent)]/20" : "bg-[var(--accent)]/10"
-                }`}>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 ${bannerUrl && fileName ? "bg-[var(--accent)]/20" : "bg-[var(--accent)]/10"
+                  }`}>
                   {uploading
                     ? <Loader2 size={20} className="text-[var(--accent)] animate-spin" />
                     : bannerUrl && fileName
-                    ? <CheckCircle size={20} className="text-[var(--accent)]" />
-                    : <ImageIcon size={20} className="text-[var(--accent)]" />
+                      ? <CheckCircle size={20} className="text-[var(--accent)]" />
+                      : <ImageIcon size={20} className="text-[var(--accent)]" />
                   }
                 </div>
                 <div className="text-center">
