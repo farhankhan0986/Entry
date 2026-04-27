@@ -106,8 +106,7 @@ export async function createBlog(formData) {
     status: "published",
   });
 
-  revalidatePath('/');
-  revalidatePath('/dashboard');
+  revalidatePath('/', 'layout');
 }
 
 export async function getBlogs() {
