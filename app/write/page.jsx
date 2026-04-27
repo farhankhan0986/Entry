@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import WriteForm from "@/components/WriteForm";
 
 export const metadata = {
-  title: "New Entry | Entry",
+  title: "New Entry",
   description: "Write and publish your story on Entry.",
 };
 

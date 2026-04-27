@@ -13,6 +13,7 @@
     "@auth/mongodb-adapter": "^3.11.2",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "groq-sdk": "^1.1.2",

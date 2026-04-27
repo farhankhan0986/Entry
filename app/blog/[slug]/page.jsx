@@ -120,7 +120,7 @@ export default async function BlogDetailsPage({ params }) {
     .filter(line => line.startsWith("## ")) // Only catch main headings
     .map(line => {
       const text = line.replace(/^##\s+/, ""); // Remove the "## " prefix
-      const id = text.toLowerCase().replace(/[^\w-]/g, "-");
+      const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
       return { text, id }; // Level is always 2, so we don't need it
     });
 
@@ -230,112 +230,149 @@ export default async function BlogDetailsPage({ params }) {
                 {(() => {
                   let firstParaSeen = false;
 
-                  const formatInlineText = (text) => {
-                    const parts = text.split(/(\*\*.*?\*\*)/g);
-
+                  /* ── Inline formatter: bold, italic, inline-code, links ── */
+                  const formatInline = (text) => {
+                    // Split on **bold**, *italic*, `code`, [link](url) tokens
+                    const parts = text.split(/(\*\*.*?\*\*|\*[^*]+?\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g);
                     return parts.map((part, i) => {
-                      if (part.startsWith("**") && part.endsWith("**")) {
-                        return (
-                          <strong
-                            key={i}
-                            className="font-bold text-[var(--foreground)]"
-                          >
-                            {part.slice(2, -2)}
-                          </strong>
-                        );
+                      if (part.startsWith("**") && part.endsWith("**"))
+                        return <strong key={i} className="font-bold text-[var(--foreground)]">{part.slice(2, -2)}</strong>;
+                      if (part.startsWith("*") && part.endsWith("*"))
+                        return <em key={i} className="italic text-[var(--foreground)]/80">{part.slice(1, -1)}</em>;
+                      if (part.startsWith("`") && part.endsWith("`"))
+                        return <code key={i} className="font-mono text-sm bg-[var(--card)] border border-[var(--border)] text-[var(--accent)] rounded px-1.5 py-0.5 mx-0.5">{part.slice(1, -1)}</code>;
+
+                      // Links
+                      if (part.startsWith("[") && part.includes("](") && part.endsWith(")")) {
+                        const match = part.match(/\[([^\]]+)\]\(([^)]+)\)/);
+                        if (match) {
+                          const [, label, url] = match;
+                          return (
+                            <a
+                              key={i}
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[var(--accent)] underline underline-offset-4 hover:opacity-80 transition-opacity font-medium"
+                            >
+                              {label}
+                            </a>
+                          );
+                        }
                       }
+
                       return part;
                     });
                   };
 
-                  return contentLines.map((line, index) => {
-                    const trimmed = line.trim();
+                  /* ── Group consecutive list lines into <ul> blocks ── */
+                  const grouped = [];
+                  let i = 0;
+                  while (i < contentLines.length) {
+                    const trimmed = contentLines[i].trim();
+                    if (trimmed.startsWith("- ")) {
+                      const items = [];
+                      while (i < contentLines.length && contentLines[i].trim().startsWith("- ")) {
+                        items.push(contentLines[i].trim().slice(2));
+                        i++;
+                      }
+                      grouped.push({ type: "list", items });
+                    } else {
+                      grouped.push({ type: "line", text: contentLines[i] });
+                      i++;
+                    }
+                  }
 
-                    // H2 / H3 Headings
-                    if (trimmed.startsWith("## ") || trimmed.startsWith("### ")) {
-                      const level = trimmed.startsWith("### ") ? 3 : 2;
-                      const text = trimmed.replace(/^###?\s+/, "");
-                      const id = text
-                        .toLowerCase()
-                        .replace(/[^\w\s-]/g, "")
-                        .replace(/\s+/g, "-");
+                  return grouped.map((block, index) => {
+                    /* ── Bullet list ── */
+                    if (block.type === "list") {
+                      return (
+                        <ul key={index} className="my-6 space-y-2 pl-6 list-none">
+                          {block.items.map((item, j) => (
+                            <li key={j} className="flex items-start gap-3 text-[var(--foreground)]/90">
+                              <span className="mt-2 w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" />
+                              <span>{formatInline(item)}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      );
+                    }
 
-                      return level === 2 ? (
-                        <h2
-  key={index}
-  id={id}
-  className="scroll-mt-28 text-3xl md:text-4xl font-extrabold tracking-tight mt-16 mb-6 pb-4 text-[var(--accent)] relative"
->
-  {text}
+                    const trimmed = block.text.trim();
 
-  <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gradient-to-r from-[var(--accent)]/10 via-[var(--accent)] to-[var(--accent)]/10 rounded-full"></span>
-</h2>
-                      ) : (
-                        <h3
-                          key={index}
-                          id={id}
-                          className="scroll-mt-28 text-2xl md:text-3xl font-bold mt-10 mb-4 text-[var(--foreground)]"
-                        >
+                    /* ── Horizontal rule ── */
+                    if (trimmed === "---") {
+                      return <hr key={index} className="my-10 border-0 h-px bg-gradient-to-r from-transparent via-[var(--border)] to-transparent" />;
+                    }
+
+                    /* ── H2 ── */
+                    if (trimmed.startsWith("## ") && !trimmed.startsWith("### ")) {
+                      const text = trimmed.slice(3);
+                      const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+                      return (
+                        <h2 key={index} id={id} className="scroll-mt-28 text-3xl md:text-4xl font-extrabold tracking-tight mt-16 mb-6 pb-4 text-[var(--accent)] relative">
+                          {text}
+                          <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gradient-to-r from-[var(--accent)]/10 via-[var(--accent)] to-[var(--accent)]/10 rounded-full" />
+                        </h2>
+                      );
+                    }
+
+                    /* ── H3 ── */
+                    if (trimmed.startsWith("### ")) {
+                      const text = trimmed.slice(4);
+                      const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
+                      return (
+                        <h3 key={index} id={id} className="scroll-mt-28 text-2xl md:text-3xl font-bold mt-10 mb-4 text-[var(--foreground)]">
                           {text}
                         </h3>
                       );
                     }
 
-                    // Image
+                    /* ── Blockquote ── */
+                    if (trimmed.startsWith("> ")) {
+                      return (
+                        <blockquote key={index} className="my-8 border-l-4 border-[var(--accent)] pl-5 italic text-[var(--foreground)]/80 text-xl">
+                          {formatInline(trimmed.slice(2))}
+                        </blockquote>
+                      );
+                    }
+
+                    /* ── Inline image ── */
                     const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
                     if (imgMatch) {
                       const [, alt, src] = imgMatch;
 
+                      const styles =
+                        alt === "style3"
+                          ? "max-w-md h-[320px] mx-auto rounded-2xl"
+                          : "max-w-2xl h-[500px] w-[500px] mx-auto rounded-3xl"; // Default is now 500x500
+
                       return (
                         <figure
                           key={index}
-                          className="group my-14 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--card)] shadow-xl"
+                          className={`group my-10 overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-xl ${styles}`}
                         >
                           <img
                             src={src}
                             alt={alt}
                             loading="lazy"
-                            className="w-full h-auto max-h-[520px] object-cover transition duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
                           />
-                          {alt && (
-                            <figcaption className="px-5 py-4 text-sm text-[var(--muted)] italic">
-                              {alt}
-                            </figcaption>
-                          )}
                         </figure>
                       );
                     }
 
-                    // Quote block
-                    if (trimmed.startsWith("> ")) {
-                      return (
-                        <blockquote
-                          key={index}
-                          className="my-8 border-l-4 border-[var(--accent)] pl-5 italic text-[var(--foreground)]/80 text-xl"
-                        >
-                          {trimmed.replace("> ", "")}
-                        </blockquote>
-                      );
-                    }
-
-                    // Empty line
+                    /* ── Empty line ── */
                     if (!trimmed) {
                       return <div key={index} className="h-6" />;
                     }
 
+                    /* ── Paragraph ── */
                     const isFirst = !firstParaSeen;
                     firstParaSeen = true;
-
                     return (
-                      <p
-                        key={index}
-                        className={`text-[var(--foreground)]/90 mb-6 whitespace-pre-wrap tracking-[0.01em]
-          ${isFirst
-                            ? "first-letter:text-6xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:leading-none first-letter:text-[var(--accent)]"
-                            : ""
-                          }`}
-                      >
-                        {formatInlineText(trimmed)}
+                      <p key={index} className={`text-[var(--foreground)]/90 mb-6 whitespace-pre-wrap tracking-[0.01em] ${isFirst ? "first-letter:text-6xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:leading-none first-letter:text-[var(--accent)]" : ""}`}>
+                        {formatInline(trimmed)}
                       </p>
                     );
                   });

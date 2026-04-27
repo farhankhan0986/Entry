@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com", // GitHub profile images
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com", // Cloudinary uploads
+      },
     ],
   },
 };

@@ -77,7 +77,7 @@ export async function createBlog(formData) {
     const title = formData.get("title");
     const content = formData.get("content");
     const category = formData.get("category");
-    const bannerImage = formData.get("bannerImage");
+    const bannerUrlInput = formData.get("bannerImage");
 
     // Use session name if available, else form field, else Anonymous
     const authorName = session?.user?.name
@@ -89,6 +89,9 @@ export async function createBlog(formData) {
         .toLowerCase()
         .replace(/[^\w ]+/g, '')
         .replace(/ +/g, '-');
+
+    // Banner image: client pre-uploads the file and sends the resolved URL
+    const bannerImage = bannerUrlInput?.trim() || "/default.png";
 
     await Blog.create({
         title,
