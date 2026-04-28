@@ -42,8 +42,8 @@ export default function Footer() {
           
           {/* Column 1: Brand */}
           <div className="space-y-4">
-            <Link href="/" className="text-3xl font-bold text-[var(--foreground)]">
-              Entry<span className="text-[var(--accent)]">.</span>
+            <Link href="/" className="group text-3xl font-bold text-[var(--foreground)]">
+              Entry<span className="text-[var(--accent)] inline-block transition-transform duration-500 group-hover:-translate-y-1">.</span>
             </Link>
             <p className="text-sm text-[var(--muted)] italic leading-relaxed">
               Where thoughts find words, emotions meet understanding, and every story feels a little less alone.

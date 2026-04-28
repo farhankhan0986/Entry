@@ -42,10 +42,12 @@ export default async function Home() {
             <span>Journal Edition 2026</span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
-            Entry<span className="text-[var(--accent)]">.</span>
-          </h1>
-
+         <h1 className="group text-6xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
+  Entry
+  <span className="text-[var(--accent)] inline-block transition-transform duration-500 group-hover:-translate-y-2">
+  .
+</span>
+</h1>
           <p className="text-xl md:text-2xl text-[var(--muted)] leading-relaxed italic opacity-80">
             "Where thoughts find words, emotions meet understanding, and every story feels a little less alone."
           </p>

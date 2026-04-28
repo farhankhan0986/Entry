@@ -38,13 +38,15 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-3xl font-bold text-[var(--foreground)] tracking-tighter hover:text-[var(--accent)] transition-colors"
-          >
-            Entry<span className="text-[var(--accent)]">.</span>
-          </Link>
-
+         <Link
+  href="/"
+  className="group text-3xl font-bold text-[var(--foreground)] tracking-tighter hover:text-[var(--accent)] transition-colors"
+>
+  Entry
+  <span className="text-[var(--accent)] inline-block transition-transform duration-500 group-hover:-translate-y-1">
+  .
+</span>
+</Link>
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
             <Link
