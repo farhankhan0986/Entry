@@ -170,7 +170,7 @@ export default function SalaryTool() {
           </div>
 
           {/* Salary Range */}
-          <div className="grid grid-cols-3 gap-3 text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 text-center">
             {[
               { label: "Minimum", val: result.min, sub: "Entry point" },
               { label: "Median", val: result.median, sub: "Market rate", highlight: true },
