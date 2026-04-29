@@ -426,22 +426,22 @@ Entry opts into the React 19 Compiler (`babel-plugin-react-compiler`) via `next.
 
 ## ✦ Roadmap
 
-- [x] OAuth authentication (Google / GitHub)
-- [x] User profiles and dashboards
-- [x] Image upload (Cloudinary integration)
-- [x] Likes / views tracking system
-- [x] Author portfolio pages with follow system
-- [x] AI-powered prompt optimizer
-- [x] Productivity tools (Focus Timer, Daily Entry, Salary Check)
-- [x] Multi-theme system (6 themes)
-- [x] Skeleton loading states
-- [x] Category pages with editorial content
-- [ ] Rich text editor (replace markdown with Tiptap or ProseMirror)
-- [ ] Email notifications for followers
-- [ ] RSS feed generation
-- [ ] PWA support with push notifications
-- [ ] Draft preview / scheduled publishing
-- [ ] Search Engine — full-text search via Atlas Search
+- ✅ OAuth authentication (Google / GitHub)
+- ✅ User profiles and dashboards
+- ✅ Image upload (Cloudinary integration)
+- ✅ Likes / views tracking system
+- ✅ Author portfolio pages with follow system
+- ✅ AI-powered prompt optimizer
+- ✅ Productivity tools (Focus Timer, Daily Entry, Salary Check)
+- ✅ Multi-theme system (6 themes)
+- ✅ Skeleton loading states
+- ✅ Category pages with editorial content
+- 🔵 Rich text editor (replace markdown with Tiptap or ProseMirror)
+- 🔵 Email notifications for followers
+- 🔵 RSS feed generation
+- 🔵 PWA support with push notifications
+- 🔵 Draft preview / scheduled publishing
+- 🔵 Search Engine — full-text search via Atlas Search
 
 ---
 
