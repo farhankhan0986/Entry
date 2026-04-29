@@ -25,7 +25,7 @@ import { ArrowRight, Star } from "lucide-react";
 import Follow from "@/components/Follow";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { FaLinkedin,FaFacebook, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
+import { FaLinkedin, FaFacebook, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa6";
 
 export default async function Home() {
   const blogs = await getAllBlogs();
@@ -42,12 +42,12 @@ export default async function Home() {
             <span>Journal Edition 2026</span>
           </div>
 
-         <h1 className="group text-6xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
-  Entry
-  <span className="text-[var(--accent)] inline-block transition-transform duration-500 group-hover:-translate-y-2">
-  .
-</span>
-</h1>
+          <h1 className="group text-6xl md:text-8xl font-bold text-[var(--foreground)] tracking-tight leading-[0.9]">
+            Entry
+            <span className="text-[var(--accent)] inline-block transition-transform duration-500 group-hover:-translate-y-2">
+              .
+            </span>
+          </h1>
           <p className="text-xl md:text-2xl text-[var(--muted)] leading-relaxed italic opacity-80">
             "Where thoughts find words, emotions meet understanding, and every story feels a little less alone."
           </p>
@@ -97,8 +97,8 @@ export default async function Home() {
                 </div>
 
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-[var(--foreground)] leading-none">
-                    Entry
+                  <h3 className=" text-2xl font-bold text-[var(--foreground)] leading-none">
+                    Entry<span className="text-[var(--accent)]">.</span>
                   </h3>
                   <p className="text-xs uppercase tracking-widest text-[var(--muted)] font-bold mt-2">
                     GLOBAL STORIES
@@ -155,7 +155,7 @@ export default async function Home() {
       {/* 2. BLOGS FEED */}
       <section id="blogs" className="pb-6">
         <Blogs limit={6} hot={true} />
-      {/* <div className="pt-6 border-t border-[var(--border)] flex items-center justify-center gap-4 text-xs text-[var(--muted)] uppercase tracking-widest font-bold">
+        {/* <div className="pt-6 border-t border-[var(--border)] flex items-center justify-center gap-4 text-xs text-[var(--muted)] uppercase tracking-widest font-bold">
         <Link href="/privacy" className="hover:text-[var(--accent)]">Privacy</Link>
         <Link href="/terms" className="hover:text-[var(--accent)]">Terms</Link>
       </div> */}
