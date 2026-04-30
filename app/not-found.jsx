@@ -9,8 +9,8 @@ export default function NotFound() {
         <p className="text-lg text-(--muted) italic max-w-sm mx-auto">
           It seems this entry has been misplaced or never written. Let’s head back to the main collection.
         </p>
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="inline-block btn-primary px-8 py-4 rounded-full mt-8"
         >
           Return Home

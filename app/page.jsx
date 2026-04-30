@@ -108,8 +108,8 @@ export default async function Home() {
                   <a href="https://www.instagram.com/entry_blogs/" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     <FaInstagram size={20} />
                   </a>
-                  <a href="https://www.facebook.com/entry.blogs" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
-                    <FaFacebook size={20} />
+                  <a href="https://github.com/farhankhan0986/Entry" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <FaGithub size={20} />
                   </a>
                   <a href="https://x.com/Entry_Blogs" target="_blank" className="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     <FaTwitter size={20} />

@@ -188,8 +188,9 @@ export default function Footer() {
         <div className="pt-8 border-t border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--muted)]">
           <p>© 2026 Entry Journal. All rights reserved.</p>
           <div className="flex gap-8">
-            <a href="https://t.me/TheEntryJournal" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Telegram</a>
-            <a href="https://pin.it/2b3GTTUQm" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--accent)] transition-colors">Pinterest</a>
+            <a href="https://www.facebook.com/entry.blogs" target="_blank" rel="noopener noreferrer" className="hover:text-[#4267B2] transition-colors">Facebook</a>
+            <a href="https://t.me/TheEntryJournal" target="_blank" rel="noopener noreferrer" className="hover:text-[#229ED9] transition-colors">Telegram</a>
+            <a href="https://pin.it/2b3GTTUQm" target="_blank" rel="noopener noreferrer" className="hover:text-[#E60023] transition-colors">Pinterest</a>
           </div>
         </div>
       </div>

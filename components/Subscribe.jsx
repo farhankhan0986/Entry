@@ -82,11 +82,10 @@ export default function Subscribe() {
               }}
               onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
               placeholder="Enter your email"
-              className={`flex-1 bg-(--input) border rounded-2xl px-6 h-14 py-3 outline-none focus:ring-2 transition-all ${
-                emailError
+              className={`flex-1 bg-(--input) border rounded-2xl px-6 h-14 py-3 outline-none focus:ring-2 transition-all ${emailError
                   ? "border-red-500 focus:ring-red-400/20"
                   : "border-(--border) focus:ring-(--accent)/20"
-              }`}
+                }`}
             />
             <button
               onClick={handleSubscribe}

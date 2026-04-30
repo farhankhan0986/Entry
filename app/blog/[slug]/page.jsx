@@ -344,8 +344,8 @@ export default async function BlogDetailsPage({ params }) {
 
                       const styles =
                         alt === "style3"
-                          ? "max-w-md h-[320px] mx-auto rounded-2xl"
-                          : "max-w-2xl h-[500px] w-[500px] mx-auto rounded-3xl"; // Default is now 500x500
+                          ? "w-full h-[240px] sm:h-[280px] md:max-w-md md:h-[320px] mx-auto rounded-2xl"
+                          : "w-full h-[300px] sm:h-[400px] md:max-w-2xl md:h-[500px] md:w-[500px] mx-auto rounded-3xl";
 
                       return (
                         <figure
