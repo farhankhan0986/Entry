@@ -13,6 +13,8 @@
 </pre>
 </div>
 
+<div align="center">
+
 > *A place where words live, breathe, and find their readers.*
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.2.3-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
