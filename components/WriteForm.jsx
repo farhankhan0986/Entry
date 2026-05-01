@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const CATEGORIES = [
   "General", "Technology", "Travel", "Business", "Career",
-  "Country", "Biographies", "Celebrity", "Entertainment", "Food", "World Affairs", "Facts",
+  "Country", "Biographies", "Celebrity", "Entertainment", "Food", "Fiction", "World Affairs", "Facts",
   "Lifestyle", "Health", "Finance", "Education", "Mysteries",
   "Sports", "Politics", "Psychology", "Fashion", "Society",
 ];
