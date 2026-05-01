@@ -3,7 +3,7 @@
      Font: Arvo (serif) · Stack: Next.js 16 / MongoDB / Tailwind v4
      ============================================================ -->
 
-<div align="center">
+<div align="center" items="center>
 
 ```
   ███████╗ ███╗   ██╗ ████████╗ ██████╗  ██╗   ██╗
