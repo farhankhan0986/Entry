@@ -25,7 +25,7 @@
 [![NextAuth](https://img.shields.io/badge/NextAuth-v5-6C47FF?style=for-the-badge&logo=auth0&logoColor=white)](https://authjs.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
-[![Entry](https://img.shields.io/badge/Live-06B6D4?style=for-the-badge&logo=live&logoColor=white)](https://entry-azure.vercel.app/)
+[![Entry](https://img.shields.io/badge/Entry-06B6D4?style=for-the-badge&logo=Entry&logoColor=white)](https://entry-azure.vercel.app/)
 </div>
 
 ---
