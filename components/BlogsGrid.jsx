@@ -94,6 +94,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
     switch (categoryPage.toLowerCase()) {
       case 'biographies': return "Explore the lives of influential people that changed the world.";
       case 'facts': return "Discover surprising, viral, and mind-blowing facts that educate and entertain.";
+      case 'cars': return "Explore the world's most popular cars with complete specs, top speed, performance stats, pricing, and in-depth automotive insights.";
       case 'country': return "Explore the world through the eyes of our community. Discover stories from every corner of the globe.";
       case 'sports': return "Explore the greatest moments, figures, and legends in the history of sports.";
       case 'technology': return "Explore the future of technology, innovation, and how it shapes our daily lives.";

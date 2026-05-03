@@ -88,7 +88,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--foreground)]">Pages</h4>
             <ul className="space-y-1">
-              {['Facts', 'Mysteries', 'Countries', 'Biographies', 'Psychology', 'Technology'].map((item) => (
+              {['Cars', 'Facts', 'Mysteries', 'Countries', 'Biographies', 'Psychology', 'Technology'].map((item) => (
                 <li key={item}>
                   <Link href={`/${item.toLowerCase()}`} className="text-sm text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                     {item}
