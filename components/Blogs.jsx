@@ -5,12 +5,12 @@ export default async function Blogs({ limit, hot }) {
   const allBlogs = await getAllBlogs();
   
   const hotSlugs = [
-    "sweden",
-    "why-america-still-leads-the-world-legacy-power-promise",
-    "who-was-jack-the-ripper-the-mystery-still-unsolved",
-    "what-really-happened-to-amelia-earhart-the-mystery-that-still-haunts-history",
-    "messi-vs-ronaldo-who-truly-had-better-prime",
-    "michael-jackson-biography-king-of-pop-legacy",
+    "north-korea",
+    "what-are-the-backrooms-explained-and-the-janitor-story",
+    "porsche-911-complete-specs-performance-price",
+    "inside-russian-sleep-experiment-horror-madness-darkest-human-test",
+    "inside-north-korea-country-world-barely-understands",
+    "nikola-tesla-biography-man-who-powered-the-modern-world",
   ];
 
   let displayBlogs = hot
