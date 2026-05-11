@@ -137,7 +137,7 @@ export default function AboutPage() {
           </p>
           <div className="space-y-4 text-lg text-[var(--muted)] leading-relaxed">
             <p>
-              <strong className="text-[var(--foreground)]">Entry</strong> was
+              <strong className="text-[var(--accent)]">Entry</strong> was
               born from a simple belief: that meaningful writing deserves a
               meaningful home. In a world flooded with noise, we set out to
               build a place where depth wins over speed, and substance wins over

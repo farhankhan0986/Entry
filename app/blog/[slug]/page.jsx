@@ -105,7 +105,7 @@ export default async function BlogDetailsPage({ params }) {
     timeZone: "UTC",
   });
 
-  const contentLines = blog.content.split("\n");
+  const contentLines = blog.content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
 
   // Calculate real read time based on word count at 200 wpm
   const wordCount = blog.content.trim().split(/\s+/).length;
@@ -117,9 +117,9 @@ export default async function BlogDetailsPage({ params }) {
 
   // Generate Table of Contents from markdown-style headers in content
   const toc = contentLines
-    .filter(line => line.startsWith("## ")) // Only catch main headings
+    .filter(line => line.trim().startsWith("## ")) // Only catch main headings
     .map(line => {
-      const text = line.replace(/^##\s+/, ""); // Remove the "## " prefix
+      const text = line.trim().replace(/^##\s+/, ""); // Remove the "## " prefix
       const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
       return { text, id }; // Level is always 2, so we don't need it
     });
@@ -343,7 +343,7 @@ export default async function BlogDetailsPage({ params }) {
                       const [, alt, src] = imgMatch;
 
                       const styles =
-                        alt === "style3"
+                        alt === "style2"
                           ? "w-full h-[240px] sm:h-[280px] md:max-w-md md:h-[320px] mx-auto rounded-2xl"
                           : "w-full h-[300px] sm:h-[400px] md:max-w-2xl md:h-[500px] md:w-[500px] mx-auto rounded-3xl";
 

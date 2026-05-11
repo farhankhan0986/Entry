@@ -65,7 +65,7 @@ export default function GenericPoll({ question, options }) {
                         <button
                             disabled={voted}
                             onClick={() => handleVote(opt.key)}
-                            className={`w-full h-18 group relative flex flex-col items-start p-5 rounded-2xl border overflow-hidden transition-colors duration-300 ${
+                            className={`w-full h-[auto] text-left group relative flex flex-col items-start p-5 rounded-2xl border overflow-hidden transition-colors duration-300 ${
                                 voted
                                     ? "border-[var(--border)] cursor-default"
                                     : "border-[var(--border)] bg-transparent hover:border-[var(--accent)] active:scale-[0.99]"

@@ -6,7 +6,7 @@ export default async function Blogs({ limit, hot }) {
   
   const hotSlugs = [
     "north-korea",
-    "what-are-the-backrooms-explained-and-the-janitor-story",
+    "chernobyl-disaster-untold-story-world-changed-forever",
     "porsche-911-complete-specs-performance-price",
     "inside-russian-sleep-experiment-horror-madness-darkest-human-test",
     "inside-north-korea-country-world-barely-understands",

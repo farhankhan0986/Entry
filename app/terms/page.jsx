@@ -57,7 +57,7 @@ export default function TermsPage() {
             <h2 className="text-4xl font-bold mb-8">01. Intellectual Property</h2>
             <div className="space-y-6 text-lg md:text-xl text-[var(--muted)] leading-relaxed italic opacity-90">
               <p>
-                What you write is yours. You retain full ownership of all the content you publish on <span className="text-[var(--foreground)] font-bold not-italic">Entry</span>. 
+                What you write is yours. You retain full ownership of all the content you publish on <span className="text-[var(--accent)] font-bold not-italic">Entry</span>. 
               </p>
               <p>
                 By posting, you grant us a non-exclusive, worldwide license to display your work within the platform so your readers can discover and engage with it. We will never sell your stories to third parties.
@@ -73,7 +73,7 @@ export default function TermsPage() {
                 This is a sanctuary for authentic expression. We do not tolerate hate speech, harassment, or the promotion of violence. 
               </p>
               <p>
-                We reserve the right to remove any content that violates these standards to ensure that <span className="text-[var(--foreground)] font-bold not-italic">Entry</span> remains a safe space for all voices.
+                We reserve the right to remove any content that violates these standards to ensure that <span className="text-[var(--accent)] font-bold not-italic">Entry</span> remains a safe space for all voices.
               </p>
             </div>
           </section>
@@ -105,7 +105,7 @@ export default function TermsPage() {
                 <h3 className="text-2xl font-bold mb-2">Ready to contribute?</h3>
                 <p className="text-[var(--muted)] italic">Your first entry is waiting.</p>
               </div>
-              <Link href="/write" className="bg-[var(--foreground)] text-[var(--background)] font-bold active:scale-95 transition-all px-10 py-4 rounded-full flex items-center gap-2 whitespace-nowrap">
+              <Link href="/write" className="bg-[var(--accent)] text-[var(--foreground)] font-bold active:scale-95 transition-all px-10 py-4 rounded-full flex items-center gap-2 whitespace-nowrap">
                 New Entry <ArrowRight size={18} />
               </Link>
             </div>

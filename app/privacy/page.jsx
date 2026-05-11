@@ -61,7 +61,7 @@ export default function PrivacyPage() {
             </div>
             <div className="space-y-6 text-lg md:text-xl text-[var(--muted)] leading-relaxed italic opacity-90">
               <p>
-                When you create an <span className="text-[var(--foreground)] font-bold not-italic">Entry</span>, we collect the basic essentials: your name, email, and the beautiful narratives you choose to share.
+                When you create an <span className="text-[var(--accent)] font-bold not-italic">Entry</span>, we collect the basic essentials: your name, email, and the beautiful narratives you choose to share.
               </p>
               <p>
                 We also gather metadata—read times, timestamps, and categories—to help our community discover stories that resonate with them. We do not track your digital footprint beyond our borders.
