@@ -11,8 +11,8 @@ import { toast } from "sonner";
 const CATEGORIES = [
   "General", "Technology", "Travel", "Business", "Career",
   "Country", "Biographies", "Celebrity", "Entertainment", "Food", "Fiction", "World Affairs", "Facts",
-  "Lifestyle", "Health", "Finance", "Education", "Mysteries",
-  "Sports", "Politics", "Psychology", "Fashion", "Society",
+  "Lifestyle", "Health", "Finance", "Education", "Mysteries", "History",
+  "Sports", "Politics", "Psychology", "Fashion", "Society", "Top 10 & Rankings",
 ];
 
 export default function WriteForm({ session }) {

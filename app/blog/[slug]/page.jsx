@@ -85,8 +85,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-
-
 export default async function BlogDetailsPage({ params }) {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
@@ -287,10 +285,13 @@ export default async function BlogDetailsPage({ params }) {
                     /* ── Bullet list ── */
                     if (block.type === "list") {
                       return (
-                        <ul key={index} className="my-6 space-y-2 pl-6 list-none">
+                        <ul key={index} className="my-6 space-y-3 pl-6 list-none">
                           {block.items.map((item, j) => (
-                            <li key={j} className="flex items-start gap-3 text-[var(--foreground)]/90">
-                              <span className="mt-2 w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" />
+                            <li
+                              key={j}
+                              className="flex items-start gap-3 leading-7 text-[var(--foreground)]/90"
+                            >
+                              <span className="mt-[11px] w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" />
                               <span>{formatInline(item)}</span>
                             </li>
                           ))}
@@ -339,29 +340,36 @@ export default async function BlogDetailsPage({ params }) {
 
                     /* ── Inline image ── */
                     const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-                    if (imgMatch) {
-                      const [, alt, src] = imgMatch;
 
-                      const styles =
-                        alt === "style2"
-                          ? "w-full h-[240px] sm:h-[280px] md:max-w-md md:h-[320px] mx-auto rounded-2xl"
-                          : "w-full h-[300px] sm:h-[400px] md:max-w-2xl md:h-[500px] md:w-[500px] mx-auto rounded-3xl";
+if (imgMatch) {
+  const [, alt, src] = imgMatch;
 
-                      return (
-                        <figure
-                          key={index}
-                          className={`group my-10 overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-xl ${styles}`}
-                        >
-                          <img
-                            src={src}
-                            alt={alt}
-                            loading="lazy"
-                            className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
-                          />
-                        </figure>
-                      );
-                    }
+  const styles =
+    alt === "style2"
+      ? "w-full h-[240px] sm:h-[280px] md:max-w-md md:h-[320px] mx-auto rounded-2xl"
+      : alt === "style3"
+      ? "w-full max-w-xs sm:max-w-sm md:max-w-md h-auto mx-auto rounded-2xl p-4"
+      : "w-full h-[300px] sm:h-[400px] md:max-w-2xl md:h-[500px] md:w-[500px] mx-auto rounded-3xl";
 
+  const imageClass =
+    alt === "style3"
+      ? "w-full h-full object-contain"
+      : "w-full h-full object-cover transition duration-500 group-hover:scale-105";
+
+  return (
+    <figure
+      key={index}
+      className={`group my-10 overflow-hidden border border-[var(--border)] bg-[var(--card)] shadow-xl ${styles}`}
+    >
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        className={imageClass}
+      />
+    </figure>
+  );
+}
                     /* ── Empty line ── */
                     if (!trimmed) {
                       return <div key={index} className="h-6" />;
