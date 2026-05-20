@@ -85,7 +85,7 @@ Beyond writing, Entry ships with a suite of **productivity tools** — a persona
 
 | Feature | Description |
 |---|---|
-| 📝 **Rich Blog Feed** | 3-column responsive grid with animated BlogCards, dual card layouts for mobile/desktop |
+| 📝 **Rich Blog Feed** | 3-column responsive grid with animated BlogCards, dual card layouts for mobile/desktop/tabs |
 | 🔍 **Live Search** | Instant client-side search across title, content, category & author |
 | 🏷️ **Category Filters** | Tag pills + overflow dropdown for filtering by category |
 | 💬 **Comments System** | Authenticated users can post reflections on any published entry |
