@@ -1,5 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import CommandPalette from "@/components/CommandPalette";
+import FloatingToolsButton from "@/components/FloatingToolsButton";
 import { Saira_Stencil_One } from "next/font/google";
 import { Arvo } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
@@ -101,6 +103,8 @@ export default function RootLayout({ children }) {
               {children}
             </main>
             <Footer />
+            <CommandPalette />
+            <FloatingToolsButton />
           </ThemeProvider>
         </Providers>
       </body>

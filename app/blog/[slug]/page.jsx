@@ -14,6 +14,7 @@ import AuthorFollowButton from "@/components/AuthorFollowButton";
 import GenericPoll from "@/components/GenericPoll";
 import BlogInteractions from "@/components/BlogInteractions";
 import ReadingProgressBar from "@/components/ReadingProgressBar";
+import RelatedTools from "@/components/RelatedTools";
 import { getAuthorBySlug, getAuthorSlug } from "@/lib/staticData";
 
 // Strip markdown characters for clean meta descriptions
@@ -390,6 +391,8 @@ if (imgMatch) {
               {/* 4. Newsletter Section (Inline) */}
               <Subscribe />
 
+              {/* 4b. Related Tools (category-aware) */}
+              <RelatedTools category={blog.category} />
 
               {/* 5. Live Comments */}
               <CommentsSection

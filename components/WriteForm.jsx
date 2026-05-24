@@ -2,8 +2,9 @@
 
 import { createBlog } from "@/lib/actions/blogActions";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import FormattedTextarea from "@/components/FormattedTextarea";
+import AIWritingPanel from "@/components/AIWritingPanel";
 import { PenLine, ImageIcon, Tag, ChevronDown, Loader2, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -18,6 +19,9 @@ const CATEGORIES = [
 export default function WriteForm({ session }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [aiInsertedText, setAiInsertedText] = useState(""); // text injected from AI panel
+  const [formTitle, setFormTitle] = useState("");
+  const [formCategory, setFormCategory] = useState("");
 
   // Banner image — resolved URL (either typed or uploaded)
   const [bannerUrl, setBannerUrl] = useState("");      // what goes to the server
@@ -129,6 +133,8 @@ export default function WriteForm({ session }) {
                 name="title"
                 required
                 type="text"
+                value={formTitle}
+                onChange={e => setFormTitle(e.target.value)}
                 placeholder="Title of your story..."
                 className="w-full bg-transparent border-b-2 border-[var(--border)] py-4 text-3xl font-bold text-[var(--foreground)] placeholder:text-[var(--muted)] placeholder:opacity-30 focus:outline-none focus:border-[var(--accent)] transition-colors"
               />
@@ -143,6 +149,8 @@ export default function WriteForm({ session }) {
                 <select
                   name="category"
                   required
+                  value={formCategory}
+                  onChange={e => setFormCategory(e.target.value)}
                   className="w-full bg-[var(--input)] border border-[var(--border)] rounded-xl px-4 py-3 text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-all appearance-none cursor-pointer"
                 >
                   <option value="">Select Category</option>
@@ -243,12 +251,19 @@ export default function WriteForm({ session }) {
               )}
             </div>
 
+            {/* AI Writing Panel */}
+            <AIWritingPanel
+              defaultTitle={formTitle}
+              defaultCategory={formCategory || "General"}
+              onInsert={(text) => setAiInsertedText(prev => prev ? prev + "\n\n" + text : text)}
+            />
+
             {/* Content */}
             <div className="space-y-2">
               <label className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--muted)] ml-1">
                 The Narrative
               </label>
-              <FormattedTextarea />
+              <FormattedTextarea injectedContent={aiInsertedText} onInjected={() => setAiInsertedText("")} />
             </div>
 
             {/* Submit */}

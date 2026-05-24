@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import AuthorStats from "@/models/AuthorStats";
-import { dbConnect } from "@/lib/db";
+import dbConnect from "@/lib/db";
 import { headers } from "next/headers";
 
 async function getIP() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import {
   Bold, Italic, Heading2, Heading3, List, ListOrdered,
@@ -77,12 +77,25 @@ function Modal({ title, onClose, children }) {
 }
 
 // ── Main Component ────────────────────────────────────────────────────────────
-export default function FormattedTextarea({ name = "content", required = true }) {
+export default function FormattedTextarea({ name = "content", required = true, injectedContent = "", onInjected }) {
   const [value, setValue] = useState("");
   const [preview, setPreview] = useState(false);
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
   const taRef = useRef(null);
+
+  // Append AI-injected text whenever injectedContent changes
+  useEffect(() => {
+    if (!injectedContent) return;
+    setValue(prev => prev ? prev + "\n\n" + injectedContent : injectedContent);
+    onInjected?.();
+    // Auto-scroll textarea to end
+    requestAnimationFrame(() => {
+      if (taRef.current) {
+        taRef.current.scrollTop = taRef.current.scrollHeight;
+      }
+    });
+  }, [injectedContent]); // eslint-disable-line
 
   // Modal state
   const [modal, setModal] = useState(null); // "link" | "image" | null

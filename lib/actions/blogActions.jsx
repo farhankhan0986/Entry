@@ -1,6 +1,6 @@
-"use server";
+﻿"use server";
 import Blog from "@/models/Blog";
-import { dbConnect } from "../db";
+import dbConnect from "../db";
 import { revalidatePath } from "next/cache";
 import { staticBlogs } from "../staticData";
 import { auth } from "@/auth";

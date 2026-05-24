@@ -4,7 +4,12 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/"],
+        disallow: [
+          "/api/",
+          "/_next/",
+          "/diary/",      // Private journaling — never index
+          "/dashboard/",  // User dashboard — private
+        ],
       },
     ],
     sitemap: "https://entry-azure.vercel.app/sitemap.xml",

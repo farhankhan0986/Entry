@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { useSession } from "next-auth/react";
-import { SunMedium, Moon, Flame, Droplets, Leaf, Palette, PenLine, Menu, X, LayoutDashboard, LogIn } from "lucide-react";
+import { SunMedium, Moon, Flame, Droplets, Leaf, Palette, PenLine, Menu, X, LayoutDashboard, LogIn, BookLock, Wrench, ChevronDown, Zap, Type, Timer, Brain, Shield, Sparkles, Hash } from "lucide-react";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -22,6 +22,31 @@ export default function Navbar() {
     const idx = themes.indexOf(theme);
     setTheme(themes[(idx + 1) % themes.length]);
   }
+
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const toolsRef = useRef(null);
+
+  // Close tools dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (toolsRef.current && !toolsRef.current.contains(e.target)) {
+        setToolsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const TOOLS = [
+    { href: "/diary", icon: BookLock, label: "Dear Diary", desc: "Private encrypted journal" },
+    { href: "/caption-generator", icon: Hash, label: "Caption Generator", desc: "AI captions for social" },
+    { href: "/ai-humanizer", icon: Sparkles, label: "AI Natural Writer", desc: "Make AI text feel human" },
+    { href: "/cyber-safety", icon: Shield, label: "Cyber Safety", desc: "Password & security tools" },
+    { href: "/focus-timer", icon: Timer, label: "Focus Timer", desc: "Deep work sessions" },
+    { href: "/prompt-optimizer", icon: Brain, label: "Prompt Optimizer", desc: "Better AI prompts" },
+    { href: "/converter", icon: Type, label: "Text Converter", desc: "Transform text formats" },
+    { href: "/salary-check", icon: Zap, label: "Salary Checker", desc: "Compare salaries" },
+  ];
 
   const ThemeIcon = mounted
     ? theme === "light" ? SunMedium
@@ -57,6 +82,78 @@ export default function Navbar() {
             >
               Journal
             </Link>
+
+            {/* Diary link */}
+            <Link
+              href="/diary"
+              className={`flex items-center gap-1.5 text-sm uppercase tracking-[0.2em] font-bold transition-colors ${
+                pathname.startsWith("/diary") ? "text-[var(--accent)]" : "text-[var(--foreground)] hover:text-[var(--accent)]"
+              }`}
+            >
+              <BookLock size={13} />
+              Diary
+            </Link>
+
+            {/* Tools dropdown */}
+            <div className="relative" ref={toolsRef}>
+              <button
+                onClick={() => setToolsOpen(!toolsOpen)}
+                className={`flex items-center gap-1.5 text-sm uppercase tracking-[0.2em] font-bold transition-colors ${
+                  toolsOpen ? "text-[var(--accent)]" : "text-[var(--foreground)] hover:text-[var(--accent)]"
+                }`}
+              >
+                <Wrench size={13} />
+                Tools
+                <ChevronDown size={12} className={`transition-transform duration-200 ${toolsOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {toolsOpen && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[320px] bg-[var(--background)]/95 backdrop-blur-xl border border-[var(--border)] rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {TOOLS.map((tool) => (
+                      <Link
+                        key={tool.href}
+                        href={tool.href}
+                        onClick={() => setToolsOpen(false)}
+                        className="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-[var(--accent)]/10 transition-colors group"
+                      >
+                        <div className="mt-0.5 p-1.5 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white transition-colors shrink-0">
+                          <tool.icon size={12} />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-bold text-[var(--foreground)] truncate">{tool.label}</div>
+                          <div className="text-[10px] text-[var(--muted)] truncate">{tool.desc}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-[var(--border)]">
+                    <Link
+                      href="/tools"
+                      onClick={() => setToolsOpen(false)}
+                      className="flex items-center justify-center gap-1.5 text-[10px] uppercase tracking-widest font-bold text-[var(--accent)] hover:opacity-80 py-1"
+                    >
+                      View All Tools →
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Ctrl+K Command Palette trigger */}
+            <button
+              onClick={() => {
+                const evt = new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true });
+                document.dispatchEvent(evt);
+              }}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--accent)]/50 transition-all text-[10px] font-bold uppercase tracking-widest"
+              aria-label="Open command palette"
+            >
+              <span>Search</span>
+              <kbd className="flex items-center gap-0.5 opacity-60">
+                <span>⌘</span><span>K</span>
+              </kbd>
+            </button>
 
             {/* Theme Toggle */}
             <button
@@ -135,48 +232,45 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-  <div className="md:hidden fixed top-20 left-0 right-0 bg-[var(--background)] border border-[var(--border)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300">
-    <div className="flex flex-col space-y-8 text-center">
-      <Link
-        href="/journal"
-        onClick={() => setIsMenuOpen(false)}
-        className="text-2xl font-bold text-[var(--foreground)]"
-      >
+  <div className="md:hidden fixed top-20 left-0 right-0 bg-[var(--background)] border border-[var(--border)] z-40 px-6 py-12 animate-in fade-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
+    <div className="flex flex-col space-y-6 text-center">
+      <Link href="/journal" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-[var(--foreground)]">
         Journal
       </Link>
-
-      <Link
-        href="/write"
-        onClick={() => setIsMenuOpen(false)}
-        className="text-2xl font-bold text-[var(--accent)]"
-      >
+      <Link href="/diary" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-2">
+        <BookLock size={20} /> Dear Diary
+      </Link>
+      <div className="border-t border-[var(--border)] pt-4">
+        <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold mb-4">Tools</p>
+        <div className="grid grid-cols-2 gap-2">
+          {TOOLS.slice(1).map((tool) => (
+            <Link
+              key={tool.href}
+              href={tool.href}
+              onClick={() => setIsMenuOpen(false)}
+              className="flex items-center gap-2 p-3 rounded-xl border border-[var(--border)] text-left hover:border-[var(--accent)]/40 transition-colors"
+            >
+              <tool.icon size={14} className="text-[var(--accent)] shrink-0" />
+              <span className="text-xs font-bold text-[var(--foreground)]">{tool.label}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+      <Link href="/write" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-[var(--accent)]">
         New Entry
       </Link>
-
       {session?.user ? (
-        <Link
-          href="/dashboard"
-          onClick={() => setIsMenuOpen(false)}
-          className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
-        >
+        <Link href="/dashboard" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3">
           <LayoutDashboard size={20} /> Dashboard
         </Link>
       ) : (
-        <Link
-          href="/login"
-          onClick={() => setIsMenuOpen(false)}
-          className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3"
-        >
+        <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-2xl font-bold text-[var(--foreground)] flex items-center justify-center gap-3">
           <LogIn size={20} /> Sign In
         </Link>
       )}
-
-      <div className="pt-8 flex justify-center">
+      <div className="pt-4 flex justify-center">
         <button
-          onClick={() => {
-            cycleTheme();
-            setIsMenuOpen(false);
-          }}
+          onClick={() => { cycleTheme(); setIsMenuOpen(false); }}
           className="flex items-center gap-3 text-lg font-bold text-[var(--muted)]"
         >
           {ThemeIcon && <ThemeIcon />}
