@@ -5,12 +5,12 @@ export default async function Blogs({ limit, hot }) {
   const allBlogs = await getAllBlogs();
   
   const hotSlugs = [
-    "north-korea",
-    "chernobyl-disaster-untold-story-world-changed-forever",
-    "porsche-911-complete-specs-performance-price",
-    "inside-russian-sleep-experiment-horror-madness-darkest-human-test",
-    "inside-north-korea-country-world-barely-understands",
-    "nikola-tesla-biography-man-who-powered-the-modern-world",
+    "avengers-doomsday-everything-we-know-about-marvels-biggest-gamble-yet",
+    "gta-6-why-rockstars-next-game-could-redefine-openworld-gaming-forever",
+    "will-ai-take-your-job-the-honest-answer-nobody-wants-to-hear",
+    "one-piece-liveaction-season-2-why-netflixs-biggest-bet-is-about-to-get-even-wilder",
+    "the-new-space-race-why-2026-is-the-most-important-year-for-mars-exploration",
+    "iphone-17-and-apple-intelligence-is-apple-finally-winning-the-ai-race",
   ];
 
   let displayBlogs = hot
