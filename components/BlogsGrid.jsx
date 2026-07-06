@@ -112,9 +112,9 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
   return (
     <div className="w-full mx-auto mt-10 py-10">
       {/* Header Section */}
-      <div className="text-center mb-16 space-y-4 overflow-hidden">
+      <div className="text-center mb-12 space-y-3 overflow-hidden">
         <motion.h2
-          className="text-5xl md:text-6xl font-bold font-playfair text-[var(--foreground)] tracking-tight"
+          className="text-4xl md:text-5xl font-bold font-playfair text-[var(--foreground)] tracking-tight"
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"
@@ -125,7 +125,7 @@ export default function BlogsGrid({ blogs, hot, journal, categoryPage, hotSlugs 
         </motion.h2>
 
         <motion.p
-          className="text-[var(--muted)] font-playfair text-lg max-w-xl mx-auto"
+          className="text-[var(--muted)] font-playfair text-base max-w-xl mx-auto"
           variants={headerVariants}
           initial="hidden"
           whileInView="visible"

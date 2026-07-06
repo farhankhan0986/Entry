@@ -87,12 +87,12 @@ export default function BlogCard({ blog }) {
       </Link>
 
       {/* ── DESKTOP: original vertical card ─────────────────────── */}
-      <div className="hidden sm:flex w-full items-center justify-center py-3 px-3 h-full">
-        <div className="relative max-w-2xl w-full h-full bg-[var(--card)]/10 border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden flex flex-col group transition-all duration-500 hover:shadow-lg hover:border-[var(--accent)]/30">
+      <div className="hidden sm:flex w-full items-center justify-center py-2 px-2 h-full">
+        <div className="relative max-w-2xl w-[95%] h-full bg-[var(--card)]/10 border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden flex flex-col group transition-all duration-500 hover:shadow-lg hover:border-[var(--accent)]/30">
 
           {/* Banner Image */}
           {bannerImage && (
-            <Link href={`/blog/${slug}`} className="relative w-full h-72 overflow-hidden block">
+            <Link href={`/blog/${slug}`} className="relative w-full h-60 overflow-hidden block">
               <img
                 src={bannerImage}
                 alt={title}
@@ -111,15 +111,15 @@ export default function BlogCard({ blog }) {
             <BookmarkButton slug={slug} variant="overlay" />
           </div>
 
-          <div className="p-5 flex flex-col flex-grow">
+          <div className="p-4 flex flex-col flex-grow">
             {/* Author Row */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <Link href={authorHref} onClick={e => e.stopPropagation()}>
                   {authorImage ? (
-                    <img src={authorImage} alt={authorName} className="w-9 h-9 rounded-full object-cover border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity" />
+                    <img src={authorImage} alt={authorName} className="w-8 h-8 rounded-full object-cover border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity" />
                   ) : (
-                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border border-[var(--border)] shrink-0 hover:opacity-80 transition-opacity">
                       {authorName[0].toUpperCase()}
                     </div>
                   )}
@@ -166,19 +166,19 @@ export default function BlogCard({ blog }) {
             </div>
 
             {/* Title + Excerpt */}
-            <div className="space-y-2 mb-5 flex-grow">
+            <div className="space-y-1.5 mb-4 flex-grow">
               <Link href={`/blog/${slug}`}>
-                <h2 className="text-lg leading-snug font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] line-clamp-2 transition-colors duration-300">
+                <h2 className="text-base leading-snug font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] line-clamp-2 transition-colors duration-300">
                   {title}
                 </h2>
               </Link>
-              <p className="text-[var(--muted)] text-sm leading-relaxed italic line-clamp-2 opacity-80">
+              <p className="text-[var(--muted)] text-[13px] leading-relaxed italic line-clamp-2 opacity-80">
                 {excerpt}
               </p>
             </div>
 
             {/* Footer */}
-            <div className="mt-auto flex items-center justify-between pt-4 border-t border-[var(--border)]/50">
+            <div className="mt-auto flex items-center justify-between pt-3 border-t border-[var(--border)]/50">
               <span className="text-[10px] uppercase tracking-widest text-[var(--muted)] font-bold">
                 {mockedFollowers} readers
               </span>

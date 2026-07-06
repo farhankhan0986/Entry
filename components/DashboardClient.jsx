@@ -62,39 +62,23 @@ function Avatar({ user, size = 64 }) {
   );
 }
 
-function StatCard({ icon: Icon, label, value, sub, accent }) {
+function StatCard({ no, icon: Icon, label, value, sub }) {
   return (
-    <div className="relative overflow-hidden bg-[var(--card)]/20 border border-[var(--border)] rounded-2xl p-5 group hover:border-[var(--accent)]/30 transition-all duration-300">
-      {/* subtle gradient blob */}
-      <div
-        className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
-        style={{ background: accent ?? "var(--accent)", opacity: 0.08 }}
-      />
-      <div className="flex items-start justify-between mb-4">
-       <div
-  className="relative w-10 h-10 rounded-2xl flex items-center justify-center overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-500"
-  style={{
-    background: `linear-gradient(135deg, ${accent ?? "var(--accent)"}22, ${accent ?? "var(--accent)"}10)`,
-    border: `1px solid ${accent ?? "var(--accent)"}35`,
-  }}
->
-  <span
-    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-    style={{
-      background: `radial-gradient(circle at top left, ${accent ?? "var(--accent)"}30, transparent 70%)`,
-    }}
-  />
+    <div className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]/10 p-5 hover:border-[var(--accent)]/40 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+      {/* ghost index number */}
+      <span className="absolute -top-3 right-2 font-playfair text-[4.5rem] leading-none font-bold text-[var(--foreground)]/[0.04] select-none pointer-events-none">
+        {no}
+      </span>
 
-  <Icon
-    size={18}
-    className="relative z-10 transition-all duration-700 ease-out group-hover:rotate-[360deg] group-hover:translate-z-12 group-hover:scale-110"
-    style={{ color: accent ?? "var(--accent)" }}
-  />
-</div>
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--muted)]">{label}</span>
+      <div className="relative z-10">
+        {/* postage-stamp icon */}
+        <div className="inline-flex items-center justify-center p-2 mb-4 border-[1.5px] border-dashed border-[var(--accent)]/50 rounded-lg bg-[var(--accent)]/8 text-[var(--accent)] -rotate-3 group-hover:rotate-2 group-hover:scale-105 transition-transform duration-500">
+          <Icon size={16} strokeWidth={2} />
+        </div>
+        <p className="text-3xl font-bold text-[var(--foreground)] leading-none tabular-nums">{value}</p>
+        <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[var(--foreground)]/70 mt-2">{label}</p>
+        {sub && <p className="text-[10px] text-[var(--muted)] italic mt-0.5">{sub}</p>}
       </div>
-      <p className="text-3xl font-bold text-[var(--foreground)] leading-none">{value}</p>
-      {sub && <p className="text-xs text-[var(--muted)] mt-1">{sub}</p>}
     </div>
   );
 }
@@ -270,10 +254,33 @@ export default function DashboardClient({ data }) {
 
       {/* ─── Full-Width Header Banner ──────────────────────────────────────── */}
       <div className="relative overflow-hidden border-b border-[var(--border)]">
-        {/* Background noise/texture effect */}
-        <div className="absolute inset-0 bg-[var(--card)]/10" />
-        <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-[var(--accent)]/8 blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-64 h-64 rounded-full bg-[var(--accent)]/5 blur-3xl translate-x-1/2 translate-y-1/2" />
+        {/* Atmospheric background — matches the site hero */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[var(--card)]/10" />
+          <div
+            className="absolute inset-0 opacity-50"
+            style={{
+              backgroundImage: "radial-gradient(var(--border) 1px, transparent 1px)",
+              backgroundSize: "30px 30px",
+              maskImage: "radial-gradient(ellipse 70% 90% at 20% 30%, black 20%, transparent 75%)",
+              WebkitMaskImage: "radial-gradient(ellipse 70% 90% at 20% 30%, black 20%, transparent 75%)",
+            }}
+          />
+          <div
+            className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-[var(--accent)]/10 blur-3xl"
+            style={{ animation: "hero-blob 20s ease-in-out infinite" }}
+          />
+          <div
+            className="absolute -bottom-24 right-0 w-72 h-72 rounded-full bg-[var(--accent)]/6 blur-3xl"
+            style={{ animation: "hero-blob 24s ease-in-out infinite reverse" }}
+          />
+          <div
+            className="absolute top-1 right-[6%] font-playfair text-[11rem] leading-none text-[var(--accent)]/6 select-none hidden lg:block"
+            style={{ animation: "ink-pulse 9s ease-in-out infinite" }}
+          >
+            &ldquo;
+          </div>
+        </div>
 
         <div className="relative container mx-auto px-6 py-10 max-w-6xl">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
@@ -288,13 +295,13 @@ export default function DashboardClient({ data }) {
               </div>
 
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-[var(--accent)] mb-1">
-                  Writer Dashboard
+                <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--accent)] mb-2">
+                  <span className="h-[1.5px] w-6 bg-[var(--accent)]" /> Your Writing Desk
                 </p>
-                <h1 className="text-3xl font-bold text-[var(--foreground)] leading-tight">
-                  {user.name}
+                <h1 className="text-3xl md:text-4xl font-bold text-[var(--foreground)] leading-tight tracking-tight">
+                  {user.name}<span className="text-[var(--accent)]">.</span>
                 </h1>
-                <p className="text-sm text-[var(--muted)] mt-1">{user.email}</p>
+                <p className="text-sm text-[var(--muted)] italic mt-1">{user.email}</p>
               </div>
             </div>
 
@@ -321,6 +328,7 @@ export default function DashboardClient({ data }) {
   {/* Desktop / Tablet */}
   <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-4">
     <StatCard
+      no="01"
       icon={PenSquare}
       label="Total Entries"
       value={totalPosts}
@@ -329,10 +337,10 @@ export default function DashboardClient({ data }) {
           ? "1 story published"
           : `${totalPosts} stories published`
       }
-      accent="#ef4444"
     />
 
     <StatCard
+      no="02"
       icon={BookOpen}
       label="Words Written"
       value={
@@ -341,10 +349,10 @@ export default function DashboardClient({ data }) {
           : totalWords
       }
       sub="across all entries"
-      accent="#6366f1"
     />
 
     <StatCard
+      no="03"
       icon={TimerReset}
       label="Avg. Read Time"
       value={
@@ -353,84 +361,49 @@ export default function DashboardClient({ data }) {
           : "—"
       }
       sub="per entry"
-      accent="#10b981"
     />
 
     <StatCard
+      no="04"
       icon={CalendarDays}
       label="Member Since"
       value={joinDate.split(" ")[0]}
       sub={joinDate.split(" ")[1] ?? ""}
-      accent="#f59e0b"
     />
   </div>
 
-  {/* Mobile Professional Scroll Cards */}
-  <div className="sm:hidden overflow-x-auto pb-2">
-    <div className="flex gap-3 min-w-max pr-1">
+  {/* Mobile scroll cards */}
+  <div className="sm:hidden overflow-x-auto pb-2 -mx-1 px-1">
+    <div className="flex gap-3 min-w-max">
       {[
-  {
-    icon: PenSquare,
-    label: "Entries",
-    value: totalPosts,
-    sub: `${totalPosts} stories`,
-    accent: "#ef4444",
-  },
-  {
-    icon: BookOpen,
-    label: "Words",
-    value:
-      totalWords > 1000
-        ? `${(totalWords / 1000).toFixed(1)}k`
-        : totalWords,
-    sub: "written",
-    accent: "#3b82f6",
-  },
-  {
-    icon: TimerReset,
-    label: "Avg Read",
-    value:
-      totalPosts > 0
-        ? `${Math.round(totalWords / totalPosts / 200)}m`
-        : "—",
-    sub: "per story",
-    accent: "#10b981",
-  },
-  {
-    icon: CalendarDays,
-    label: "Joined",
-    value: joinDate.split(" ")[0],
-    sub: joinDate.split(" ")[1] ?? "",
-    accent: "#f59e0b",
-  },
-].map((item, i) => {
+        { no: "01", icon: PenSquare, label: "Entries", value: totalPosts, sub: `${totalPosts} stories` },
+        { no: "02", icon: BookOpen, label: "Words", value: totalWords > 1000 ? `${(totalWords / 1000).toFixed(1)}k` : totalWords, sub: "written" },
+        { no: "03", icon: TimerReset, label: "Avg Read", value: totalPosts > 0 ? `${Math.round(totalWords / totalPosts / 200)}m` : "—", sub: "per story" },
+        { no: "04", icon: CalendarDays, label: "Joined", value: joinDate.split(" ")[0], sub: joinDate.split(" ")[1] ?? "" },
+      ].map((item) => {
         const Icon = item.icon;
-
         return (
           <div
-            key={i}
-            className="w-[160px] shrink-0 rounded-2xl border border-[var(--border)] bg-[var(--card)] px-4 py-4"
+            key={item.no}
+            className="group relative w-[150px] shrink-0 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]/10 px-4 py-4"
           >
-            <div className="flex items-center justify-between mb-3">
-              <div
-                className="w-8 h-8 rounded-xl flex items-center justify-center"
-                style={{ background: `${item.accent}20` }}
-              >
-                <Icon size={15} style={{ color: item.accent }} />
+            <span className="absolute -top-2 right-1.5 font-playfair text-[3.5rem] leading-none font-bold text-[var(--foreground)]/[0.04] select-none pointer-events-none">
+              {item.no}
+            </span>
+            <div className="relative z-10">
+              <div className="inline-flex items-center justify-center p-1.5 mb-3 border-[1.5px] border-dashed border-[var(--accent)]/50 rounded-lg bg-[var(--accent)]/8 text-[var(--accent)] -rotate-3">
+                <Icon size={14} strokeWidth={2} />
               </div>
-
-              <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-[var(--muted)]">
+              <p className="text-xl font-extrabold text-[var(--foreground)] leading-none tabular-nums">
+                {item.value}
+              </p>
+              <p className="text-[10px] uppercase tracking-[0.18em] font-bold text-[var(--foreground)]/70 mt-2">
                 {item.label}
-              </span>
+              </p>
+              <p className="text-[10px] text-[var(--muted)] italic mt-0.5">
+                {item.sub}
+              </p>
             </div>
-
-            <p className="text-xl font-extrabold text-[var(--foreground)] leading-none">
-              {item.value}
-            </p>
-
-            <p className="text-[11px] text-[var(--muted)] mt-2">
-              {item.sub}
-            </p>
           </div>
         );
       })}
@@ -446,8 +419,8 @@ export default function DashboardClient({ data }) {
 
           {/* ── Sidebar ── */}
           <aside className="hidden md:flex flex-col gap-2 w-52 shrink-0">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--muted)] px-4 mb-2">
-              Navigation
+            <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--muted)] px-4 mb-2">
+              <span className="h-[1.5px] w-4 bg-[var(--accent)]" /> Navigation
             </p>
             <SidebarLink
               icon={BookOpen}
@@ -473,8 +446,8 @@ export default function DashboardClient({ data }) {
             </div>
 
             <div className="mt-6 px-4 space-y-3">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--muted)]">
-                Quick Actions
+              <p className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--muted)]">
+                <span className="h-[1.5px] w-4 bg-[var(--accent)]" /> Quick Actions
               </p>
               <Link
                 href="/write"
@@ -547,8 +520,8 @@ export default function DashboardClient({ data }) {
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h2 className="text-xl font-bold text-[var(--foreground)]">My Entries</h2>
-                    <p className="text-sm text-[var(--muted)] mt-0.5">
+                    <h2 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">My Entries<span className="text-[var(--accent)]">.</span></h2>
+                    <p className="text-sm text-[var(--muted)] italic mt-0.5">
                       {blogList.length > 0
                         ? `${blogList.length} ${blogList.length === 1 ? "story" : "stories"} published`
                         : "No stories yet"}
@@ -607,8 +580,8 @@ export default function DashboardClient({ data }) {
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h2 className="text-xl font-bold text-[var(--foreground)]">Saved</h2>
-                    <p className="text-sm text-[var(--muted)] mt-0.5">
+                    <h2 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">Saved<span className="text-[var(--accent)]">.</span></h2>
+                    <p className="text-sm text-[var(--muted)] italic mt-0.5">
                       {totalSaved > 0
                         ? `${totalSaved} ${totalSaved === 1 ? "article" : "articles"} saved to read later`
                         : "Nothing saved yet"}

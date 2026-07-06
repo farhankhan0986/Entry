@@ -42,43 +42,43 @@ export default function RelatedTools({ category = "General", exclude = [], max =
   if (!tools.length) return null;
 
   return (
-    <aside className="my-10 rounded-3xl border border-[var(--border)] bg-[var(--card)]/10 p-6 overflow-hidden relative">
+    <aside className="my-8 rounded-2xl border border-[var(--border)] bg-[var(--card)]/10 p-5 overflow-hidden relative">
       {/* Subtle gradient */}
       <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl bg-[var(--accent)]/5 -mr-16 -mt-16 pointer-events-none" />
 
       <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center gap-2 mb-4">
           <div className="p-1.5 rounded-lg bg-[var(--accent)]/10 text-[var(--accent)]">
-            <Wrench size={13} />
+            <Wrench size={12} />
           </div>
-          <span className="text-xs uppercase tracking-[0.2em] font-bold text-[var(--muted)]">
+          <span className="text-[11px] uppercase tracking-[0.2em] font-bold text-[var(--muted)]">
             Related Tools
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           {tools.map(tool => (
             <Link
               key={tool.id}
               href={tool.href}
-              className="group flex items-start gap-3 p-3.5 rounded-2xl border border-[var(--border)] hover:border-[var(--accent)]/40 bg-[var(--background)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              className="group flex items-start gap-2.5 p-3 rounded-xl border border-[var(--border)] hover:border-[var(--accent)]/40 bg-[var(--background)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
             >
               <div
-                className="p-2 rounded-xl shrink-0 transition-transform duration-200 group-hover:scale-110"
+                className="p-1.5 rounded-lg shrink-0 transition-transform duration-200 group-hover:scale-110"
                 style={{ background: `${tool.accent}20` }}
               >
-                <tool.icon size={14} style={{ color: tool.accent }} />
+                <tool.icon size={13} style={{ color: tool.accent }} />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors truncate">
+                <div className="text-[13px] font-bold text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors truncate">
                   {tool.label}
                 </div>
-                <div className="text-[11px] text-[var(--muted)] leading-snug mt-0.5 truncate">
+                <div className="text-[10px] text-[var(--muted)] leading-snug mt-0.5 truncate">
                   {tool.desc}
                 </div>
               </div>
               <ArrowRight
-                size={12}
+                size={11}
                 className="shrink-0 mt-0.5 text-[var(--muted)] transition-all duration-200 group-hover:text-[var(--accent)] group-hover:translate-x-0.5"
               />
             </Link>

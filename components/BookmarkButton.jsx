@@ -48,7 +48,7 @@ export default function BookmarkButton({ slug, size = "md", variant = "overlay",
 
   const baseClasses =
     variant === "overlay"
-      ? `${box} flex items-center justify-center rounded-full bg-[var(--background)]/80 backdrop-blur-sm border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--accent)] transition-all duration-300 hover:scale-105`
+      ? `${box} flex items-center justify-center rounded-full bg-[var(--background)]/80 backdrop-blur-sm text-[var(--foreground)] hover:border-[var(--accent)] transition-all duration-300 hover:scale-105`
       : `${box} flex items-center justify-center rounded-full text-[var(--muted)] hover:text-[var(--accent)] transition-colors duration-300`;
 
   return (

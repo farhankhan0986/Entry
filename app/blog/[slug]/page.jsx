@@ -191,7 +191,7 @@ export default async function BlogDetailsPage({ params }) {
                   {blog.category}
                 </span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-8 leading-tight text-[var(--foreground)]">
+              <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-[var(--foreground)]">
                 {blog.title}
               </h1>
 
@@ -213,7 +213,7 @@ export default async function BlogDetailsPage({ params }) {
             </header>
 
             {blog.bannerImage && (
-              <div className="w-full h-[300px] md:h-[500px] mb-12 rounded-[40px] overflow-hidden shadow-2xl">
+              <div className="w-full h-[240px] md:h-[400px] mb-10 rounded-[32px] overflow-hidden shadow-2xl">
                 <img src={blog.bannerImage} alt={blog.title} className="w-full h-full object-cover" />
               </div>
             )}
@@ -227,7 +227,7 @@ export default async function BlogDetailsPage({ params }) {
             )}
             {/* Article Body */}
             <div className="max-w-3xl">
-              <div className="text-lg md:text-xl leading-8 md:leading-9">
+              <div className="text-base md:text-[17px] leading-7 md:leading-8">
                 {(() => {
                   let firstParaSeen = false;
 
@@ -288,13 +288,13 @@ export default async function BlogDetailsPage({ params }) {
                     /* ── Bullet list ── */
                     if (block.type === "list") {
                       return (
-                        <ul key={index} className="my-6 space-y-3 pl-6 list-none">
+                        <ul key={index} className="my-5 space-y-2.5 pl-5 list-none">
                           {block.items.map((item, j) => (
                             <li
                               key={j}
                               className="flex items-start gap-3 leading-7 text-[var(--foreground)]/90"
                             >
-                              <span className="mt-[11px] w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" />
+                              <span className="mt-[9px] w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
                               <span>{formatInline(item)}</span>
                             </li>
                           ))}
@@ -314,7 +314,7 @@ export default async function BlogDetailsPage({ params }) {
                       const text = trimmed.slice(3);
                       const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
                       return (
-                        <h2 key={index} id={id} className="scroll-mt-28 text-3xl md:text-4xl font-extrabold tracking-tight mt-16 mb-6 pb-4 text-[var(--accent)] relative">
+                        <h2 key={index} id={id} className="scroll-mt-28 text-2xl md:text-3xl font-extrabold tracking-tight mt-12 mb-5 pb-3 text-[var(--accent)] relative">
                           {text}
                           <span className="absolute left-0 bottom-0 h-[2px] w-full bg-gradient-to-r from-[var(--accent)]/10 via-[var(--accent)] to-[var(--accent)]/10 rounded-full" />
                         </h2>
@@ -326,7 +326,7 @@ export default async function BlogDetailsPage({ params }) {
                       const text = trimmed.slice(4);
                       const id = text.toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-");
                       return (
-                        <h3 key={index} id={id} className="scroll-mt-28 text-2xl md:text-3xl font-bold mt-10 mb-4 text-[var(--foreground)]">
+                        <h3 key={index} id={id} className="scroll-mt-28 text-xl md:text-2xl font-bold mt-8 mb-3 text-[var(--foreground)]">
                           {text}
                         </h3>
                       );
@@ -335,7 +335,7 @@ export default async function BlogDetailsPage({ params }) {
                     /* ── Blockquote ── */
                     if (trimmed.startsWith("> ")) {
                       return (
-                        <blockquote key={index} className="my-8 border-l-4 border-[var(--accent)] pl-5 italic text-[var(--foreground)]/80 text-xl">
+                        <blockquote key={index} className="my-7 border-l-4 border-[var(--accent)] pl-5 italic text-[var(--foreground)]/80 text-lg">
                           {formatInline(trimmed.slice(2))}
                         </blockquote>
                       );
@@ -382,7 +382,7 @@ if (imgMatch) {
                     const isFirst = !firstParaSeen;
                     firstParaSeen = true;
                     return (
-                      <p key={index} className={`text-[var(--foreground)]/90 mb-6 whitespace-pre-wrap tracking-[0.01em] ${isFirst ? "first-letter:text-6xl first-letter:font-black first-letter:mr-3 first-letter:float-left first-letter:leading-none first-letter:text-[var(--accent)]" : ""}`}>
+                      <p key={index} className={`text-[var(--foreground)]/90 mb-5 whitespace-pre-wrap tracking-[0.01em] ${isFirst ? "first-letter:text-5xl first-letter:font-black first-letter:mr-2.5 first-letter:float-left first-letter:leading-none first-letter:text-[var(--accent)]" : ""}`}>
                         {formatInline(trimmed)}
                       </p>
                     );
@@ -402,27 +402,27 @@ if (imgMatch) {
                 initialComments={initialComments}
               />
 
-              <footer className="mt-16 pt-10 border-t border-[var(--border)]">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-[var(--card)]/10 p-8 rounded-3xl border border-[var(--border)]">
+              <footer className="mt-14 pt-8 border-t border-[var(--border)]">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-[var(--card)]/10 p-6 rounded-3xl border border-[var(--border)]">
                   <div className="flex items-center gap-4">
                     <Link href={`/authors/${authorSlug}`}>
                       {blog.authorImage ? (
                         <img
                           src={blog.authorImage}
                           alt={blog.authorName}
-                          className="w-20 h-20 rounded-full object-cover border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity"
+                          className="w-16 h-16 rounded-full object-cover border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity"
                         />
                       ) : (
-                        <div className="w-20 h-20 rounded-full flex items-center justify-center text-3xl font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold bg-[var(--primary)] text-[var(--primary-foreground)] border-4 border-[var(--background)] shadow-lg hover:opacity-80 transition-opacity">
                           {blog.authorName[0].toUpperCase()}
                         </div>
                       )}
                     </Link>
                     <div>
                       <Link href={`/authors/${authorSlug}`} className="hover:text-[var(--accent)] transition-colors">
-                        <h4 className="font-bold text-2xl">{blog.authorName}</h4>
+                        <h4 className="font-bold text-xl">{blog.authorName}</h4>
                       </Link>
-                      <p className="text-[var(--muted)] italic">
+                      <p className="text-sm text-[var(--muted)] italic">
                         {staticAuthor ? staticAuthor.tagline : "Community Writer · Entry Member"}
                       </p>
                     </div>
@@ -440,19 +440,19 @@ if (imgMatch) {
           </div>
 
           {/* 6. Right Column: Sidebar */}
-          <aside className="w-full lg:w-[350px] shrink-0">
-            <div className="sticky top-32 space-y-12">
+          <aside className="w-full lg:w-[320px] shrink-0">
+            <div className="sticky top-32 space-y-10">
 
               {/* In This Article (Table of Contents) */}
               {toc.length > 0 && (
-                <div className="p-8 bg-[var(--card)]/10 border border-[var(--border)] rounded-[32px] shadow-sm">
-                  <h4 className="text-xs uppercase tracking-[0.3em] font-bold text-[var(--accent)] mb-6">In This Article</h4>
-                  <ul className="space-y-4">
+                <div className="p-6 bg-[var(--card)]/10 border border-[var(--border)] rounded-3xl shadow-sm">
+                  <h4 className="text-[11px] uppercase tracking-[0.3em] font-bold text-[var(--accent)] mb-4">In This Article</h4>
+                  <ul className="space-y-2.5">
                     {toc.map((item, i) => (
                       <li key={i}>
                         <a
                           href={`#${item.id}`}
-                          className="text-[var(--foreground)]/70 hover:text-[var(--accent)] transition-colors text-sm font-medium leading-snug block"
+                          className="text-[var(--foreground)]/70 hover:text-[var(--accent)] transition-colors text-[13px] font-medium leading-snug block"
                         >
                           {item.text}
                         </a>
@@ -463,19 +463,19 @@ if (imgMatch) {
               )}
 
               {/* Related Stories */}
-              <div className="space-y-6">
-                <h4 className="text-xs uppercase tracking-[0.3em] font-bold text-[var(--accent)] ml-2">Related Stories</h4>
-                <div className="grid gap-6">
+              <div className="space-y-4">
+                <h4 className="text-[11px] uppercase tracking-[0.3em] font-bold text-[var(--accent)] ml-2">Related Stories</h4>
+                <div className="grid gap-3">
                   {relatedPosts?.map((post) => (
-                    <Link key={post._id ?? post.id ?? post.slug} href={`/blog/${post.slug}`} className="group flex gap-4 items-center p-2 rounded-2xl hover:bg-[var(--card)] transition-all">
-                      <div className="h-20 w-20 bg-[var(--border)] rounded-xl overflow-hidden shrink-0 shadow-sm">
+                    <Link key={post._id ?? post.id ?? post.slug} href={`/blog/${post.slug}`} className="group flex gap-3 items-center p-2 rounded-2xl hover:bg-[var(--card)] transition-all">
+                      <div className="h-16 w-16 bg-[var(--border)] rounded-xl overflow-hidden shrink-0 shadow-sm">
                         <img src={post.bannerImage} className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500" />
                       </div>
                       <div>
-                        <h5 className="font-bold leading-tight text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                        <h5 className="text-sm font-bold leading-tight text-[var(--foreground)] group-hover:text-[var(--accent)] transition-colors line-clamp-2">
                           {post.title}
                         </h5>
-                        <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] mt-2 italic">Read Story</p>
+                        <p className="text-[10px] uppercase tracking-widest text-[var(--muted)] mt-1.5 italic">Read Story</p>
                       </div>
                     </Link>
                   ))}
