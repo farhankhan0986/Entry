@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthorFollowButton from "./AuthorFollowButton";
+import BookmarkButton from "./BookmarkButton";
 import { getAuthorSlug } from "@/lib/authorUtils";
 import { Check, Star } from "lucide-react";
 
@@ -74,17 +75,20 @@ export default function BlogCard({ blog }) {
         </div>
 
         {/* Meta row */}
-        <div className="flex items-center gap-3 mt-3">
-          <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full">
-            {category || "Journal"}
-          </span>
-          <span className="text-[11px] text-[var(--muted)]">{readTime} min read</span>
+        <div className="flex items-center justify-between gap-3 mt-3">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--accent)] bg-[var(--accent)]/10 px-2 py-0.5 rounded-full">
+              {category || "Journal"}
+            </span>
+            <span className="text-[11px] text-[var(--muted)]">{readTime} min read</span>
+          </div>
+          <BookmarkButton slug={slug} variant="ghost" size="sm" />
         </div>
       </Link>
 
       {/* ── DESKTOP: original vertical card ─────────────────────── */}
       <div className="hidden sm:flex w-full items-center justify-center py-3 px-3 h-full">
-        <div className="max-w-2xl w-full h-full bg-[var(--card)]/10 border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden flex flex-col group transition-all duration-500 hover:shadow-lg hover:border-[var(--accent)]/30">
+        <div className="relative max-w-2xl w-full h-full bg-[var(--card)]/10 border border-[var(--border)] rounded-2xl shadow-sm overflow-hidden flex flex-col group transition-all duration-500 hover:shadow-lg hover:border-[var(--accent)]/30">
 
           {/* Banner Image */}
           {bannerImage && (
@@ -101,6 +105,11 @@ export default function BlogCard({ blog }) {
               </div>
             </Link>
           )}
+
+          {/* Bookmark toggle — floats top-right, works with or without a banner */}
+          <div className={bannerImage ? "absolute top-4 right-4 z-10" : "absolute top-3 right-3 z-10"}>
+            <BookmarkButton slug={slug} variant="overlay" />
+          </div>
 
           <div className="p-5 flex flex-col flex-grow">
             {/* Author Row */}

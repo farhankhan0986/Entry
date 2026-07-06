@@ -8,6 +8,7 @@ import { saveMyProfile } from "@/lib/actions/authorActions";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
 import { getAuthorSlug } from "@/lib/authorUtils";
+import PublicBlogCard from "@/components/BlogCard";
 import {
   PenLine, Trash2, ExternalLink, Calendar,
   LogOut, LayoutDashboard, User, ChevronRight,
@@ -15,7 +16,7 @@ import {
   ArrowUpRight, MoreHorizontal, Eye, Hash,
   AtSign, Link2, Code2, Save,
   Plus, X, MapPin, CheckCircle2, Palette,
-  PenSquare, BookOpen, TimerReset, CalendarDays
+  PenSquare, BookOpen, TimerReset, CalendarDays, Bookmark,
 } from "lucide-react";
 import { FaInstagram, FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
 
@@ -247,7 +248,7 @@ function SidebarLink({ icon: Icon, label, active, onClick }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function DashboardClient({ data }) {
-  const { user, blogs, totalPosts, profile: initialProfile } = data;
+  const { user, blogs, totalPosts, profile: initialProfile, savedBlogs = [], totalSaved = 0 } = data;
   const [activeTab, setActiveTab] = useState("entries");
   const [blogList, setBlogList] = useState(blogs);
 
@@ -455,6 +456,12 @@ export default function DashboardClient({ data }) {
               onClick={() => setActiveTab("entries")}
             />
             <SidebarLink
+              icon={Bookmark}
+              label="Saved"
+              active={activeTab === "saved"}
+              onClick={() => setActiveTab("saved")}
+            />
+            <SidebarLink
               icon={User}
               label="Profile"
               active={activeTab === "profile"}
@@ -516,6 +523,7 @@ export default function DashboardClient({ data }) {
             <div className="md:hidden flex gap-1 mb-6 border-b border-[var(--border)]">
               {[
                 { id: "entries", label: "Entries", icon: BookOpen },
+                { id: "saved", label: "Saved", icon: Bookmark },
                 { id: "profile", label: "Profile", icon: User },
               ].map(tab => {
                 const Icon = tab.icon;
@@ -589,6 +597,53 @@ export default function DashboardClient({ data }) {
                         New Entry
                       </span>
                     </Link>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ── Saved Tab ────────────────────────────────────────────── */}
+            {activeTab === "saved" && (
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--foreground)]">Saved</h2>
+                    <p className="text-sm text-[var(--muted)] mt-0.5">
+                      {totalSaved > 0
+                        ? `${totalSaved} ${totalSaved === 1 ? "article" : "articles"} saved to read later`
+                        : "Nothing saved yet"}
+                    </p>
+                  </div>
+                  <Link
+                    href="/journal"
+                    className="hidden md:flex items-center gap-2 text-sm font-bold text-[var(--accent)] hover:gap-3 transition-all"
+                  >
+                    Browse Journal <ChevronRight size={14} />
+                  </Link>
+                </div>
+
+                {savedBlogs.length === 0 ? (
+                  /* Empty state */
+                  <div className="border-2 border-dashed border-[var(--border)] rounded-3xl py-20 px-8 text-center">
+                    <div className="w-16 h-16 rounded-2xl bg-[var(--accent)]/10 border border-[var(--accent)]/20 flex items-center justify-center mx-auto mb-5">
+                      <Bookmark size={28} className="text-[var(--accent)]" />
+                    </div>
+                    <h3 className="text-xl font-bold text-[var(--foreground)] mb-2">No saved articles yet</h3>
+                    <p className="text-[var(--muted)] text-sm max-w-xs mx-auto mb-8 leading-relaxed">
+                      Tap the bookmark icon on any story to save it here and pick up reading later.
+                    </p>
+                    <Link
+                      href="/journal"
+                      className="inline-flex items-center gap-2 bg-[var(--foreground)] text-[var(--background)] px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-[var(--accent)] hover:text-white transition-all duration-300"
+                    >
+                      <BookOpen size={14} /> Browse the Journal
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-2">
+                    {savedBlogs.map(blog => (
+                      <PublicBlogCard key={blog.id ?? blog.slug} blog={blog} />
+                    ))}
                   </div>
                 )}
               </div>

@@ -17,10 +17,10 @@ const REFINE_MODES = [
 ];
 
 // ── Blog Writer fields ─────────────────────────────────────────────────────
-const TONES    = ["conversational", "professional", "educational", "motivational", "storytelling", "humorous"];
-const LENGTHS  = ["short (400–600w)", "medium (700–900w)", "long (1100–1400w)"];
-const STYLES   = ["storytelling", "how-to guide", "listicle", "op-ed", "personal essay"];
-const AUDIENCES = ["general readers", "students", "professionals", "entrepreneurs", "tech enthusiasts", "creative writers"];
+const TONES    = ["Conversational", "Professional", "Educational", "Motivational", "Storytelling", "Humorous"];
+const LENGTHS  = ["Short (400–600w)", "Medium (700–900w)", "Long (1100–1400w)"];
+const STYLES   = ["Storytelling", "How-to guide", "Listicle", "Op-ed", "Personal essay"];
+const AUDIENCES = ["General readers", "Students", "Professionals", "Entrepreneurs", "Tech enthusiasts", "Creative writers"];
 
 export default function AIWritingPanel({ onInsert, defaultTitle = "", defaultCategory = "General" }) {
   const [open, setOpen]                 = useState(false);
@@ -28,10 +28,10 @@ export default function AIWritingPanel({ onInsert, defaultTitle = "", defaultCat
 
   // ── Generate state ──────────────────────────────────────────────────────
   const [gTitle, setGTitle]             = useState(defaultTitle);
-  const [gTone, setGTone]               = useState("conversational");
-  const [gLength, setGLength]           = useState("medium (700–900w)");
-  const [gStyle, setGStyle]             = useState("storytelling");
-  const [gAudience, setGAudience]       = useState("general readers");
+  const [gTone, setGTone]               = useState("Conversational");
+  const [gLength, setGLength]           = useState("Medium (700–900w)");
+  const [gStyle, setGStyle]             = useState("Storytelling");
+  const [gAudience, setGAudience]       = useState("General readers");
   const [gKeywords, setGKeywords]       = useState("");
   const [generating, setGenerating]     = useState(false);
   const [genResult, setGenResult]       = useState("");
@@ -67,7 +67,7 @@ export default function AIWritingPanel({ onInsert, defaultTitle = "", defaultCat
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed.");
-      setGenResult(data.blog || "");
+      setGenResult(data.content || "");
     } catch (err) {
       setGenError(err.message);
     } finally {
@@ -143,7 +143,7 @@ export default function AIWritingPanel({ onInsert, defaultTitle = "", defaultCat
                     : "text-[var(--muted)] hover:text-[var(--foreground)]"
                 }`}
               >
-                {tab === "generate" ? "✨ Generate" : "🔧 Refine"}
+                {tab === "generate" ? "Generate" : "Refine"}
               </button>
             ))}
           </div>

@@ -5,8 +5,9 @@ import { toast } from "sonner";
 import {
   Bold, Italic, Heading2, Heading3, List, ListOrdered,
   Link, Image, Quote, Code, Minus, Eye, EyeOff,
-  Type, Undo2, Redo2, X, Upload, ExternalLink,
+  Type, Undo2, Redo2, X, Upload, ExternalLink, Search,
 } from "lucide-react";
+import UnsplashPicker from "./UnsplashPicker";
 
 // ── Tiny markdown → HTML renderer ────────────────────────────────────────────
 function renderMarkdown(md) {
@@ -50,7 +51,7 @@ function ToolBtn({ icon: Icon, label, onClick, active }) {
 }
 
 // ── Inline Floating Modal ─────────────────────────────────────────────────────
-function Modal({ title, onClose, children }) {
+function Modal({ title, onClose, children, wide = false }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
@@ -59,7 +60,7 @@ function Modal({ title, onClose, children }) {
         onClick={onClose}
       />
       {/* Panel */}
-      <div className="relative z-10 w-full max-w-sm bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200">
+      <div className={`relative z-10 w-full ${wide ? "max-w-md" : "max-w-sm"} bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200`}>
         <div className="flex items-center justify-between mb-5">
           <h3 className="font-bold text-[var(--foreground)] text-base">{title}</h3>
           <button
@@ -105,9 +106,11 @@ export default function FormattedTextarea({ name = "content", required = true, i
   const [linkLabel, setLinkLabel] = useState("");
 
   // Image modal fields
+  const [imgTab, setImgTab] = useState("upload"); // "upload" | "unsplash" | "url"
   const [imgUrl, setImgUrl] = useState("");
   const [imgAlt, setImgAlt] = useState("");
   const [imgUploading, setImgUploading] = useState(false);
+  const [unsplashPhoto, setUnsplashPhoto] = useState(null);
   const imgFileRef = useRef(null);
 
   // ── History ──────────────────────────────────────────────────────────────────
@@ -189,9 +192,17 @@ const confirmLink = () => {
 
   // ── Image modal ──────────────────────────────────────────────────────────────
   const openImageModal = () => {
+    setImgTab("upload");
     setImgUrl("");
     setImgAlt("");
+    setUnsplashPhoto(null);
     setModal("image");
+  };
+
+  const handleUnsplashSelect = (photo) => {
+    setUnsplashPhoto(photo);
+    setImgUrl(photo.full);
+    setImgAlt(photo.alt);
   };
 
   const handleImageFileChange = async (e) => {
@@ -225,6 +236,16 @@ const confirmLink = () => {
     const alt = imgAlt.trim() || "Image";
     insertAt(`![${alt}](${imgUrl.trim()})\n`);
     toast.success("Image inserted");
+
+    // Unsplash API guidelines: ping download_location once a photo is actually used.
+    if (unsplashPhoto && unsplashPhoto.full === imgUrl.trim()) {
+      fetch("/api/unsplash/track-download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ downloadLocation: unsplashPhoto.downloadLocation }),
+      }).catch(() => {});
+    }
+
     setModal(null);
   };
 
@@ -388,62 +409,96 @@ const confirmLink = () => {
 
       {/* ── Image Modal ─────────────────────────────────────────────────────────── */}
       {modal === "image" && (
-        <Modal title="Insert Image" onClose={() => setModal(null)}>
+        <Modal title="Insert Image" onClose={() => setModal(null)} wide>
           <div className="space-y-4">
-            {/* File upload zone */}
-            <label
-              htmlFor="ft-img-file"
-              className={`group w-full cursor-pointer border-2 border-dashed rounded-2xl px-5 py-6 flex flex-col items-center justify-center gap-2 transition-all duration-200 ${
-                imgUrl
-                  ? "border-[var(--accent)] bg-[var(--accent)]/5"
-                  : "border-[var(--border)] hover:border-[var(--accent)] bg-[var(--input)]"
-              }`}
-            >
-              {imgUploading ? (
-                <div className="flex flex-col items-center gap-2">
-                  <div className="w-6 h-6 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
-                  <span className="text-xs text-[var(--muted)]">Uploading...</span>
-                </div>
-              ) : imgUrl ? (
-                <>
-                  <img src={imgUrl} alt="" className="w-full h-28 object-cover rounded-xl" />
-                  <span className="text-xs text-[var(--accent)] font-bold">Click to replace</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-10 h-10 rounded-full bg-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Upload size={18} className="text-[var(--accent)]" />
-                  </div>
-                  <p className="text-sm font-semibold text-[var(--foreground)]">Upload from device</p>
-                  <p className="text-xs text-[var(--muted)]">PNG, JPG, WEBP up to 5MB</p>
-                </>
-              )}
-            </label>
-            <input
-              ref={imgFileRef}
-              id="ft-img-file"
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageFileChange}
-            />
-
-            {/* Divider */}
-            <div className="flex items-center gap-3">
-              <span className="flex-1 h-px bg-[var(--border)]" />
-              <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--muted)]">or paste URL</span>
-              <span className="flex-1 h-px bg-[var(--border)]" />
+            {/* Source tabs */}
+            <div className="flex gap-1 p-1 bg-[var(--input)] rounded-xl">
+              {[
+                { id: "upload", label: "Upload", icon: Upload },
+                { id: "unsplash", label: "Unsplash", icon: Search },
+                { id: "url", label: "URL", icon: ExternalLink },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setImgTab(t.id)}
+                  className={`flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide transition-all ${
+                    imgTab === t.id
+                      ? "bg-[var(--accent)] text-white shadow-sm"
+                      : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                  }`}
+                >
+                  <t.icon size={12} /> {t.label}
+                </button>
+              ))}
             </div>
 
-            {/* URL input */}
-            <input
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              value={imgUrl}
-              onChange={(e) => setImgUrl(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); confirmImage(); } }}
-              className="w-full px-4 py-2.5 bg-[var(--input)] border border-[var(--border)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-all"
-            />
+            {/* Upload tab */}
+            {imgTab === "upload" && (
+              <>
+                <label
+                  htmlFor="ft-img-file"
+                  className={`group w-full cursor-pointer border-2 border-dashed rounded-2xl px-5 py-6 flex flex-col items-center justify-center gap-2 transition-all duration-200 ${
+                    imgUrl
+                      ? "border-[var(--accent)] bg-[var(--accent)]/5"
+                      : "border-[var(--border)] hover:border-[var(--accent)] bg-[var(--input)]"
+                  }`}
+                >
+                  {imgUploading ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-6 h-6 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
+                      <span className="text-xs text-[var(--muted)]">Uploading...</span>
+                    </div>
+                  ) : imgUrl ? (
+                    <>
+                      <img src={imgUrl} alt="" className="w-full h-28 object-cover rounded-xl" />
+                      <span className="text-xs text-[var(--accent)] font-bold">Click to replace</span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-10 h-10 rounded-full bg-[var(--accent)]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <Upload size={18} className="text-[var(--accent)]" />
+                      </div>
+                      <p className="text-sm font-semibold text-[var(--foreground)]">Upload from device</p>
+                      <p className="text-xs text-[var(--muted)]">PNG, JPG, WEBP up to 5MB</p>
+                    </>
+                  )}
+                </label>
+                <input
+                  ref={imgFileRef}
+                  id="ft-img-file"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageFileChange}
+                />
+              </>
+            )}
+
+            {/* Unsplash tab */}
+            {imgTab === "unsplash" && (
+              <UnsplashPicker onSelect={handleUnsplashSelect} selectedId={unsplashPhoto?.id} />
+            )}
+
+            {/* URL tab */}
+            {imgTab === "url" && (
+              <input
+                type="url"
+                autoFocus
+                placeholder="https://example.com/image.jpg"
+                value={imgUrl}
+                onChange={(e) => { setImgUrl(e.target.value); setUnsplashPhoto(null); }}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); confirmImage(); } }}
+                className="w-full px-4 py-2.5 bg-[var(--input)] border border-[var(--border)] rounded-xl text-sm text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-all"
+              />
+            )}
+
+            {/* Preview for Unsplash pick (upload tab already shows its own preview) */}
+            {imgTab === "unsplash" && imgUrl && (
+              <div className="rounded-xl overflow-hidden border border-[var(--border)]">
+                <img src={imgUrl} alt={imgAlt} className="w-full h-24 object-cover" />
+              </div>
+            )}
 
             {/* Alt text */}
             <div className="space-y-1.5">

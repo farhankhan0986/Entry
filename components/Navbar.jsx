@@ -17,6 +17,26 @@ export default function Navbar() {
 
   useEffect(() => setMounted(true), []);
 
+  // On the homepage: hide navbar over the hero, reveal it once scrolled past
+  const isHome = pathname === "/";
+  const [pastHero, setPastHero] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => {
+      const hero = document.getElementById("hero");
+      const threshold = hero
+        ? hero.offsetTop + hero.offsetHeight - 100
+        : window.innerHeight * 0.8;
+      setPastHero(window.scrollY > threshold);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  const navHidden = isHome && !pastHero && !isMenuOpen;
+
   const themes = ["light", "dark", "red", "blue", "green", "purple"];
   function cycleTheme() {
     const idx = themes.indexOf(theme);
@@ -58,7 +78,15 @@ export default function Navbar() {
     : null;
 
   return (
-    <nav className="bg-[var(--background)]/80 border-b border-[var(--border)] sticky top-0 z-50 backdrop-blur-xl font-playfair">
+    <nav
+      className={`bg-[var(--background)]/80 border-b border-[var(--border)] top-0 z-50 backdrop-blur-xl font-playfair ${
+        isHome
+          ? `fixed left-0 right-0 transition-transform duration-500 ease-out ${
+              navHidden ? "-translate-y-full" : "translate-y-0"
+            }`
+          : "sticky"
+      }`}
+    >
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
 

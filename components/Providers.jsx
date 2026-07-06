@@ -1,6 +1,11 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
+import { BookmarksProvider } from "./BookmarksProvider";
 
 export default function Providers({ children }) {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <BookmarksProvider>{children}</BookmarksProvider>
+    </SessionProvider>
+  );
 }

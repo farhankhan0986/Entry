@@ -13,6 +13,7 @@ import Follow from "@/components/Follow";
 import AuthorFollowButton from "@/components/AuthorFollowButton";
 import GenericPoll from "@/components/GenericPoll";
 import BlogInteractions from "@/components/BlogInteractions";
+import BookmarkButton from "@/components/BookmarkButton";
 import ReadingProgressBar from "@/components/ReadingProgressBar";
 import RelatedTools from "@/components/RelatedTools";
 import { getAuthorBySlug, getAuthorSlug } from "@/lib/staticData";
@@ -206,6 +207,7 @@ export default async function BlogDetailsPage({ params }) {
                 <div className="flex items-center gap-2"><Calendar size={16} /> {date}</div>
                 <div className="flex items-center gap-2"><Clock size={16} /> {readTime} min read</div>
                 <Share post={blog} variant="inline" />
+                <BookmarkButton slug={blog.slug} size="lg" />
               </div>
               <BlogInteractions slug={blog.slug} />
             </header>

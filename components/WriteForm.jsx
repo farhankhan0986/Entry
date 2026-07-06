@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState, useRef } from "react";
 import FormattedTextarea from "@/components/FormattedTextarea";
 import AIWritingPanel from "@/components/AIWritingPanel";
-import { PenLine, ImageIcon, Tag, ChevronDown, Loader2, CheckCircle } from "lucide-react";
+import UnsplashPicker from "@/components/UnsplashPicker";
+import { PenLine, ImageIcon, Tag, ChevronDown, Loader2, CheckCircle, Search, ChevronUp } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -28,6 +29,22 @@ export default function WriteForm({ session }) {
   const [previewSrc, setPreviewSrc] = useState("");    // what the <img> shows
   const [fileName, setFileName] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [showUnsplash, setShowUnsplash] = useState(false);
+  const [unsplashBannerPhoto, setUnsplashBannerPhoto] = useState(null);
+
+  function handleUnsplashBannerSelect(photo) {
+    setUnsplashBannerPhoto(photo);
+    setFileName("");           // it's not an uploaded file
+    setBannerUrl(photo.full);
+    setPreviewSrc(photo.full);
+
+    // Unsplash API guidelines: ping download_location once a photo is actually used.
+    fetch("/api/unsplash/track-download", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ downloadLocation: photo.downloadLocation }),
+    }).catch(() => {});
+  }
 
   // ── Handle file selection: upload immediately via /api/upload ──────────────
   async function handleFileChange(e) {
@@ -39,6 +56,7 @@ export default function WriteForm({ session }) {
     setPreviewSrc(localBlob);
     setFileName(file.name);
     setBannerUrl(""); // clear until upload done
+    setUnsplashBannerPhoto(null);
 
     setUploading(true);
     const toastId = toast.loading("Uploading banner...");
@@ -178,6 +196,7 @@ export default function WriteForm({ session }) {
                 onChange={e => {
                   setBannerUrl(e.target.value);
                   setPreviewSrc(e.target.value);
+                  setUnsplashBannerPhoto(null);
                 }}
                 className="w-full bg-[var(--input)] border border-[var(--border)] rounded-xl px-4 py-3 text-[var(--foreground)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)] transition-all italic disabled:opacity-40 disabled:cursor-not-allowed"
               />
@@ -228,6 +247,25 @@ export default function WriteForm({ session }) {
                 onChange={handleFileChange}
               />
 
+              {/* Unsplash — collapsed by default so the form stays compact */}
+              <button
+                type="button"
+                onClick={() => setShowUnsplash(v => !v)}
+                className="w-full flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[var(--muted)] hover:text-[var(--accent)] transition-colors mt-4"
+              >
+                <Search size={12} />
+                {showUnsplash ? "Hide Unsplash search" : "Or search Unsplash for a photo"}
+                {showUnsplash ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+              </button>
+              {showUnsplash && (
+                <div className="mt-3 p-4 rounded-2xl border border-[var(--border)] bg-[var(--input)]/40">
+                  <UnsplashPicker
+                    onSelect={handleUnsplashBannerSelect}
+                    selectedId={unsplashBannerPhoto?.id}
+                  />
+                </div>
+              )}
+
               {/* Preview */}
               {previewSrc && (
                 <div className="mt-3 rounded-2xl overflow-hidden border border-[var(--border)] h-48 relative">
@@ -235,11 +273,16 @@ export default function WriteForm({ session }) {
                     src={previewSrc}
                     alt="Banner preview"
                     className="w-full h-full object-cover"
-                    onError={() => { setPreviewSrc(""); setBannerUrl(""); setFileName(""); }}
+                    onError={() => { setPreviewSrc(""); setBannerUrl(""); setFileName(""); setUnsplashBannerPhoto(null); }}
                   />
                   {bannerUrl && fileName && (
                     <span className="absolute top-2 left-2 text-[10px] uppercase tracking-widest bg-[var(--accent)] text-white px-2 py-1 rounded-full font-bold">
                       Cloudinary ✓
+                    </span>
+                  )}
+                  {unsplashBannerPhoto && (
+                    <span className="absolute top-2 left-2 text-[10px] uppercase tracking-widest bg-black/70 text-white px-2 py-1 rounded-full font-bold">
+                      Unsplash ✓
                     </span>
                   )}
                   {uploading && (
