@@ -51,8 +51,8 @@ export default function DiaryCalendar({ entryDates = [], onDateClick }) {
     <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/10 p-5">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-bold text-[var(--foreground)] uppercase tracking-[0.15em]">
-          {MONTHS[month]} {year}
+        <h3 className="text-sm font-bold text-[var(--foreground)] tracking-tight">
+          {MONTHS[month]} <span className="text-[var(--muted)] italic font-medium">{year}</span>
         </h3>
         <div className="flex items-center gap-1">
           <button

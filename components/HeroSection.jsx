@@ -556,21 +556,21 @@ export default function HeroSection({ blogCount }) {
         transition={{ delay: 1.3, duration: 0.8 }}
         className="relative border-y border-[var(--border)] bg-[var(--card)]/30 backdrop-blur-sm overflow-hidden"
       >
-        {/* edge fades */}
-        <div className="absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-[var(--background)] to-transparent pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-[var(--background)] to-transparent pointer-events-none" />
+        {/* edge fades — narrower on mobile so more of the ribbon is visible */}
+        <div className="absolute inset-y-0 left-0 w-10 sm:w-24 z-10 bg-gradient-to-r from-[var(--background)] to-transparent pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-10 sm:w-24 z-10 bg-gradient-to-l from-[var(--background)] to-transparent pointer-events-none" />
 
         <div
-          className="flex w-max py-4 hover:[animation-play-state:paused]"
-          style={{ animation: "marquee 30s linear infinite" }}
+          className="flex w-max py-3.5 sm:py-4 hover:[animation-play-state:paused]"
+          style={{ animation: "marquee 28s linear infinite" }}
         >
           {[...CATEGORIES, ...CATEGORIES].map((cat, i) => (
             <span
               key={`${cat}-${i}`}
-              className="flex items-center gap-6 mx-6 text-xs font-bold uppercase tracking-[0.3em] text-[var(--muted)] whitespace-nowrap"
+              className="flex items-center gap-4 mx-4 sm:gap-6 sm:mx-6 text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[var(--muted)] hover:text-[var(--foreground)] transition-colors cursor-default whitespace-nowrap"
             >
               {cat}
-              <span className="text-[var(--accent)] text-base leading-none">
+              <span className="text-[var(--accent)] text-sm sm:text-base leading-none">
                 ✦
               </span>
             </span>
